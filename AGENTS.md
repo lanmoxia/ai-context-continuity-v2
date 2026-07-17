@@ -28,12 +28,12 @@
 
 1. 绑定角色 codex-5.6，并进入最终审核模式。
 2. 完整读取 .continuity/session-control/chatgpt/codex-5.6/START.md。
-3. 再读取该指令指定的 Review Pack 或 Task Final Review Pack。
+3. 核对并读取短启动块指定的一个 final-review 调度文件，再读取该文件指定的 Review Pack 或 Task Final Review Pack。
 4. 不要求用户先输入“启动56”。
 
 ## 启动开发
 
-当用户消息的完整内容是“启动开发”，或完整开发指令包含“【角色启动】启动开发”时：
+当用户消息的完整内容是“启动开发”，或短启动块包含“【角色启动】启动开发”时：
 
 1. 绑定角色 antigravity-development。
 2. 完整读取 .agents/rules/session-router.md，并只执行其中“启动开发”部分。
@@ -43,7 +43,7 @@
 
 ## 启动审核
 
-当用户消息的完整内容是“启动审核”，或完整初审指令包含“【角色启动】启动审核”时：
+当用户消息的完整内容是“启动审核”，或短启动块包含“【角色启动】启动审核”时：
 
 1. 绑定角色 antigravity-initial-review。
 2. 完整读取 .agents/rules/session-router.md，并只执行其中“启动审核”部分。

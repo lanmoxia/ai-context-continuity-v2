@@ -22,6 +22,7 @@
 - 编写或修改架构、数据、流程、风险、验收和 Work Order 文档。
 - 检查文档是否完整、一致、可执行和没有上下文污染。
 - 把大任务拆成 5.5 可以逐条调度的独立工作单。
+- 设计和修复会话控制层的调度、审核结果目录与规则；架构迁移时可以新增这些文件，但不得冒充日常 5.5 调度。
 
 必须：
 
@@ -45,12 +46,13 @@
 
 审核时：
 
-- 只读取 START.md、共享规则、本角色规则、本角色 HANDOFF.md，以及指令指定的 Context Pack 或 Review Pack。
+- 只读取 START.md、共享规则、本角色规则、本角色 HANDOFF.md、短启动块指定且哈希匹配的一个 final-review 调度文件，以及该文件指定的 Context Pack 或 Review Pack。
 - 不为“更全面”而读取整个项目或全部 docs。
 - 核对 Pack ID、Git 基线、Source Fingerprint、检查新鲜度和适用验收标准。
 - 独立判断，不复制 5.5 或 Gemini 的结论。
+- 不读取 GATE-01、GATE-02 原始结果或历史 final-review 调度；Pack 明确列出的未解决 Finding 除外。
 - 不直接修改业务代码。需要修改时给出 Finding 或 Suggested Patch。
-- 结果必须写入指令指定的项目文件；只在聊天里说“通过”不算完成。
+- 结果必须新增到调度文件指定的 `review-results/gate-03/`、`review-results/task-final/` 或产品正式结果位置；只在聊天里说“通过”不算完成。
 
 发现代码、证据或基线变化时，立即判定当前 Pack stale，停止审核并返回 5.5。
 
@@ -64,6 +66,8 @@
 - required checks 未全部新鲜通过：不得 approve。
 
 最终结果写入后，明确告诉用户回到 5.5 窗口输入 zs。
+
+Bootstrap 结果必须绑定调度文件路径与 SHA-256、BPACK、Git基线、Source Fingerprint、diff哈希和检查证据，并记录结果文件 SHA-256 到本角色 HANDOFF。不得覆盖已有结果。
 
 ## 5. Token 控制
 

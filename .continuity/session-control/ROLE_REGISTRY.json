@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "default_policy": "deny",
   "context_pack_policy": "deny_all",
   "root_router": {
@@ -31,6 +31,29 @@
       "【角色启动】启动审核"
     ]
   },
+  "external_artifacts": {
+    "dispatches": {
+      "root": ".continuity/session-control/dispatches",
+      "append_only": true,
+      "current_pointer": ".continuity/session-control/chatgpt/codex-5.5/HANDOFF.md",
+      "read_policy": "exact_path_and_sha256_only",
+      "directories": {
+        "development": "development/**",
+        "initial_review": "initial-review/**",
+        "final_review": "final-review/**"
+      }
+    },
+    "bootstrap_review_results": {
+      "root": ".continuity/session-control/review-results",
+      "append_only": true,
+      "directories": {
+        "gate_01": "gate-01/**",
+        "gate_02": "gate-02/**",
+        "gate_03": "gate-03/**",
+        "task_final": "task-final/**"
+      }
+    }
+  },
   "roles": {
     "codex-5.6": {
       "startup": ".continuity/session-control/chatgpt/codex-5.6/START.md",
@@ -53,6 +76,19 @@
           ".continuity/session-control/chatgpt/codex-5.6/OWNER_PREFERENCES.md",
           ".continuity/session-control/chatgpt/codex-5.6/HANDOFF.md"
         ]
+      },
+      "conditional_paths": {
+        "architecture_design_write": [
+          ".continuity/session-control/dispatches/**",
+          ".continuity/session-control/review-results/**"
+        ],
+        "final_review_read_exact": [
+          ".continuity/session-control/dispatches/final-review/**"
+        ],
+        "final_review_write_exact": [
+          ".continuity/session-control/review-results/gate-03/**",
+          ".continuity/session-control/review-results/task-final/**"
+        ]
       }
     },
     "codex-5.5": {
@@ -64,7 +100,19 @@
         ".continuity/session-control/chatgpt/codex-5.5/RULES.md",
         ".continuity/session-control/chatgpt/codex-5.5/COMMANDS.md",
         ".continuity/session-control/chatgpt/codex-5.5/HANDOFF.md"
-      ]
+      ],
+      "conditional_paths": {
+        "read_exact": [
+          ".continuity/session-control/dispatches/**",
+          ".continuity/session-control/review-results/gate-01/**",
+          ".continuity/session-control/review-results/gate-03/**",
+          ".continuity/session-control/review-results/task-final/**"
+        ],
+        "write_new": [
+          ".continuity/session-control/dispatches/**",
+          ".continuity/session-control/review-results/gate-02/**"
+        ]
+      }
     },
     "antigravity-development": {
       "startup": ".continuity/session-control/antigravity/development/START.md",
@@ -74,7 +122,15 @@
         ".continuity/session-control/shared/BOOTSTRAP_AND_SELF_HOSTING.md",
         ".continuity/session-control/antigravity/development/RULES.md",
         ".continuity/session-control/antigravity/development/HANDOFF.md"
-      ]
+      ],
+      "conditional_paths": {
+        "read_exact": [
+          ".continuity/session-control/dispatches/development/**"
+        ],
+        "write_exact": [
+          ".continuity/session-control/antigravity/development/HANDOFF.md"
+        ]
+      }
     },
     "antigravity-initial-review": {
       "startup": ".continuity/session-control/antigravity/initial-review/START.md",
@@ -84,7 +140,16 @@
         ".continuity/session-control/shared/BOOTSTRAP_AND_SELF_HOSTING.md",
         ".continuity/session-control/antigravity/initial-review/RULES.md",
         ".continuity/session-control/antigravity/initial-review/HANDOFF.md"
-      ]
+      ],
+      "conditional_paths": {
+        "read_exact": [
+          ".continuity/session-control/dispatches/initial-review/**"
+        ],
+        "write_exact": [
+          ".continuity/session-control/review-results/gate-01/**",
+          ".continuity/session-control/antigravity/initial-review/HANDOFF.md"
+        ]
+      }
     }
   },
   "never_context_pack": [

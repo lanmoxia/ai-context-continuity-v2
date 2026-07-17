@@ -7,8 +7,11 @@
 - 当前自托管等级：BOOTSTRAP-L0
 - 当前 Stage：无待审核阶段
 - 当前 Review Pack：无
+- 当前调度文件：无
+- 当前调度文件 SHA-256：无
 - 当前 Source Fingerprint：无
 - 正式结果文件：无
+- 正式结果文件 SHA-256：无
 
 ## 当前事实
 

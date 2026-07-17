@@ -2,88 +2,111 @@
 
 ## 1. 快捷指令
 
-- kf：开发或返工完成声明。
-- sh：Gemini GATE-01 初审完成声明。
-- zs：Codex 5.6 GATE-03 或 TASK-FINAL 完成声明。
+- `kf`：开发或返工完成声明。
+- `sh`：Gemini GATE-01 初审完成声明。
+- `zs`：Codex 5.6 GATE-03 或 TASK-FINAL 完成声明。
 
-快捷指令可以附带简短说明，但 5.5 必须以项目文件为准。
+快捷指令可以附带简短说明，但 5.5 必须以当前调度文件、结果文件和实际仓库为准。
 
-## 2. 第一行格式
+## 2. 先生成调度文件
 
-开发给 Sonnet：
+5.5 不在聊天中输出长篇执行要求。每个可执行步骤必须先新增一个调度文件：
+
+- 开发或返工：`.continuity/session-control/dispatches/development/BDEV-NNNN-rN.md`
+- Gemini 初审：`.continuity/session-control/dispatches/initial-review/BREV-NNNN-rN.md`
+- 5.6 阶段终审或整体终审：`.continuity/session-control/dispatches/final-review/BFINAL-NNNN-rN.md`
+
+生成顺序：
+
+1. 核对当前事实、权威 Work Order 或 Pack、Git 基线和目标角色。
+2. 选择下一个 ID；新步骤使用 `r1`。
+3. 新增文件，不覆盖任何已有文件。
+4. 计算完整文件的小写 SHA-256。
+5. 把当前调度 ID、路径、SHA-256、目标模型、基线和等待事件写入 5.5 HANDOFF。
+6. 只暂存本次新增的调度文件和 5.5 HANDOFF，创建纯会话控制提交；确认没有夹带业务文件后安全推送当前 Task 分支。
+7. 最后才在聊天中输出短启动块。
+
+未发送的错误指令可以纠正：用户明确说明旧指令尚未粘贴给目标窗口时，创建同一 ID 的下一修订并写明 `supersedes`。旧文件保留，5.5 HANDOFF 改指向新修订；这不算并行发出第二个任务。
+
+## 3. 调度文件内容
+
+调度文件必须包含：
+
+1. 类型、ID、修订、生成时间、生成角色、目标角色、目标模型和 `supersedes`。
+2. Task、Stage、Work Order、当前分支和精确业务执行基线。
+3. 权威 Work Order JSON 路径与 SHA-256；审核时包含 Pack、Source Fingerprint、diff 哈希和检查证据。
+4. 唯一目标。
+5. 目标窗口需要读取的精确文件与章节顺序。
+6. 调度前已经存在且允许保留的精确脏文件。
+7. 本轮允许新增的会话控制文件，例如本角色 HANDOFF 或审核结果文件。
+8. 停止条件、完成回传和用户应输入的快捷指令。
+
+开发调度不复制 Work Order 中的 allowed paths、forbidden paths、required outputs、required checks 或 acceptance criteria；目标窗口读取权威 JSON。禁止读取 `work-order.md` 作为实现输入。
+
+调度文件只能路由到权威事实，不能使用“阅读整个项目”“自行查看相关文件”或“按之前讨论继续”等模糊文字。
+
+## 4. 聊天短启动块
+
+聊天回复固定为两部分：醒目标题，以及一个可一键复制的 `text` 代码块。代码块之外不重复任务详情。
+
+### 开发给 Sonnet
 
 **请切换到 Antigravity 开发窗口｜模型：Claude Sonnet 4.6｜任务：WORK-ORDER-ID**
 
+```text
 【角色启动】启动开发
-
 【目标模型】Claude Sonnet 4.6（由用户手动确认）
+【调度文件】DISPATCH-PATH
+【调度文件 SHA-256】DISPATCH-SHA256
+请先完成角色启动，再核对哈希并只按该调度文件执行；不匹配立即停止。
+完成后回到 Codex 5.5 窗口输入 kf。
+```
 
-开发给 Opus：
+### 开发给 Opus
 
-**请切换到 Antigravity 开发窗口｜模型：Claude Opus 4.6｜任务：WORK-ORDER-ID**
+标题改为 Claude Opus 4.6，代码块中的目标模型同步改为 Claude Opus 4.6，其余格式不变。
 
-【角色启动】启动开发
+### Gemini GATE-01
 
-【目标模型】Claude Opus 4.6（由用户手动确认）
+**请切换到 Antigravity 初审窗口｜模型：Gemini 3.5 Flash｜审核：PACK-ID / GATE-01**
 
-Gemini 初审：
-
-**请切换到 Antigravity 初审窗口｜模型：Gemini 3.5 Flash｜审核：REVIEW-PACK-ID / GATE-01**
-
+```text
 【角色启动】启动审核
-
 【目标模型】Gemini 3.5 Flash（由用户手动确认）
+【调度文件】DISPATCH-PATH
+【调度文件 SHA-256】DISPATCH-SHA256
+请先完成角色启动，再核对哈希并只按该调度文件审核；不匹配立即停止。
+完成并写入结果文件后，回到 Codex 5.5 窗口输入 sh。
+```
 
-5.6 高风险阶段终审：
+### Codex 5.6 GATE-03 或 TASK-FINAL
 
-**请切换到 Codex 5.6 终审窗口｜范围：高风险阶段 GATE-03｜审核：REVIEW-PACK-ID**
+**请切换到 Codex 5.6 终审窗口｜范围：GATE-03 或 TASK-FINAL｜审核：PACK-ID**
 
+```text
 【角色绑定】CODEX_56_FINAL_REVIEW
+【调度文件】DISPATCH-PATH
+【调度文件 SHA-256】DISPATCH-SHA256
+请先完成最终审核角色启动，再核对哈希并只按该调度文件审核；不匹配立即停止。
+完成并写入结果文件后，回到 Codex 5.5 窗口输入 zs。
+```
 
-5.6 整体终审：
+第一行标题之前不得添加解释。用户只复制代码块；标题负责提醒切换窗口和模型。
 
-**请切换到 Codex 5.6 终审窗口｜范围：TASK-FINAL｜审核：TASK-FINAL-PACK-ID**
+## 5. Bootstrap 特殊要求
 
-【角色绑定】CODEX_56_FINAL_REVIEW
+BOOTSTRAP-L0 调度文件还必须：
 
-第一行之前不得添加解释，避免用户复制错窗口或忘记切换模型。
+- 明确标注 `BOOTSTRAP-L0`，声明不是正式 Context Pack 或 Review Pack。
+- 开发调度绑定 approved Work Order JSON 的 SHA-256、Git 基线和 Task 分支，不使用 CTX 编号。
+- 审核调度使用 BPACK 前缀，绑定精确 Git提交、Source Fingerprint、diff哈希和 fresh checks。
+- 指定唯一审核结果新文件：GATE-01 写入 `review-results/gate-01/`，GATE-03 写入 `gate-03/`，TASK-FINAL 写入 `task-final/`。
 
-## 3. 可复制指令必须包含
+5.5 的 GATE-02 不需要向其他窗口发送短启动块，但必须把独立结论新增到 `review-results/gate-02/`，并在 HANDOFF 中记录路径和 SHA-256。
 
-每条指令只描述当前一步，并明确：
+## 6. 审核结果与返工
 
-1. 当前角色和唯一目标。
-2. 明确的角色启动标记。
-3. 需要人工选择时，醒目标注目标模型。
-4. Task、Stage、Work Order、Context Pack 或 Review Pack ID。
-5. 第一步需要读取的角色 START.md。
-6. 按顺序读取的精确任务文件路径。
-7. 允许修改的路径。
-8. 禁止修改的路径。
-9. required checks。
-10. 完成结果必须写入的精确文件。
-11. 遇到越界、基线变化或缺少文件时立即停止。
-12. 完成后更新当前窗口自己的 HANDOFF.md。
-13. 用户完成后回到 5.5 应输入 kf、sh 或 zs。
-
-禁止使用“阅读整个项目”“自行查看相关文件”或“按之前讨论继续”等模糊表述。
-
-当前处于 BOOTSTRAP-L0 时，开发指令还必须包含：
-
-- 【执行模式】BOOTSTRAP-L0。
-- 当前approved Work Order JSON的SHA-256。
-- Git基线提交和当前Task分支。
-- 明确说明这不是正式implementation Context Pack。
-- 不使用CTX编号。
-
-正式Review Pack能力尚未启用时，审核指令必须使用BPACK前缀，并绑定精确Git提交、diff哈希和检查结果。
-
-## 4. 回复尾部
-
-可复制指令之后，只保留一句用户操作说明：
-
-- 开发或返工：完成后回到本窗口输入 kf。
-- Gemini 初审：完成后回到本窗口输入 sh。
-- Codex 5.6 终审：完成后回到本窗口输入 zs。
-
-不得提前附带下一阶段指令。
+- `sh` 只有在 GATE-01 结果文件存在且绑定当前调度和 Pack 时才有效。
+- `zs` 只有在 GATE-03 或 TASK-FINAL 结果文件存在且绑定当前调度和 Pack 时才有效。
+- 5.5 不把 Gemini 原始报告整份交给开发窗口。需要返工时，创建新的 development 调度，列出 5.5 已确认的 Finding ID、最小证据、来源结果路径与 SHA-256。
+- 代码变化使当前 Pack 和所有相关结果 stale；保留文件，重新生成 Pack，并从新的 GATE-01 调度开始。

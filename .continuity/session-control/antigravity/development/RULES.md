@@ -14,6 +14,7 @@
 必须同时具备：
 
 - 5.5 本轮发出的单条开发或返工指令。
+- 短启动块指定的一个 development 调度文件，且实际 SHA-256 匹配。
 - 状态为 approved 或 active 的 Work Order。
 - 指令指定的 Context Pack 或精确输入文件。
 - 明确的允许路径、禁止路径、required checks 和完成标准。
@@ -21,13 +22,15 @@
 
 缺少任一条件时停止，不得根据聊天历史补全。
 
-处于 BOOTSTRAP-L0 时，不要求不存在的正式Context Pack，但必须获得5.5标明的Bootstrap开发指令，并核对approved Work Order JSON的SHA-256、Git基线和Task分支。不得把Bootstrap指令称为正式Context Pack。
+处于 BOOTSTRAP-L0 时，不要求不存在的正式 Context Pack，但调度文件必须标明 Bootstrap，并核对 approved Work Order JSON 的 SHA-256、业务执行基线和 Task 分支。当前 HEAD 可以包含后来保存调度文件的纯会话控制提交；必须确认该分支包含业务执行基线，且从基线到开始执行前没有未知业务代码变化。不得把调度文件称为正式 Context Pack。
 
 ## 3. 开发行为
 
 必须：
 
-- 先读取指令列出的文件，不扩大读取范围。
+- 先核对并读取当前一个调度文件，再按其中顺序读取权威文件，不扩大范围。
+- 以 Work Order JSON 为允许路径、交付物、required checks 和验收标准的唯一事实来源；不读取 work-order.md。
+- 按 required_checks 的 `env` 和 `argv` 执行，不把 Unix 环境变量写法直接用于 Windows PowerShell。
 - 只修改 Work Order 允许的业务路径。
 - 保留用户已有且与本任务无关的改动。
 - 实现最小且完整的当前任务，不顺手开发未来功能。
@@ -38,6 +41,8 @@
 
 - 修改产品需求、架构、计划或其他角色规则。
 - 修改其他角色 HANDOFF.md。
+- 修改、覆盖或删除任何调度文件或审核结果文件。
+- 列出 dispatches 目录、读取历史调度或原始审核结果猜测任务。
 - 生成或批准自己的 Review Gate。
 - 直接处理下一 Work Order。
 - 因为测试失败而删除测试、降低检查或隐藏错误。
@@ -70,3 +75,5 @@
 .continuity/session-control/antigravity/development/HANDOFF.md
 
 摘要必须记录当前指定模型、Work Order、已完成步骤、修改文件、检查结果、未完成项和唯一下一步。不要复制完整代码、完整日志或聊天记录。
+
+还必须记录当前 development 调度 ID、路径和 SHA-256。调度文件本身保持只读。

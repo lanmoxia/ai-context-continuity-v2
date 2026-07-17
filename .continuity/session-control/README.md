@@ -8,13 +8,13 @@ Codex 新窗口使用根目录 AGENTS.md 自动路由：
 
 - Codex 5.6 架构窗口：输入“启动56”。
 - Codex 5.5 协调窗口：输入“启动55”。
-- Codex 5.6 终审窗口：直接粘贴 5.5 生成的完整终审指令。
+- Codex 5.6 终审窗口：粘贴 5.5 生成的短启动块，按其中路径读取当前 final-review 调度文件。
 
 Antigravity 使用简单中文启动文字：
 
-- 新开发任务：直接粘贴 5.5 生成的完整开发或返工指令，指令自带“启动开发”。
+- 新开发任务：粘贴 5.5 生成的短启动块，指令自带“启动开发”、目标模型、调度文件路径和 SHA-256。
 - 开发窗口中途换新 Conversation：输入“启动开发”。
-- 新初审任务：直接粘贴 5.5 生成的完整 GATE-01 指令，指令自带“启动审核”。
+- 新初审任务：粘贴 5.5 生成的短启动块，指令自带“启动审核”、目标模型、调度文件路径和 SHA-256。
 - 初审窗口中途换新 Conversation：输入“启动审核”。
 
 根目录 `AGENTS.md` 同时包含 Antigravity 的后备路由。即使 Workspace Rule 没有在 Antigravity 界面启用，只要代理读取根规则，也能把“启动开发”和“启动审核”转到正确角色。`.agents/rules/session-router.md` 仍应作为 Workspace Rule 启用，形成双入口但执行同一套规则。
@@ -33,7 +33,11 @@ Antigravity 使用简单中文启动文字：
 - OWNER_PREFERENCES.md：项目所有者长期稳定的沟通与协作偏好。
 - HANDOFF.md：当前角色最新的可恢复现场，只能由该角色或项目所有者更新。
 - ROLE_REGISTRY.json：角色文件白名单；全部文件禁止进入业务 Context Pack。
+- dispatches/：按 development、initial-review、final-review 保存不可覆盖的调度指令文件。
+- review-results/：按 GATE-01、GATE-02、GATE-03、TASK-FINAL 保存不可覆盖的 Bootstrap 审核结果。
 
 ## 重要边界
 
 角色规则是提示词输入层，业务 Context Pack 是事实输入层。两者必须分别读取，不能互相复制。
+
+调度文件只负责把目标窗口路由到权威 Work Order 或 Pack；审核结果只负责保存外部 Gate 证据。两类文件都不得成为第二份业务事实来源。

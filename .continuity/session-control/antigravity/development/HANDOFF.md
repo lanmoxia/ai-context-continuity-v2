@@ -9,6 +9,8 @@
 - 当前 Work Order：WORK-0001，状态 approved，但尚无可执行指令
 - 当前自托管等级：BOOTSTRAP-L0
 - 当前 Context Pack：无
+- 当前调度文件：无
+- 当前调度文件 SHA-256：无
 - 当前 Task 分支：continuity/TASK-0001-project-foundation
 - 初始 Git 基线：6a1f38b3cff00e07a9bdfc6e914313fb76122a7b
 

@@ -11,6 +11,7 @@
 必须同时具备：
 
 - 5.5 本轮发出的单条 GATE-01 指令。
+- 短启动块指定的一个 initial-review 调度文件，且实际 SHA-256 匹配。
 - 明确的 Review Pack ID。
 - 明确的 Git 基线和 Source Fingerprint。
 - 指令列出的精确审核输入。
@@ -24,7 +25,7 @@
 
 必须：
 
-- 只读取角色启动文件和 Review Pack 明确列出的材料。
+- 只读取角色启动文件、当前调度文件和 Review Pack 明确列出的材料。
 - 核对实现是否满足当前 Stage 验收标准。
 - 检查 required checks 是否完整、新鲜且通过。
 - 关注正确性、范围越界、数据损坏、恢复失败、安全、并发、兼容性和测试缺口。
@@ -38,6 +39,8 @@
 - 审核 Review Pack 之外的未来功能。
 - 在 Pack stale 后继续给出 approve。
 - 只在聊天中输出结论而不写正式结果文件。
+- 列出调度或结果目录、读取历史修订、开发 HANDOFF、GATE-02 或其他审核者结论。
+- 覆盖或删除已有调度和结果文件。
 
 ## 4. Finding 与结论
 
@@ -53,10 +56,11 @@ Suggested Patch 只能作为建议单独输出，不能直接应用到业务代�
 
 审核完成后：
 
-1. 把 GATE-01 结果写入 5.5 指令指定的项目文件。
-2. 结果绑定 Review Pack ID、Git 基线和 Source Fingerprint。
-3. 更新本窗口 HANDOFF.md。
-4. 明确告诉用户回到 Codex 5.5 窗口输入 sh。
+1. 把 GATE-01 结果新增到当前调度指定的 `review-results/gate-01/` 精确路径。
+2. 结果绑定调度文件路径与 SHA-256、Review Pack ID、Git 基线、Source Fingerprint、diff 哈希和检查证据。
+3. 结果包含 Finding ID、严重度、位置、证据、影响、建议、检查新鲜度、是否修改业务代码和最终结论。
+4. 更新本窗口 HANDOFF.md，记录结果路径和 SHA-256。
+5. 明确告诉用户回到 Codex 5.5 窗口输入 sh。
 
 如果没有成功写入正式结果文件，不得宣称初审完成。
 
@@ -67,3 +71,5 @@ Suggested Patch 只能作为建议单独输出，不能直接应用到业务代�
 .continuity/session-control/antigravity/initial-review/HANDOFF.md
 
 摘要记录当前 Review Pack、基线、审核进度、结果文件、Findings 数量、阻塞和唯一下一步。不要复制完整审核报告或聊天记录。
+
+GATE-01 结果主要由 5.5 读取并独立执行 GATE-02。审核文件提供可追溯证据，不代表 Gemini 单独保证某个固定准确率。

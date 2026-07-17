@@ -16,7 +16,7 @@
 - 产品 CLI 还不能创建正式 Task、Stage、Work Order、Writer Lease 或 Context Pack。
 - Task、Stage 和 Work Order 的逻辑身份由已确认文档与角色 HANDOFF 共同记录。
 - 5.6维护工作单 JSON 源文件和 Markdown 阅读页。
-- 5.5根据已批准工作单生成一次一条的精确开发指令。
+- 5.5根据已批准工作单新增一次一条、按目标角色分目录保存的调度文件，并只在聊天中输出短启动块。
 - 各窗口使用自己的角色 HANDOFF 接力。
 - Git提交负责保存可恢复代码基线。
 
@@ -31,7 +31,7 @@ BOOTSTRAP-L0 不创建假的产品核心状态文件。
 3. Markdown 阅读页与 JSON 内容一致，但 JSON 是唯一权威来源。
 4. Git仓库、固定 .gitignore、初始基线提交和当前 Task 分支已经存在。
 5. 当前开发环境满足 Work Order 的 Python 版本。
-6. 5.5指令列出精确输入文件、当前approved Work Order文件的 SHA-256、允许业务路径、禁止业务路径和检查。
+6. 5.5调度文件列出精确输入、当前 approved Work Order 文件的 SHA-256、Git 基线和停止条件；允许路径、禁止路径、交付物和检查只引用 Work Order JSON，不重复维护。
 7. 只有一个开发窗口被指定为代码写入者。
 8. 已配置名为 `origin` 的远端仓库，并已把主分支和当前 Task 分支安全推送到远端，确保公司与家里电脑都能恢复。
 
@@ -39,8 +39,13 @@ BOOTSTRAP-L0 不创建假的产品核心状态文件。
 
 ## 4. BOOTSTRAP-L0 指令和接力
 
-- 5.5的开发指令必须明确标记为“Bootstrap开发指令”，不能冒充正式 implementation Context Pack。
-- 不生成 CTX 编号；指令直接引用精确文件路径和 Work Order SHA-256。
+- 5.5先在 `.continuity/session-control/dispatches/` 的目标角色目录新增调度文件，再计算 SHA-256 并更新自己的 HANDOFF。
+- 聊天只输出角色启动、目标模型、调度文件路径和 SHA-256；调度详情不复制进聊天。
+- Bootstrap 开发调度必须明确不能冒充正式 implementation Context Pack；不生成 CTX 编号。
+- 调度文件只引用精确权威文件路径与哈希，不复制 Work Order 的允许路径、交付物和 required checks。
+- 已生成调度文件永久保留且不可覆盖；纠错创建新修订并写明 `supersedes`。当前版本由 5.5 HANDOFF 指向。
+- 调度文件和 5.5 HANDOFF 必须在短启动块发出前以纯会话控制提交进入当前 Task 分支并推送远端；不得夹带业务文件。
+- 调度中的业务执行基线用于计算本轮业务 diff。保存调度文件产生的后续会话控制提交不改变该基线；开发窗口应验证当前分支包含该基线且中间只有已声明的会话控制变更。
 - 开发窗口开始前核对 Work Order 文件哈希。
 - 开发窗口只修改允许的业务路径，并按角色规则更新自己的 HANDOFF。
 - own HANDOFF 是外部角色状态，不是 Work Order 业务交付，也不是产品核心状态。
@@ -59,7 +64,9 @@ Work Order 中的 allowed_paths 和 forbidden_paths约束业务实现与产品�
 - 不允许修改 .continuity 中的产品核心状态。
 - 必须与业务变更一起保留在Git中。
 
-因此，“禁止修改 .continuity”与“更新自己的角色 HANDOFF”不冲突：前者保护产品核心状态，后者是唯一、明确的外部角色状态例外。
+因此，“禁止修改 .continuity”与“更新自己的角色 HANDOFF”不冲突：前者保护产品核心状态，后者是一个精确授权的外部角色状态例外。
+
+同理，5.5 新增调度文件、审核角色新增短启动块指定的结果文件，都是会话控制层的精确授权例外，不属于 Work Order 业务交付。任何角色都不能借此修改其他会话控制文件。
 
 ## 6. Bootstrap 跨电脑接力
 
@@ -90,9 +97,15 @@ Work Order 中的 allowed_paths 和 forbidden_paths约束业务实现与产品�
 - 使用前缀 BPACK，不使用正式 PACK ID。
 - 绑定精确 Git提交、变更文件清单、diff哈希和检查结果。
 - 5.5只给 Gemini 一条当前 GATE-01 指令。
+- 每道 Gate 必须把结果写入 `.continuity/session-control/review-results/` 对应目录的新文件；没有结果文件不得处理 sh 或 zs。
+- 结果文件必须引用调度文件路径与 SHA-256，并绑定 BPACK、Git提交、Source Fingerprint、diff哈希和检查结果。
+- GATE-01 结果由 Gemini 写、5.5 读；GATE-02 由 5.5 独立写；GATE-03 和 TASK-FINAL 由 5.6 写、5.5 读。
+- 开发窗口默认不读取原始审核结果；返工调度只传递 5.5 已确认的 Finding 和来源哈希。
 - 5.5的 GATE-02 和高风险时5.6的 GATE-03必须审核同一份 BPACK。
 - 代码变化后旧 BPACK 立即失效，并从 GATE-01重新开始。
 - Bootstrap审核结果只证明开发过程受控，不冒充产品自身已经实现并强制了审核状态机。
+- 审核文件保证版本绑定和可追溯，不承诺某个固定准确率；可靠性来自 fresh checks 和独立多 Gate 复查。
+- 5.5 在处理 `sh` 或 `zs` 时核对对应结果和角色 HANDOFF，并把它们纳入安全检查点提交；中途跨电脑前必须先走 Bootstrap 跨电脑接力。
 
 产品 Review Pack 和 Gate能力完成后，必须使用产品重新演练相应流程。
 
@@ -112,6 +125,7 @@ DEV-008通过后：
 
 - 使用正式 Checkpoint、Handoff、Restore和Context Pack。
 - 角色 HANDOFF只保留窗口角色恢复，不再重复业务进度事实。
+- 外部调度文件继续只做客户端路由，但改为引用正式 Context Pack，不再直接列业务输入。
 
 ### L3：审核自托管
 
@@ -119,6 +133,7 @@ DEV-011通过后：
 
 - 使用正式 Evidence、Review Pack、Finding和Review Decision。
 - 停止创建新的 BPACK。
+- 停止在 `review-results/` 创建新的 Bootstrap 结果，审核调度改为引用产品正式 Review Pack 和结果位置。
 
 ### L4：跨电脑自托管
 

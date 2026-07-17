@@ -1,6 +1,6 @@
 # Codex 5.6 接力摘要
 
-- 更新时间：2026-07-17
+- 更新时间：2026-07-17T16:56:10+08:00
 - 当前模式：架构设计
 - 会话状态：可接力
 - Task：TASK-0001
@@ -9,6 +9,8 @@
 - 当前 Work Order：WORK-0001，状态 approved
 - 当前自托管等级：BOOTSTRAP-L0
 - 当前 Review Pack：无
+- 当前 final-review 调度文件：无
+- 当前终审结果文件：无
 
 ## 已完成
 
@@ -28,7 +30,7 @@
 - 已验证 4 个角色的启动清单、20 个 session-control 文件和两个平台路由：无缺失路径、无跨角色启动读取、无业务文档污染。
 - 根目录 AGENTS.md 已作为 Codex 自动路由入口：新 5.5 窗口输入“启动55”，新 5.6 架构窗口输入“启动56”；5.6 终审由 5.5 指令直接绑定。
 - Antigravity 开发和初审不再自行判断模型，由 5.5 指令绑定角色并提醒用户手动切换目标模型。
-- Antigravity 工作区路由已建立：开发新 Conversation 输入“启动开发”，初审新 Conversation 输入“启动审核”；5.5 的完整指令会自带对应启动标记。
+- Antigravity 工作区路由已建立：开发新 Conversation 输入“启动开发”，初审新 Conversation 输入“启动审核”；5.5 的短启动块会自带对应启动标记。
 - 已增加5.6专用 PROJECT_BRIEF.md 和 OWNER_PREFERENCES.md。新架构窗口可恢复项目初衷、确认方案、文档地图和协作偏好；最终审核模式明确跳过项目总览与 planning。
 - 已建立 BOOTSTRAP-L0 到 L5 的渐进式自托管规则，避免要求尚未实现的 Continuity 先管理自己的开发。
 - 已统一内部计划项 DEV-001、正式工作单 WORK-0001、Task TASK-0001 和 Stage STAGE-01。
@@ -48,10 +50,13 @@
 - Git 远端 `origin` 已配置为 `git@github.com:lanmoxia/ai-context-continuity-v2.git`；`main` 与当前 Task 分支均已推送并建立跟踪关系。
 - WORK-0001 已于 `2026-07-17T16:27:45+08:00` 由项目所有者批准；批准前草稿 SHA-256 为 `28bb83ad1c6a8d1d9397dfb5a00f78ab342c2182705aea13780af638a7a160cc`，批准后工作单 SHA-256 为 `395e65fec671f5ae4dd81cc78c201a08c232d1a10bfa66aff32f78c938cf6290`。
 - Antigravity 开发窗口首次真实演练失败后，已把根 `AGENTS.md` 修复为四角色通用路由；Sonnet 新 Conversation 复测已经通过。
+- 已把窗口间长篇聊天指令迁移为“短启动块 + 按角色归档的不可覆盖调度文件”；文件以 SHA-256 精确绑定并进入 Git。
+- 已建立 Bootstrap GATE-01、GATE-02、GATE-03 和 TASK-FINAL 审核结果目录与写入、读取、版本绑定规则。
+- 用户确认先前 5.5 生成的 WORK-0001 长指令从未粘贴给开发窗口，现已作废，不存在正在执行的开发者。
 
 ## 唯一下一步
 
-用户切换到 Codex 5.5 协调窗口，输入“启动55”；启动完成后再明确发送“开始 WORK-0001”，由 5.5 生成第一条 Bootstrap 开发指令。
+用户回到现有 Codex 5.5 协调窗口，让它重新读取最新 HANDOFF 和当前 development 调度文件，然后只输出 WORK-0001 的短启动块。
 
 ## 阻塞
 

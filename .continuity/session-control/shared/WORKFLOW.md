@@ -11,12 +11,14 @@
 
 5.5 不得同时给出开发指令和未来的初审指令。下一条指令必须根据当前步骤的真实代码、检查结果和审核报告生成。
 
+每一步先由 5.5 在对应角色目录新增一个不可覆盖的调度文件，再计算 SHA-256。聊天只输出醒目标题和一个可一键复制的短启动块；详细范围不在聊天中重复。目标窗口只读取短启动块指定的当前调度文件。
+
 当前产品尚未实现完整自管理能力。所有窗口还必须遵守 BOOTSTRAP_AND_SELF_HOSTING.md，并只在对应能力通过验收后升级自托管等级。
 
 ## 3. 开发循环
 
 1. 5.5 确认 Work Order 已批准，并选择 Sonnet 或 Opus。
-2. 5.5 输出一条开发指令，用户复制到 Antigravity 开发窗口。
+2. 5.5 新增 development 调度文件并输出短启动块，用户复制到 Antigravity 开发窗口。
 3. 开发窗口完成代码、检查和自己的接力摘要。
 4. 用户回到 5.5 窗口输入 kf。
 5. 5.5 检查实际文件、diff、路径范围和新鲜检查结果。
@@ -28,23 +30,25 @@ kf 只表示“开发窗口声明完成”，不表示 5.5 自动认可完成。
 
 Stage 达到完成条件并生成 fresh Review Pack 后：
 
-1. 5.5 输出 Gemini 3.5 Flash 的 GATE-01 初审指令。
-2. 初审窗口把结果写入指令指定的项目文件。
+1. 5.5 新增 initial-review 调度文件并输出 Gemini 3.5 Flash 的 GATE-01 短启动块。
+2. 初审窗口把结构化结果写入调度文件指定的 `review-results/gate-01/` 新文件；只在聊天中说“通过”无效。
 3. 用户回到 5.5 窗口输入 sh。
-4. 5.5 验证初审结果绑定同一个 Review Pack 和 Source Fingerprint，然后独立执行 GATE-02 中审。
+4. 5.5 验证初审结果文件绑定同一个 Review Pack 和 Source Fingerprint，然后独立执行 GATE-02 中审，并把结果写入 `review-results/gate-02/` 新文件。
 5. 普通 Stage 在 GATE-02 通过后结束阶段审核。
-6. 高风险 Stage 由 5.5 再生成 Codex 5.6 的 GATE-03 指令。
+6. 高风险 Stage 由 5.5 新增 final-review 调度文件，再生成 Codex 5.6 的 GATE-03 短启动块；5.6 把结果写入 `review-results/gate-03/`。
 7. 用户在 5.6 完成审核后回到 5.5 输入 zs。
 
 任一审核要求修改业务代码时，当前 Review Pack 立即失效。返工完成后必须重新生成 fresh Review Pack，并从 GATE-01 重新开始。
+
+GATE-01 原始结果主要由 5.5 读取。开发窗口默认不读整份审核报告；返工时由 5.5 在新 development 调度文件中列出已确认 Finding，并引用来源文件及 SHA-256。5.6 终审默认不读取前序模型结论，以保持独立判断。
 
 ## 5. 整体最终验收
 
 所有 Stage 都通过后：
 
 1. 5.5 确认 Task Final Review Pack 已就绪。
-2. 5.5 输出一条 Codex 5.6 TASK-FINAL 指令。
-3. 5.6 只按最终审核包执行完整任务终审，并写入正式结果。
+2. 5.5 新增 final-review 调度文件并输出 Codex 5.6 TASK-FINAL 短启动块。
+3. 5.6 只按当前调度文件和最终审核包执行完整任务终审，并把结果写入 `review-results/task-final/` 或产品已启用的正式结果位置。
 4. 用户回到 5.5 输入 zs。
 5. 5.5 验证通过后准备 Merge Plan，必须等待项目所有者确认才能合并。
 
