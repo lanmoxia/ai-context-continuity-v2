@@ -44,7 +44,7 @@
 - 尚未生成 implementation Context Pack。
 - 尚未生成任何正式 Review Pack。
 - old-demo 是归档目录，不属于当前任务。
-- 四类角色规则的静态演练已通过；真实新窗口演练尚未由用户在 Codex 和 Antigravity 客户端执行。
+- 四类角色规则的静态演练已通过；Codex 5.6 架构新窗口真实演练已通过，其余三个窗口待验证。
 - 当前没有 Git 远端；公司与家里电脑之间尚不能恢复同一分支。
 - WORK-0001 已补充固定 `approval` 字段，当前值仍为 `null`。
 
