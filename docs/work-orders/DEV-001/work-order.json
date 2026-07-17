@@ -1,0 +1,175 @@
+{
+  "schema_version": 1,
+  "id": "WORK-0001",
+  "status": "draft",
+  "task_id": "TASK-0001",
+  "stage_id": "STAGE-01",
+  "revision": 1,
+  "title": "建立 Python 工程骨架",
+  "goal": "建立结构规范、可以安装、可以运行、可以测试的 Continuity Python 包骨架。",
+  "risk_level": "normal",
+  "risk_reasons": [
+    "只创建工程结构、包边界、测试分层和 CLI 空入口，不实现状态写入或 Git 自动化。"
+  ],
+  "required_review_gates": [
+    "GATE-01",
+    "GATE-02"
+  ],
+  "allowed_paths": [
+    "pyproject.toml",
+    "src/continuity/**",
+    "tests/**"
+  ],
+  "forbidden_paths": [
+    "docs/**",
+    ".continuity/**",
+    ".agents/**",
+    "AGENTS.md",
+    ".git/**"
+  ],
+  "required_inputs": [
+    {
+      "path": "docs/spec/ARCHITECTURE.md",
+      "sections": ["3. 工具仓库结构"],
+      "purpose": "确定 src 包边界和三层测试目录。"
+    },
+    {
+      "path": "docs/spec/CLI_SPEC.md",
+      "sections": ["1. 项目"],
+      "purpose": "确定 CLI 入口形式和当前骨架边界。"
+    }
+  ],
+  "required_outputs": [
+    {
+      "path": "pyproject.toml",
+      "purpose": "定义 Python 3.11+ 包、版本、构建后端、控制台入口和包发现。"
+    },
+    {
+      "path": "src/continuity/__init__.py",
+      "purpose": "提供单一包版本来源。"
+    },
+    {
+      "path": "src/continuity/__main__.py",
+      "purpose": "支持 python -m continuity。"
+    },
+    {
+      "path": "src/continuity/cli.py",
+      "purpose": "只实现 --help 和 --version，不实现业务子命令。"
+    },
+    {
+      "path": "src/continuity/domain/__init__.py",
+      "purpose": "建立领域模型包边界。"
+    },
+    {
+      "path": "src/continuity/storage/__init__.py",
+      "purpose": "建立状态存储包边界。"
+    },
+    {
+      "path": "src/continuity/services/__init__.py",
+      "purpose": "建立应用服务包边界。"
+    },
+    {
+      "path": "src/continuity/git/__init__.py",
+      "purpose": "建立 Git 集成包边界。"
+    },
+    {
+      "path": "src/continuity/renderers/__init__.py",
+      "purpose": "建立阅读页生成包边界。"
+    },
+    {
+      "path": "src/continuity/security/__init__.py",
+      "purpose": "建立安全边界包。"
+    },
+    {
+      "path": "src/continuity/schemas/__init__.py",
+      "purpose": "建立 Schema 包边界。"
+    },
+    {
+      "path": "src/continuity/templates/__init__.py",
+      "purpose": "建立模板包边界。"
+    },
+    {
+      "path": "tests/__init__.py",
+      "purpose": "建立测试根包。"
+    },
+    {
+      "path": "tests/unit/__init__.py",
+      "purpose": "建立单元测试层。"
+    },
+    {
+      "path": "tests/unit/test_cli.py",
+      "purpose": "验证模块入口、控制台入口、--help、--version 和未知参数退出行为。"
+    },
+    {
+      "path": "tests/integration/__init__.py",
+      "purpose": "建立集成测试层，本工作单不添加集成测试案例。"
+    },
+    {
+      "path": "tests/e2e/__init__.py",
+      "purpose": "建立端到端测试层，本工作单不添加端到端测试案例。"
+    }
+  ],
+  "required_checks": [
+    {
+      "id": "PYTHON_VERSION",
+      "argv": [
+        "python",
+        "-c",
+        "import sys; raise SystemExit(0 if sys.version_info >= (3, 11) else 1)"
+      ]
+    },
+    {
+      "id": "COMPILE",
+      "argv": ["python", "-m", "compileall", "-q", "src", "tests"]
+    },
+    {
+      "id": "UNIT",
+      "argv": ["python", "-m", "unittest", "discover", "-s", "tests", "-p", "test_*.py"],
+      "env": {"PYTHONPATH": "src"}
+    },
+    {
+      "id": "EDITABLE_INSTALL",
+      "argv": ["python", "-m", "pip", "install", "--no-deps", "-e", "."]
+    },
+    {
+      "id": "INSTALLED_IMPORT",
+      "argv": ["python", "-c", "import continuity; print(continuity.__version__)"]
+    },
+    {
+      "id": "MODULE_HELP",
+      "argv": ["python", "-m", "continuity", "--help"]
+    },
+    {
+      "id": "MODULE_VERSION",
+      "argv": ["python", "-m", "continuity", "--version"]
+    },
+    {
+      "id": "CONSOLE_HELP",
+      "argv": ["continuity", "--help"]
+    },
+    {
+      "id": "CONSOLE_VERSION",
+      "argv": ["continuity", "--version"]
+    }
+  ],
+  "acceptance_criteria": [
+    "全部检查在 Python 3.11+ 的项目虚拟环境中通过。",
+    "项目可以 editable install，且没有运行时第三方依赖。",
+    "python -m continuity 和 continuity 两种入口都支持 --help 与 --version。",
+    "--version 输出单一版本号。",
+    "未知参数返回非零退出码和简短错误，不打印 traceback。",
+    "架构规定的包边界和 unit、integration、e2e 三层测试目录全部存在。",
+    "没有实现 Task、Stage、Checkpoint、Handoff、Review、Transfer 或其他业务逻辑。",
+    "没有修改 allowed_paths 之外的业务文件，也没有直接修改产品核心状态。",
+    "没有新增运行时第三方依赖。"
+  ],
+  "known_constraints": [
+    "必须在项目专用且已激活的 Python 3.11+ 虚拟环境中执行。",
+    "使用 src 布局。",
+    "CLI 骨架使用 Python 标准库，不引入 CLI 框架。",
+    "测试使用 Python unittest。",
+    "所有文本文件使用 UTF-8。",
+    "本 Work Order 只交付工程骨架。"
+  ],
+  "supersedes_work_order_id": null
+}

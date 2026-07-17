@@ -1,0 +1,29 @@
+# Project-local Python environments and generated caches
+.venv/
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
+
+# Continuity runtime state is machine-local and cannot be resumed elsewhere
+/.continuity/runtime/write.lock
+/.continuity/runtime/writer-lease.json
+/.continuity/runtime/pending/
+/.continuity/runtime/temp/
+/.continuity/runtime/cache/
+
+# Operating-system temporary metadata
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.tmp
+*.temp
+~$*
+

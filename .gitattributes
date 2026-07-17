@@ -1,0 +1,3 @@
+# Keep text bytes stable across Windows and other development computers.
+* text=auto eol=lf
+

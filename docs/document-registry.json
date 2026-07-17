@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "default_policy": "deny",
+  "documents": [
+    {
+      "path": "spec/REQUIREMENTS.md",
+      "class": "stable_spec",
+      "status": "accepted",
+      "allowed_purposes": ["architecture_design", "implementation", "review", "acceptance"]
+    },
+    {
+      "path": "spec/ARCHITECTURE.md",
+      "class": "stable_spec",
+      "status": "accepted",
+      "allowed_purposes": ["architecture_design", "implementation"]
+    },
+    {
+      "path": "spec/DATA_MODEL.md",
+      "class": "stable_spec",
+      "status": "accepted",
+      "allowed_purposes": ["architecture_design", "implementation"]
+    },
+    {
+      "path": "spec/CORE_WORKFLOW.md",
+      "class": "stable_spec",
+      "status": "accepted",
+      "allowed_purposes": ["architecture_design", "implementation", "recovery", "acceptance"]
+    },
+    {
+      "path": "spec/CLI_SPEC.md",
+      "class": "stable_spec",
+      "status": "accepted",
+      "allowed_purposes": ["architecture_design", "implementation"]
+    },
+    {
+      "path": "spec/CONTEXT_ISOLATION.md",
+      "class": "stable_spec",
+      "status": "accepted",
+      "allowed_purposes": ["architecture_design", "implementation", "review", "recovery", "acceptance"]
+    },
+    {
+      "path": "spec/CONFIGURATION.md",
+      "class": "stable_spec",
+      "status": "accepted",
+      "allowed_purposes": ["architecture_design", "implementation"]
+    },
+    {
+      "path": "spec/GIT_AND_TRANSFER.md",
+      "class": "stable_spec",
+      "status": "accepted",
+      "allowed_purposes": ["architecture_design", "implementation", "recovery", "acceptance"]
+    },
+    {
+      "path": "spec/REVIEW_POLICY.md",
+      "class": "stable_spec",
+      "status": "accepted",
+      "allowed_purposes": ["architecture_design", "implementation", "review", "acceptance"]
+    },
+    {
+      "path": "spec/ACCEPTANCE_TESTS.md",
+      "class": "stable_spec",
+      "status": "accepted",
+      "allowed_purposes": ["architecture_design", "implementation", "review", "acceptance"]
+    },
+    {
+      "path": "spec/RISK_REGISTER.md",
+      "class": "stable_spec",
+      "status": "accepted",
+      "allowed_purposes": ["architecture_design", "implementation", "review"]
+    },
+    {
+      "path": "planning/DECISIONS.md",
+      "class": "owner_planning",
+      "status": "active",
+      "allowed_purposes": ["architecture_design"],
+      "never_runtime_context": true
+    },
+    {
+      "path": "planning/IMPLEMENTATION_PLAN.md",
+      "class": "owner_planning",
+      "status": "active",
+      "allowed_purposes": ["architecture_design"],
+      "never_runtime_context": true
+    },
+    {
+      "path": "planning/DEVELOPMENT_TASKS.md",
+      "class": "owner_planning",
+      "status": "active",
+      "allowed_purposes": ["architecture_design"],
+      "never_runtime_context": true
+    },
+    {
+      "path": "work-orders/DEV-001/work-order.json",
+      "class": "work_order_source",
+      "status": "draft",
+      "allowed_purposes": ["architecture_design"]
+    },
+    {
+      "path": "work-orders/DEV-001/work-order.md",
+      "class": "work_order_view",
+      "status": "draft",
+      "allowed_purposes": ["architecture_design"]
+    }
+  ]
+}
