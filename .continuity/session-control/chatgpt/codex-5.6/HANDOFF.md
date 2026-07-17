@@ -47,7 +47,7 @@
 - 四类角色规则的静态演练已通过；Codex 5.6 架构窗口和 Codex 5.5 协调窗口的真实演练已通过，两个 Antigravity 窗口待验证。
 - 当前没有 Git 远端；公司与家里电脑之间尚不能恢复同一分支。
 - WORK-0001 已补充固定 `approval` 字段，当前值仍为 `null`。
-- Antigravity 开发窗口首次真实演练失败：Sonnet 收到“启动开发”后误进入 55/56 路由。已把根 `AGENTS.md` 修复为四角色通用路由，并保留 `.agents/rules/session-router.md` 作为 Workspace Rule，等待复测。
+- Antigravity 开发窗口首次真实演练失败后，已把根 `AGENTS.md` 修复为四角色通用路由；Sonnet 新 Conversation 复测已经通过。
 
 ## 唯一下一步
 
