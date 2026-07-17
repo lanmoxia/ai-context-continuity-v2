@@ -27,12 +27,13 @@ BOOTSTRAP-L0 不创建假的产品核心状态文件。
 5.5发出第一条开发指令前必须全部满足：
 
 1. 项目所有者明确批准当前 Work Order。
-2. Work Order JSON 状态为 approved，并记录批准时间和批准前draft文件的 SHA-256；不得让哈希字段循环包含自身。
+2. Work Order JSON 状态为 approved，并包含 `approval` 对象：`approved_at` 使用带时区的 RFC 3339 时间，`approved_by` 固定为 `project_owner`，`draft_sha256` 记录批准前完整 draft JSON 文件的小写 SHA-256；不得让哈希字段循环包含自身。
 3. Markdown 阅读页与 JSON 内容一致，但 JSON 是唯一权威来源。
 4. Git仓库、固定 .gitignore、初始基线提交和当前 Task 分支已经存在。
 5. 当前开发环境满足 Work Order 的 Python 版本。
 6. 5.5指令列出精确输入文件、当前approved Work Order文件的 SHA-256、允许业务路径、禁止业务路径和检查。
 7. 只有一个开发窗口被指定为代码写入者。
+8. 已配置名为 `origin` 的远端仓库，并已把主分支和当前 Task 分支安全推送到远端，确保公司与家里电脑都能恢复。
 
 缺少任一条件时不得开发。
 
@@ -60,7 +61,29 @@ Work Order 中的 allowed_paths 和 forbidden_paths约束业务实现与产品�
 
 因此，“禁止修改 .continuity”与“更新自己的角色 HANDOFF”不冲突：前者保护产品核心状态，后者是唯一、明确的外部角色状态例外。
 
-## 6. Bootstrap审核
+## 6. Bootstrap 跨电脑接力
+
+在 L4 的正式 `transfer publish` 和 `transfer resume` 通过验收前，使用 Git 执行临时接力，但不得创建假的 Transfer 记录。
+
+离开当前电脑前：
+
+1. 当前开发窗口先更新自己的 HANDOFF，并停止继续写代码。
+2. 5.5核对允许范围、检查结果和工作区状态。
+3. 用户明确要求本次跨电脑发布后，才提交当前 Task 分支。
+4. fetch `origin`；发现分叉、冲突或远端异常时停止。
+5. 只在能够安全快进时 push 当前 Task 分支；禁止 force push、自动 rebase、自动 merge、stash 或 reset。
+
+在另一台电脑恢复时：
+
+1. 首次使用时 clone 远端仓库；已有仓库时先确认工作区没有未处理修改。
+2. fetch `origin`，切换到同名 Task 分支，只允许 fast-forward 更新。
+3. 核对最新提交和角色 HANDOFF。
+4. 重新创建本机 `.venv`，运行当前 Work Order 要求的环境检查。
+5. 新开发窗口按启动规则接力，旧电脑上的窗口不再写代码。
+
+这套临时流程只保存真实 Git 提交和角色接力，不冒充产品已经实现 Transfer。L4 通过后立即停用。
+
+## 7. Bootstrap审核
 
 正式 Review Pack 功能尚未通过验收前，Stage审核使用外部 Bootstrap审核材料：
 
@@ -73,7 +96,7 @@ Work Order 中的 allowed_paths 和 forbidden_paths约束业务实现与产品�
 
 产品 Review Pack 和 Gate能力完成后，必须使用产品重新演练相应流程。
 
-## 7. 自托管切换点
+## 8. 自托管切换点
 
 ### L1：Task状态自托管
 
@@ -111,7 +134,7 @@ DEV-018和DEV-019通过后：
 - 使用 TASK-FINAL、Merge Plan、squash、归档标签和完整归档流程。
 - 对整个项目执行一次真实全流程验收。
 
-## 8. 维护边界
+## 9. 维护边界
 
 本文件属于外部会话控制层，不属于产品规格，不进入业务 Context Pack。
 

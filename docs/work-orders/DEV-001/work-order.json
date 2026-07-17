@@ -5,6 +5,7 @@
   "task_id": "TASK-0001",
   "stage_id": "STAGE-01",
   "revision": 1,
+  "approval": null,
   "title": "建立 Python 工程骨架",
   "goal": "建立结构规范、可以安装、可以运行、可以测试的 Continuity Python 包骨架。",
   "risk_level": "normal",
