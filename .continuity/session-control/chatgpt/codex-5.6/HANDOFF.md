@@ -45,13 +45,13 @@
 - 尚未生成任何正式 Review Pack。
 - old-demo 是归档目录，不属于当前任务。
 - 四类角色规则的静态演练与真实新窗口演练已经全部通过。
-- 当前没有 Git 远端；公司与家里电脑之间尚不能恢复同一分支。
+- Git 远端 `origin` 已配置为 `git@github.com:lanmoxia/ai-context-continuity-v2.git`；`main` 与当前 Task 分支均已推送并建立跟踪关系。
 - WORK-0001 已补充固定 `approval` 字段，当前值仍为 `null`。
 - Antigravity 开发窗口首次真实演练失败后，已把根 `AGENTS.md` 修复为四角色通用路由；Sonnet 新 Conversation 复测已经通过。
 
 ## 唯一下一步
 
-先完成真实新窗口演练并配置 Git 远端；随后由项目所有者检查 WORK-0001，并单独决定是否批准。未批准前不生成开发指令。
+由项目所有者检查 WORK-0001，并单独决定是否批准。未批准前不生成开发指令。
 
 ## 阻塞
 
