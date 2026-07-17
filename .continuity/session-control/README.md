@@ -17,6 +17,8 @@ Antigravity 使用简单中文启动文字：
 - 新初审任务：直接粘贴 5.5 生成的完整 GATE-01 指令，指令自带“启动审核”。
 - 初审窗口中途换新 Conversation：输入“启动审核”。
 
+根目录 `AGENTS.md` 同时包含 Antigravity 的后备路由。即使 Workspace Rule 没有在 Antigravity 界面启用，只要代理读取根规则，也能把“启动开发”和“启动审核”转到正确角色。`.agents/rules/session-router.md` 仍应作为 Workspace Rule 启用，形成双入口但执行同一套规则。
+
 不要让任何窗口读取整个 session-control 目录。
 
 首次开始开发前，按 `SMOKE_TEST.md` 分别用新窗口演练四个启动词。

@@ -2,6 +2,18 @@
   "schema_version": 1,
   "default_policy": "deny",
   "context_pack_policy": "deny_all",
+  "root_router": {
+    "path": "AGENTS.md",
+    "activation_phrases": [
+      "启动55",
+      "启动56",
+      "启动开发",
+      "启动审核",
+      "【角色绑定】CODEX_56_FINAL_REVIEW",
+      "【角色启动】启动开发",
+      "【角色启动】启动审核"
+    ]
+  },
   "codex_router": {
     "path": "AGENTS.md",
     "activation_phrases": [
