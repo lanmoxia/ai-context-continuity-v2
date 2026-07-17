@@ -10,6 +10,8 @@
 - 当前等待事件：无
 - 上一次已发指令：无
 - 当前 Review Pack：无
+- 当前 Task 分支：continuity/TASK-0001-project-foundation
+- 初始 Git 基线：6a1f38b3cff00e07a9bdfc6e914313fb76122a7b
 
 ## 当前事实
 
@@ -17,10 +19,12 @@
 - WORK-0001 尚未获得项目所有者批准，不能分配开发。
 - 尚未生成 implementation Context Pack。
 - 尚无活跃开发窗口、初审结果或终审结果。
+- Python 3.12.10 项目虚拟环境、Git 仓库、固定忽略规则、初始基线和 Task 分支均已就绪。
+- 角色路由静态检查已通过，真实新窗口演练尚未完成。
 
 ## 启动后唯一动作
 
-保持待命。只有Python、Git、Bootstrap前置条件全部满足，并收到项目所有者批准后的 WORK-0001 和明确开始要求，才能判断使用 Sonnet 或 Opus 并生成第一条Bootstrap开发指令。
+保持待命。完成真实新窗口演练，并收到项目所有者批准后的 WORK-0001 和明确开始要求后，才能判断使用 Sonnet 或 Opus 并生成第一条Bootstrap开发指令。
 
 ## 不得执行
 
@@ -30,4 +34,4 @@
 
 ## 阻塞
 
-等待Python与Git环境准备、窗口启动演练和 WORK-0001 获得项目所有者批准。
+等待真实窗口启动演练和 WORK-0001 获得项目所有者批准。

@@ -32,6 +32,11 @@
 - 已增加5.6专用 PROJECT_BRIEF.md 和 OWNER_PREFERENCES.md。新架构窗口可恢复项目初衷、确认方案、文档地图和协作偏好；最终审核模式明确跳过项目总览与 planning。
 - 已建立 BOOTSTRAP-L0 到 L5 的渐进式自托管规则，避免要求尚未实现的 Continuity 先管理自己的开发。
 - 已统一内部计划项 DEV-001、正式工作单 WORK-0001、Task TASK-0001 和 Stage STAGE-01。
+- 已安装用户级 Python 3.12.10，并在项目内建立被 Git 排除的 `.venv`。
+- 已建立固定 `.gitignore` 与 `.gitattributes`，只排除本机虚拟环境、生成缓存和不可跨电脑恢复的 Continuity runtime 文件。
+- 已初始化 Git 仓库并创建初始基线提交 `6a1f38b3cff00e07a9bdfc6e914313fb76122a7b`。
+- 当前 Task 分支为 `continuity/TASK-0001-project-foundation`。
+- 已完成路由、角色白名单、跨角色读取、终审隔离、工作单污染和 UTF-8 的静态检查，结果通过。
 
 ## 当前事实
 
@@ -39,10 +44,11 @@
 - 尚未生成 implementation Context Pack。
 - 尚未生成任何正式 Review Pack。
 - old-demo 是归档目录，不属于当前任务。
+- 四类角色规则的静态演练已通过；真实新窗口演练尚未由用户在 Codex 和 Antigravity 客户端执行。
 
 ## 唯一下一步
 
-完成Python与Git环境准备和四个窗口启动演练；随后由项目所有者检查 WORK-0001，并单独决定是否批准。未批准前不生成开发指令。
+按 `.continuity/session-control/SMOKE_TEST.md` 完成一次真实新窗口演练；随后由项目所有者检查 WORK-0001，并单独决定是否批准。未批准前不生成开发指令。
 
 ## 阻塞
 

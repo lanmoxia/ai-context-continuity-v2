@@ -19,6 +19,8 @@ Antigravity 使用简单中文启动文字：
 
 不要让任何窗口读取整个 session-control 目录。
 
+首次开始开发前，按 `SMOKE_TEST.md` 分别用新窗口演练四个启动词。
+
 ## 文件分工
 
 - shared：所有窗口共同遵守的边界和流程。
