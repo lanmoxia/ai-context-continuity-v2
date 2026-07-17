@@ -6,7 +6,7 @@
 - Task：TASK-0001
 - 当前 Stage：STAGE-01
 - 当前计划项：DEV-001
-- 当前 Work Order：WORK-0001，状态 draft
+- 当前 Work Order：WORK-0001，状态 approved
 - 当前自托管等级：BOOTSTRAP-L0
 - 当前 Review Pack：无
 
@@ -14,7 +14,7 @@
 
 - 产品需求、架构、数据模型、核心流程、Git 接力和审核策略已经形成正式规格。
 - 20 项架构决定已经确认。
-- WORK-0001 工程骨架工作单已经修订，但尚未获得项目所有者批准。
+- WORK-0001 工程骨架工作单已由项目所有者批准。
 - 会话控制目录、共享规则、四个角色规则和接力摘要已经建立。
 
 ## 最近完成
@@ -46,12 +46,12 @@
 - old-demo 是归档目录，不属于当前任务。
 - 四类角色规则的静态演练与真实新窗口演练已经全部通过。
 - Git 远端 `origin` 已配置为 `git@github.com:lanmoxia/ai-context-continuity-v2.git`；`main` 与当前 Task 分支均已推送并建立跟踪关系。
-- WORK-0001 已补充固定 `approval` 字段，当前值仍为 `null`。
+- WORK-0001 已于 `2026-07-17T16:27:45+08:00` 由项目所有者批准；批准前草稿 SHA-256 为 `28bb83ad1c6a8d1d9397dfb5a00f78ab342c2182705aea13780af638a7a160cc`，批准后工作单 SHA-256 为 `395e65fec671f5ae4dd81cc78c201a08c232d1a10bfa66aff32f78c938cf6290`。
 - Antigravity 开发窗口首次真实演练失败后，已把根 `AGENTS.md` 修复为四角色通用路由；Sonnet 新 Conversation 复测已经通过。
 
 ## 唯一下一步
 
-由项目所有者检查 WORK-0001，并单独决定是否批准。未批准前不生成开发指令。
+用户切换到 Codex 5.5 协调窗口，输入“启动55”；启动完成后再明确发送“开始 WORK-0001”，由 5.5 生成第一条 Bootstrap 开发指令。
 
 ## 阻塞
 

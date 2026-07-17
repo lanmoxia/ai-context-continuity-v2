@@ -1,11 +1,15 @@
 {
   "schema_version": 1,
   "id": "WORK-0001",
-  "status": "draft",
+  "status": "approved",
   "task_id": "TASK-0001",
   "stage_id": "STAGE-01",
   "revision": 1,
-  "approval": null,
+  "approval": {
+    "approved_at": "2026-07-17T16:27:45+08:00",
+    "approved_by": "project_owner",
+    "draft_sha256": "28bb83ad1c6a8d1d9397dfb5a00f78ab342c2182705aea13780af638a7a160cc"
+  },
   "title": "建立 Python 工程骨架",
   "goal": "建立结构规范、可以安装、可以运行、可以测试的 Continuity Python 包骨架。",
   "risk_level": "normal",

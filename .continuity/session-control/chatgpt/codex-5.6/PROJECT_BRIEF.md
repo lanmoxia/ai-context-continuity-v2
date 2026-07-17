@@ -128,7 +128,7 @@ V2 是一个独立的 Python 本地 CLI 工具，不是常驻服务，也不是�
 - 11 份产品与技术规格处于 accepted。
 - 20 项架构决定处于 accepted。
 - 25 个验收场景已经整理。
-- 内部计划项 DEV-001 对应正式 Work Order WORK-0001，内容是“建立 Python 工程骨架”，当前仍为 draft。
+- 内部计划项 DEV-001 对应正式 Work Order WORK-0001，内容是“建立 Python 工程骨架”，已由项目所有者批准。
 - 当前处于 BOOTSTRAP-L0；在 Task状态、Context Pack和Review Pack等能力实现前，使用外部会话控制层和Git渐进式自托管，不伪造正式产品状态。
 - 尚未生成 implementation Context Pack。
 - 尚未生成正式 Review Pack。

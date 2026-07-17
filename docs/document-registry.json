@@ -92,13 +92,13 @@
     {
       "path": "work-orders/DEV-001/work-order.json",
       "class": "work_order_source",
-      "status": "draft",
-      "allowed_purposes": ["architecture_design"]
+      "status": "approved",
+      "allowed_purposes": ["architecture_design", "implementation", "review", "acceptance"]
     },
     {
       "path": "work-orders/DEV-001/work-order.md",
       "class": "work_order_view",
-      "status": "draft",
+      "status": "approved",
       "allowed_purposes": ["architecture_design"]
     }
   ]

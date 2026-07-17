@@ -1,8 +1,10 @@
 # WORK-0001：建立 Python 工程骨架
 
-状态：draft
+状态：approved
 
-批准记录：无
+- 批准时间：2026-07-17T16:27:45+08:00
+- 批准人：project_owner
+- 批准前草稿 SHA-256：`28bb83ad1c6a8d1d9397dfb5a00f78ab342c2182705aea13780af638a7a160cc`
 
 ## 目标
 
