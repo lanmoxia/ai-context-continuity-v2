@@ -1,16 +1,35 @@
 # Codex 5.6 接力摘要
 
-- 更新时间：2026-07-18T08:58:39+08:00
+- 更新时间：2026-07-18T12:51:28+08:00
 - 当前模式：架构设计
 - 会话状态：可接力
 - Task：TASK-0001
-- 当前 Stage：STAGE-01
-- 当前计划项：DEV-001
-- 当前 Work Order：WORK-0001，状态 approved
+- 当前 Stage：STAGE-02，尚未激活
+- 当前计划项：DEV-002
+- 当前 Work Order：WORK-0002，状态 draft
 - 当前自托管等级：BOOTSTRAP-L0
-- 当前 Review Pack：`.continuity/session-control/bootstrap-packs/BPACK-0001.json`，Bootstrap 外部审核包
+- 当前 Review Pack：无；最近完成的 Bootstrap 外部审核包为 `.continuity/session-control/bootstrap-packs/BPACK-0001.json`
 - 当前 final-review 调度文件：无
 - 当前终审结果文件：无
+
+## 本轮修改文件
+
+- `docs/work-orders/DEV-002/work-order.json`
+- `docs/work-orders/DEV-002/work-order.md`
+- `docs/document-registry.json`
+- `.continuity/session-control/chatgpt/codex-5.6/PROJECT_BRIEF.md`
+- `.continuity/session-control/chatgpt/codex-5.6/HANDOFF.md`
+
+## 最新检查
+
+- WORK-0002 JSON 与文档注册表均可解析。
+- 6 份 required input 均存在、精确章节均匹配，且在文档注册表中为 accepted 并允许 implementation。
+- 25 项 required output 均落在 allowed_paths 内。
+- 14 项 required check ID 唯一，5 段内嵌 Python 检查代码均通过语法解析。
+- WORK-0002 JSON 与 Markdown 的 ID、状态、Task、Stage、标题、风险和 Gate 一致。
+- 新文件为 UTF-8 无 BOM；`git diff --check` 通过。
+- 现有 unittest：8 tests，0 skipped，全部通过。
+- corrected draft 已提交为 `9f508e5dc4fe07174a97a2a3e6a44f25958fc040`；批准前不得调度开发。
 
 ## 已完成
 
@@ -20,6 +39,14 @@
 - 会话控制目录、共享规则、四个角色规则和接力摘要已经建立。
 
 ## 最近完成
+
+- WORK-0001 已通过 Bootstrap GATE-01 和 GATE-02；GATE-02 结果为 `BGATE02-0001-r1.md`，结论 APPROVED。
+- WORK-0001 的审核收口提交为 `d4d25ae2ec1bff5ec054ca4482beaca3b25b7b94`，已推送，核对时工作区干净且分支与远端同步。
+- 已按 accepted 规格建立 `docs/work-orders/DEV-002/work-order.json` 与阅读页，形成 WORK-0002 draft。
+- WORK-0002 归属 TASK-0001 / STAGE-02，风险为 high，要求 GATE-01、GATE-02、GATE-03。
+- 独立复查已修正 approval=null、旧 draft supersede、Review Decision 命名、不可变 freshness、Schema/领域模型双重事实和 wheel 包资源证据问题。
+- WORK-0002 corrected draft SHA-256 为 `29dbf4428d810b1669966fd9a6691c9e74cbb8e1b53783934dad9759a67a25c0`；当前尚未得到项目所有者批准。
+- `docs/document-registry.json` 已把 WORK-0002 JSON 与 Markdown 以 draft、仅 architecture_design 登记。
 
 - 建立 Codex 5.6、Codex 5.5、Antigravity 开发和 Antigravity 初审四个窗口的固定规则与接力摘要。
 - 建立 kf、sh、zs 快捷指令流程。
@@ -42,7 +69,7 @@
 
 ## 当前事实
 
-- WORK-0001 业务代码已完成并冻结在检查点 `62a7de57f823c0a7c6682d01f9e36c3c826eb933`。
+- WORK-0001 业务代码已完成并冻结在检查点 `62a7de57f823c0a7c6682d01f9e36c3c826eb933`，所需两道 Bootstrap Gate 均已通过。
 - 尚未生成 implementation Context Pack。
 - 尚未生成任何正式 Review Pack。
 - old-demo 是归档目录，不属于当前任务。
@@ -53,15 +80,16 @@
 - 已把窗口间长篇聊天指令迁移为“短启动块 + 按角色归档的不可覆盖调度文件”；文件以 SHA-256 精确绑定并进入 Git。
 - 已建立 Bootstrap GATE-01、GATE-02、GATE-03 和 TASK-FINAL 审核结果目录与写入、读取、版本绑定规则。
 - 用户确认先前 5.5 生成的 WORK-0001 长指令从未粘贴给开发窗口，现已作废，不存在正在执行的开发者。
-- WORK-0001 已由 Sonnet 完成，5.5 已执行预检并准备 GATE-01；当前没有业务代码写入者。
+- WORK-0001 已完成审核；当前没有业务代码写入者。
+- DEV-002 完成后仍保持 BOOTSTRAP-L0；只有 DEV-006 通过后才能升级到 L1。
 - 首版 `BREV-0001-r1` 因要求初审读取开发 HANDOFF、内嵌重复审核材料及哈希无法独立复算而作废，未产生审核结果。
 - 已建立独立 `BPACK-0001.json`，保存精确 diff argv、17 个 Git blob 哈希、可复算 Source Fingerprint 和无跳过的 fresh checks。
 - 当前有效初审调度为 `BREV-0001-r2.md`；它只引用 BPACK，不读取开发 HANDOFF，不复制 Pack 内容。
 
 ## 唯一下一步
 
-用户新建或刷新 Codex 5.5 协调窗口，输入“启动55”；5.5 核对当前 HANDOFF 后只输出 `BREV-0001-r2` 的 Gemini GATE-01 短启动块。
+项目所有者审阅并明确批准或拒绝 WORK-0002 corrected draft，批准对象必须绑定 SHA-256 `29dbf4428d810b1669966fd9a6691c9e74cbb8e1b53783934dad9759a67a25c0`。批准后，5.6 必须写入 approval、更新 Markdown 与文档注册表、校验、提交并推送 approved 版本；完成这些步骤后才能让 5.5 以该 approved 提交作为业务执行基线生成一条 development 调度。
 
 ## 阻塞
 
-无。
+WORK-0002 尚未获得项目所有者批准，不能进入开发调度。
