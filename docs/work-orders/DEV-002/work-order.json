@@ -1,0 +1,397 @@
+{
+  "schema_version": 1,
+  "id": "WORK-0002",
+  "status": "draft",
+  "task_id": "TASK-0001",
+  "stage_id": "STAGE-02",
+  "revision": 1,
+  "approval": null,
+  "title": "实现 Schema 与纯领域校验",
+  "goal": "为 Continuity 的首批持久化实体建立可打包、可离线校验的 JSON Schema，并实现不依赖文件系统的领域模型、状态转换和跨实体不变量校验。",
+  "risk_level": "high",
+  "risk_reasons": [
+    "本工作单首次定义公共持久化数据格式，错误会影响后续状态仓库和迁移兼容性。",
+    "本工作单实现 Task、Stage、Work Order 与审核状态的转换和跨实体约束，属于核心状态机基础。",
+    "本工作单新增 jsonschema 直接运行时依赖并调整 Schema 包数据的构建配置。"
+  ],
+  "required_review_gates": [
+    "GATE-01",
+    "GATE-02",
+    "GATE-03"
+  ],
+  "allowed_paths": [
+    "pyproject.toml",
+    "src/continuity/domain/**",
+    "src/continuity/schemas/**",
+    "tests/fixtures/schemas/**",
+    "tests/unit/test_domain.py",
+    "tests/unit/test_schemas.py"
+  ],
+  "forbidden_paths": [
+    "src/continuity/cli.py",
+    "src/continuity/__main__.py",
+    "src/continuity/__init__.py",
+    "src/continuity/storage/**",
+    "src/continuity/services/**",
+    "src/continuity/git/**",
+    "src/continuity/renderers/**",
+    "src/continuity/security/**",
+    "src/continuity/templates/**",
+    "tests/unit/test_cli.py",
+    "tests/integration/**",
+    "tests/e2e/**",
+    "docs/**",
+    ".continuity/**",
+    ".agents/**",
+    "AGENTS.md",
+    ".git/**"
+  ],
+  "required_inputs": [
+    {
+      "path": "docs/spec/DATA_MODEL.md",
+      "sections": [
+        "1. 关系",
+        "2. 当前状态",
+        "2.1 Project 与 Config",
+        "2.2 Source Fingerprint",
+        "3. Task",
+        "4. Stage",
+        "5. Work Order",
+        "6. Checkpoint",
+        "7. Handoff",
+        "8. Evidence",
+        "9. Review Pack",
+        "10. Context Pack",
+        "14. 不可破坏的约束"
+      ],
+      "purpose": "确定实体字段、状态集合、状态转换、共享指纹结构和跨实体不变量。"
+    },
+    {
+      "path": "docs/spec/ARCHITECTURE.md",
+      "sections": [
+        "3. 工具仓库结构",
+        "4. 业务项目状态目录",
+        "5. 单一事实来源",
+        "9. 配置和版本"
+      ],
+      "purpose": "确定 domain 与 schemas 包边界、持久化文件类型和版本边界。"
+    },
+    {
+      "path": "docs/spec/REQUIREMENTS.md",
+      "sections": [
+        "2.2 长任务分阶段",
+        "2.3 窗口接力",
+        "2.5 分阶段审核",
+        "2.6 审核可信",
+        "2.9 状态一致",
+        "2.10 任务并发边界",
+        "2.11 配置与生命周期",
+        "3. 安全要求",
+        "4. 非功能要求"
+      ],
+      "purpose": "确定状态一致性、默认拒绝、离线运行和 fail-closed 要求。"
+    },
+    {
+      "path": "docs/spec/CONFIGURATION.md",
+      "sections": [
+        "1. 配置文件",
+        "2. 检查命令",
+        "4. 版本迁移",
+        "6. Windows 兼容"
+      ],
+      "purpose": "确定 Config Schema、检查参数数组、版本兼容和文本要求。"
+    },
+    {
+      "path": "docs/spec/CORE_WORKFLOW.md",
+      "sections": [
+        "2. 创建大任务",
+        "4. 生成并读取 Context Pack",
+        "6. 正常换窗口",
+        "9. Stage 完成和审核",
+        "10. Task 总体验收与合并"
+      ],
+      "purpose": "核对实体在真实流程中的前置条件和状态推进边界。"
+    },
+    {
+      "path": "docs/spec/REVIEW_POLICY.md",
+      "sections": [
+        "1. 两种审核范围",
+        "2. Stage Review Gate",
+        "3. 风险等级",
+        "4. 必要检查",
+        "5. Finding 分级",
+        "7. Task Final Review"
+      ],
+      "purpose": "确定 Review Pack、Review Gate Decision、Finding、风险和 Gate 约束。"
+    }
+  ],
+  "required_outputs": [
+    {
+      "path": "pyproject.toml",
+      "purpose": "新增且仅新增 jsonschema>=4.26,<5 运行时依赖，并把 src/continuity/schemas/*.json 作为包数据安装。"
+    },
+    {
+      "path": "src/continuity/schemas/common.schema.json",
+      "purpose": "提供 schema_version、稳定 ID、带时区时间、文件哈希、检查摘要、Source Fingerprint 和 Finding 等共享定义。"
+    },
+    {
+      "path": "src/continuity/schemas/project.schema.json",
+      "purpose": "定义 project.json。"
+    },
+    {
+      "path": "src/continuity/schemas/config.schema.json",
+      "purpose": "定义 config.json，包括 Git、上下文、租约、保留、审核、安全和预批准检查。"
+    },
+    {
+      "path": "src/continuity/schemas/current.schema.json",
+      "purpose": "定义 current.json 指针和 state_revision。"
+    },
+    {
+      "path": "src/continuity/schemas/task.schema.json",
+      "purpose": "定义 Task 结构和状态枚举。"
+    },
+    {
+      "path": "src/continuity/schemas/stage.schema.json",
+      "purpose": "定义 Stage 结构、依赖、范围、检查、风险和 required Gate。"
+    },
+    {
+      "path": "src/continuity/schemas/work-order.schema.json",
+      "purpose": "定义版本化 Work Order、批准信息、精确输入输出、范围和检查。"
+    },
+    {
+      "path": "src/continuity/schemas/checkpoint.schema.json",
+      "purpose": "定义不可变 Checkpoint。"
+    },
+    {
+      "path": "src/continuity/schemas/handoff.schema.json",
+      "purpose": "定义 working 与 stage_complete Handoff。"
+    },
+    {
+      "path": "src/continuity/schemas/evidence.schema.json",
+      "purpose": "定义 captured/imported Evidence、输出哈希、可信状态和 Source Fingerprint。"
+    },
+    {
+      "path": "src/continuity/schemas/context-pack.schema.json",
+      "purpose": "定义不可变 Context Pack manifest、purpose、文件角色、哈希和预算。"
+    },
+    {
+      "path": "src/continuity/schemas/review-pack.schema.json",
+      "purpose": "定义 stage/task 两类 Review Pack manifest、Evidence 引用和 fresh/stale 状态。"
+    },
+    {
+      "path": "src/continuity/schemas/review-decision.schema.json",
+      "purpose": "定义绑定 Pack 与 manifest 哈希的 Review Gate Decision 及结构化 Findings。"
+    },
+    {
+      "path": "src/continuity/schemas/registry.py",
+      "purpose": "通过 importlib.resources 离线加载固定白名单 Schema，校验 Schema 本身和实例，并返回稳定排序的结构化错误。"
+    },
+    {
+      "path": "src/continuity/schemas/__init__.py",
+      "purpose": "只公开稳定的 Schema 名称、加载、自检和实例校验 API。"
+    },
+    {
+      "path": "src/continuity/domain/models.py",
+      "purpose": "提供只封装已通过 Schema 校验数据的轻量不可变领域记录与聚合快照；不得重复维护各实体字段形状、必填项或默认值。"
+    },
+    {
+      "path": "src/continuity/domain/states.py",
+      "purpose": "集中定义 Task、Stage、Work Order、Evidence/Review Pack freshness 和 Review verdict 枚举。"
+    },
+    {
+      "path": "src/continuity/domain/transitions.py",
+      "purpose": "实现 Task、Stage、Work Order 的纯函数状态转换矩阵、不可变记录的 freshness 降级判定和 state_revision 单步递增校验。"
+    },
+    {
+      "path": "src/continuity/domain/invariants.py",
+      "purpose": "实现当前指针、实体归属、唯一 active、指纹一致、Gate 完整性和最终批准前置条件的纯函数校验。"
+    },
+    {
+      "path": "src/continuity/domain/errors.py",
+      "purpose": "提供不泄露 traceback 的结构化 Schema、转换和不变量错误类型。"
+    },
+    {
+      "path": "src/continuity/domain/__init__.py",
+      "purpose": "只公开稳定的领域模型与校验 API。"
+    },
+    {
+      "path": "tests/fixtures/schemas/**",
+      "purpose": "每个实体至少提供一个合法 fixture，并提供覆盖缺字段、未知字段、错误类型、非法 ID/时间/枚举和不一致引用的非法 fixture。"
+    },
+    {
+      "path": "tests/unit/test_schemas.py",
+      "purpose": "验证 Draft 2020-12 Schema、自包含离线引用、包资源、合法与非法 fixture 及稳定错误顺序。"
+    },
+    {
+      "path": "tests/unit/test_domain.py",
+      "purpose": "穷举允许与拒绝的状态转换，验证不可变记录 freshness 只能降级，并验证跨实体不变量和 fail-closed 行为。"
+    }
+  ],
+  "required_checks": [
+    {
+      "id": "PYTHON_VERSION",
+      "argv": [
+        "python",
+        "-c",
+        "import sys; raise SystemExit(0 if sys.version_info >= (3, 11) else 1)"
+      ]
+    },
+    {
+      "id": "EDITABLE_INSTALL",
+      "argv": [
+        "python",
+        "-m",
+        "pip",
+        "install",
+        "-e",
+        "."
+      ]
+    },
+    {
+      "id": "DEPENDENCY_CHECK",
+      "argv": [
+        "python",
+        "-m",
+        "pip",
+        "check"
+      ]
+    },
+    {
+      "id": "COMPILE",
+      "argv": [
+        "python",
+        "-m",
+        "compileall",
+        "-q",
+        "src",
+        "tests"
+      ]
+    },
+    {
+      "id": "UNIT",
+      "argv": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_*.py"
+      ],
+      "env": {
+        "PYTHONPATH": "src"
+      }
+    },
+    {
+      "id": "SCHEMA_SELF_CHECK",
+      "argv": [
+        "python",
+        "-c",
+        "from continuity.schemas import check_all_schemas; check_all_schemas()"
+      ]
+    },
+    {
+      "id": "SCHEMA_PACKAGE_RESOURCES",
+      "argv": [
+        "python",
+        "-c",
+        "from continuity.schemas import load_schema, schema_names; names=schema_names(); assert len(names) == 12; [load_schema(name) for name in names]"
+      ]
+    },
+    {
+      "id": "WHEEL_PREP",
+      "argv": [
+        "python",
+        "-c",
+        "import pathlib, shutil; p=pathlib.Path('build/work-0002-wheel'); shutil.rmtree(p, ignore_errors=True); p.mkdir(parents=True)"
+      ]
+    },
+    {
+      "id": "WHEEL_BUILD",
+      "argv": [
+        "python",
+        "-m",
+        "pip",
+        "wheel",
+        "--no-deps",
+        "--no-build-isolation",
+        "--wheel-dir",
+        "build/work-0002-wheel",
+        "."
+      ]
+    },
+    {
+      "id": "WHEEL_SCHEMA_RESOURCES",
+      "argv": [
+        "python",
+        "-c",
+        "import pathlib, zipfile; wheels=list(pathlib.Path('build/work-0002-wheel').glob('continuity-*.whl')); assert len(wheels)==1, wheels; z=zipfile.ZipFile(wheels[0]); names={pathlib.PurePosixPath(n).name for n in z.namelist() if n.startswith('continuity/schemas/') and n.endswith('.schema.json')}; expected={'common.schema.json','project.schema.json','config.schema.json','current.schema.json','task.schema.json','stage.schema.json','work-order.schema.json','checkpoint.schema.json','handoff.schema.json','evidence.schema.json','context-pack.schema.json','review-pack.schema.json','review-decision.schema.json'}; assert names==expected, (names, expected); z.close()"
+      ]
+    },
+    {
+      "id": "MODULE_HELP",
+      "argv": [
+        "python",
+        "-m",
+        "continuity",
+        "--help"
+      ]
+    },
+    {
+      "id": "MODULE_VERSION",
+      "argv": [
+        "python",
+        "-m",
+        "continuity",
+        "--version"
+      ]
+    },
+    {
+      "id": "CONSOLE_HELP",
+      "argv": [
+        "continuity",
+        "--help"
+      ]
+    },
+    {
+      "id": "CONSOLE_VERSION",
+      "argv": [
+        "continuity",
+        "--version"
+      ]
+    }
+  ],
+  "acceptance_criteria": [
+    "全部 JSON Schema 使用 Draft 2020-12、schema_version=1 和固定本地 $id；每个持久对象层级都必须通过 additionalProperties=false 或 unevaluatedProperties=false 拒绝未声明字段；运行时不解析网络或项目任意路径中的 $ref。",
+    "project、config、current、task、stage、work-order、checkpoint、handoff、evidence、context-pack、review-pack、review-decision 共 12 类 Schema 可从安装后的包资源加载并通过元 Schema 自检。",
+    "稳定 ID 使用固定大写前缀和至少四位十进制编号；所有持久时间必须是带时区的 RFC 3339，非法值被拒绝。",
+    "每类合法 fixture 均通过；缺少必填字段、未知字段、错误类型、非法枚举、非法 ID/时间和不一致引用均被逐项拒绝。",
+    "Task、Stage 和 Work Order 的每条允许转换均有正向测试，每个未允许的直接跳转均被拒绝；Evidence 与 Review Pack 的有效 freshness 只能由 fresh 降为 stale，不能反向恢复，也不能通过原地改写不可变记录实现。",
+    "Work Order 只有 draft 可以批准，只有 approved 可以激活；draft 的 approval 必须为 null，approved、active 和 completed 必须保留合法 approval；draft、approved 或 active 修订只有在存在同一 Task/Stage 的更高 approved 修订时才能 supersede，superseded 根据来源允许保留 null 或合法 approval。",
+    "跨实体校验至少强制：最多一个 active Task、最多一个 active Stage、current 指针存在且归属一致、active Work Order 属于当前 Task/Stage、Handoff 归属一致、Evidence 与 Review Pack 指纹一致。",
+    "Stage 只有在全部 required Gate 对同一个 fresh stage Pack approve 后才能进入 approved；Task 只有每个 Stage 均已通过所需 Gate 且状态为 approved 或 completed，并且 TASK-FINAL 对同一个 fresh task Pack approve 后，才能进入 approved_for_merge。",
+    "Schema、状态转换或不变量失败时返回稳定排序的结构化错误，至少包含稳定错误代码、数据路径和校验关键字；测试不得依赖第三方库可能变化的完整英文错误消息；不得静默修正、补默认值、访问网络或打印 traceback。",
+    "测试必须证明未知 Schema 名称、外部 URI $ref、未登记本地文件引用和不兼容 schema_version 均在任何网络或项目文件读取发生前被拒绝。",
+    "domain 与 schemas 层不读写业务项目文件、不分配编号、不获取锁、不执行命令、不修改 CLI，也不实现状态仓库、Context Pack 生成、Review Pack 冻结、Transfer 或 Merge Plan。",
+    "jsonschema 是本工作单唯一新增的直接运行时第三方依赖；不引入 Pydantic、数据库、CLI 框架或网络客户端。",
+    "全部 required checks 在项目 Python 3.11+ 虚拟环境中通过，本工作单测试 0 skipped，现有 CLI 行为和测试无回归。",
+    "构建出的 wheel 必须实际包含 common 加 12 类实体 Schema 共 13 个 .schema.json 文件；只在 editable install 的源码目录中可见不算通过。",
+    "没有修改 allowed_paths 之外的业务文件，也没有直接修改产品核心 .continuity 状态。"
+  ],
+  "known_constraints": [
+    "必须在项目专用且已激活的 Python 3.11+ 虚拟环境中执行。",
+    "JSON Schema 采用 Draft 2020-12；校验实现使用 jsonschema>=4.26,<5。",
+    "Schema 文件作为 UTF-8、无 BOM 的包资源发布，引用只能指向固定内置 Schema。",
+    "格式校验必须显式启用；带时区时间不能只依赖 jsonschema 默认未启用的 format 行为。",
+    "结构校验以 JSON Schema 为唯一事实；Python 领域对象不得维护一套冲突的必填字段或默认值。",
+    "Checkpoint、Handoff、Evidence、Context Pack、Review Pack 和 Review Decision 作为不可变记录只进行构造与一致性校验；本工作单不得提供原地覆盖 API。",
+    "本工作单只提供纯模型和纯校验，不实现任何持久化写入或 CLI 业务子命令。",
+    "本工作单只校验 approval 和 draft_sha256 的数据形状以及纯状态前置条件；批准哈希计算、持久化状态推进和命令编排由后续 Work Order 实现。",
+    "路径字段在本工作单只做非空、项目相对形式等可确定的语法校验；真实路径规范化、符号链接和越界检查属于 DEV-004。",
+    "Writer Lease、Transfer Record、Merge Plan 和归档实体不在本工作单范围内，按后续 Work Order 实现。",
+    "accepted 规格中没有明确的持久字段、必填性或状态边时，开发窗口必须停止并报告歧义，不得自行扩展公共数据格式。",
+    "所有文本文件使用 UTF-8；测试不得依赖当前工作目录、网络或平台专用路径。"
+  ],
+  "supersedes_work_order_id": null
+}

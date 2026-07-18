@@ -100,6 +100,18 @@
       "class": "work_order_view",
       "status": "approved",
       "allowed_purposes": ["architecture_design"]
+    },
+    {
+      "path": "work-orders/DEV-002/work-order.json",
+      "class": "work_order_source",
+      "status": "draft",
+      "allowed_purposes": ["architecture_design"]
+    },
+    {
+      "path": "work-orders/DEV-002/work-order.md",
+      "class": "work_order_view",
+      "status": "draft",
+      "allowed_purposes": ["architecture_design"]
     }
   ]
 }
