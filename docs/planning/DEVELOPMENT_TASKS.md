@@ -11,10 +11,11 @@
 
 ### DEV-002 Schema 与领域模型
 
-- 定义 Project、Config、Current、Task、Stage、Work Order、Checkpoint、Handoff、Evidence、Context Pack、Review Pack 和 Review Gate Schema。
-- 实现合法状态转换和跨实体约束。
+- 分成两张 Work Order，避免单个开发窗口一次读取和修改过多内容。
+- WORK-0002：只定义 Project、Config、Current、Task、Stage、Work Order、Checkpoint、Handoff、Evidence、Context Pack、Review Pack 和 Review Decision Schema，并实现离线 Schema registry。
+- WORK-0003：在 WORK-0002 审核通过后，再实现合法状态转换和跨实体约束。
 - 依赖：DEV-001。
-- 验收：合法 fixture 全部通过，非法状态逐项拒绝。
+- 验收：WORK-0002 的合法/非法结构 fixture 全部通过；WORK-0003 的合法转换和跨实体约束逐项通过。
 
 ### DEV-003 状态仓库
 

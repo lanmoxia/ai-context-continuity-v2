@@ -6,7 +6,7 @@
 
 Codex 新窗口使用根目录 AGENTS.md 自动路由：
 
-- Codex 5.6 架构窗口：输入“启动56”。
+- Codex 5.6 架构所有者窗口：输入“启动56”。
 - Codex 5.5 协调窗口：输入“启动55”。
 - Codex 5.6 终审窗口：粘贴 5.5 生成的短启动块，按其中路径读取当前 final-review 调度文件。
 
@@ -30,8 +30,8 @@ Antigravity 使用简单中文启动文字：
 - RULES.md：当前角色的固定职责。
 - COMMANDS.md：Codex 5.5 使用的快捷指令协议。
 - PROJECT_BRIEF.md：只供5.6架构模式使用的项目初衷、已确认架构和文档地图。
-- OWNER_PREFERENCES.md：项目所有者长期稳定的沟通与协作偏好。
-- HANDOFF.md：当前角色最新的可恢复现场，只能由该角色或项目所有者更新。
+- OPERATOR_PROTOCOL.md：规定 5.6 负责技术决策，人类用户只负责窗口切换和指令转发。
+- HANDOFF.md：当前角色最新的可恢复现场，只能由该角色更新；人类操作员不手工维护。
 - ROLE_REGISTRY.json：角色文件白名单；全部文件禁止进入业务 Context Pack。
 - dispatches/：按 development、initial-review、final-review 保存不可覆盖的调度指令文件。
 - bootstrap-packs/：保存不可覆盖、可独立复算的 BPACK 审核输入与检查证据。

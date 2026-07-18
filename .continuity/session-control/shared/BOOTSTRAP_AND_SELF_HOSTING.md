@@ -12,10 +12,10 @@
 
 当前处于 BOOTSTRAP-L0：
 
-- 产品业务代码尚未开始。
+- 产品工程骨架已经完成，首批业务能力尚未开始。
 - 产品 CLI 还不能创建正式 Task、Stage、Work Order、Writer Lease 或 Context Pack。
 - Task、Stage 和 Work Order 的逻辑身份由已确认文档与角色 HANDOFF 共同记录。
-- 5.6维护工作单 JSON 源文件和 Markdown 阅读页。
+- 5.6作为架构所有者维护并技术批准工作单 JSON 源文件和 Markdown 阅读页。
 - 5.5根据已批准工作单新增一次一条、按目标角色分目录保存的调度文件，并只在聊天中输出短启动块。
 - 各窗口使用自己的角色 HANDOFF 接力。
 - Git提交负责保存可恢复代码基线。
@@ -26,8 +26,8 @@ BOOTSTRAP-L0 不创建假的产品核心状态文件。
 
 5.5发出第一条开发指令前必须全部满足：
 
-1. 项目所有者明确批准当前 Work Order。
-2. Work Order JSON 状态为 approved，并包含 `approval` 对象：`approved_at` 使用带时区的 RFC 3339 时间，`approved_by` 固定为 `project_owner`，`draft_sha256` 记录批准前完整 draft JSON 文件的小写 SHA-256；不得让哈希字段循环包含自身。
+1. Codex 5.6 架构所有者已经独立复核并批准当前 Work Order；人类操作员不承担技术审批。
+2. Work Order JSON 状态为 approved，并包含 `approval` 对象：`approved_at` 使用带时区的 RFC 3339 时间，`approved_by` 对新工作单固定为 `architecture_owner`，`draft_sha256` 记录批准前完整 draft JSON 文件的小写 SHA-256；不得让哈希字段循环包含自身。WORK-0001 的历史 `project_owner` 值保留有效，不回写历史。
 3. Markdown 阅读页与 JSON 内容一致，但 JSON 是唯一权威来源。
 4. Git仓库、固定 .gitignore、初始基线提交和当前 Task 分支已经存在。
 5. 当前开发环境满足 Work Order 的 Python 版本。
@@ -156,4 +156,4 @@ DEV-018和DEV-019通过后：
 
 本文件属于外部会话控制层，不属于产品规格，不进入业务 Context Pack。
 
-只有5.6架构模式或项目所有者可以修改自托管等级。能力只有在对应Work Order通过检查和审核后才能升级，不能因为“代码看起来已经有了”提前切换。
+只有5.6架构所有者模式可以修改自托管等级。能力只有在对应Work Order通过检查和审核后才能升级，不能因为“代码看起来已经有了”提前切换。

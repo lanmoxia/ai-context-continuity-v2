@@ -1,5 +1,5 @@
 {
-  "schema_version": 3,
+  "schema_version": 4,
   "default_policy": "deny",
   "context_pack_policy": "deny_all",
   "root_router": {
@@ -67,18 +67,18 @@
         ".continuity/session-control/shared/WORKFLOW.md",
         ".continuity/session-control/shared/BOOTSTRAP_AND_SELF_HOSTING.md",
         ".continuity/session-control/chatgpt/codex-5.6/RULES.md",
-        ".continuity/session-control/chatgpt/codex-5.6/OWNER_PREFERENCES.md",
+        ".continuity/session-control/chatgpt/codex-5.6/OPERATOR_PROTOCOL.md",
         ".continuity/session-control/chatgpt/codex-5.6/PROJECT_BRIEF.md",
         ".continuity/session-control/chatgpt/codex-5.6/HANDOFF.md"
       ],
       "mode_files": {
         "architecture_design": [
-          ".continuity/session-control/chatgpt/codex-5.6/OWNER_PREFERENCES.md",
+          ".continuity/session-control/chatgpt/codex-5.6/OPERATOR_PROTOCOL.md",
           ".continuity/session-control/chatgpt/codex-5.6/PROJECT_BRIEF.md",
           ".continuity/session-control/chatgpt/codex-5.6/HANDOFF.md"
         ],
         "final_review": [
-          ".continuity/session-control/chatgpt/codex-5.6/OWNER_PREFERENCES.md",
+          ".continuity/session-control/chatgpt/codex-5.6/OPERATOR_PROTOCOL.md",
           ".continuity/session-control/chatgpt/codex-5.6/HANDOFF.md"
         ]
       },
