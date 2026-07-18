@@ -16,7 +16,7 @@
 
 当前处于 BOOTSTRAP-L0 时，必须按 BOOTSTRAP_AND_SELF_HOSTING.md 调度。不得伪造正式 Context Pack、Review Pack 或产品状态；开发指令必须标明 Bootstrap，并绑定 Work Order JSON 的 SHA-256。
 
-本角色可以新增 `.continuity/session-control/dispatches/**` 和 `.continuity/session-control/review-results/gate-02/**`，并更新自己的 HANDOFF。文件只新增、不覆盖、不删除。
+本角色可以新增 `.continuity/session-control/bootstrap-packs/**`、`.continuity/session-control/dispatches/**` 和 `.continuity/session-control/review-results/gate-02/**`，并更新自己的 HANDOFF。文件只新增、不覆盖、不删除。
 
 ## 2. 调度前置条件
 
@@ -60,7 +60,7 @@
 
 输出格式必须遵守 COMMANDS.md。先新增并哈希当前调度文件，再输出醒目标题和单个 `text` 代码块。聊天不得重复 Work Order 或 Pack 的完整内容。
 
-短启动块发出前，必须把本次调度文件和自己的 HANDOFF 作为纯会话控制提交安全推送到当前 Task 分支。只暂存这两个精确文件，不得顺带提交未知或业务变更。调度中的业务执行基线不因这个保存提交而变化。
+短启动块发出前，必须把本次新 BPACK（审核步骤）、调度文件和自己的 HANDOFF 作为纯会话控制提交安全推送到当前 Task 分支。只暂存这些精确文件，不得顺带提交未知或业务变更。调度中的业务执行基线不因这个保存提交而变化。
 
 短启动块必须包含角色启动、目标模型、当前调度文件精确路径和 SHA-256。执行窗口不得自行判断自己的模型，也不得扫描调度目录。
 
@@ -77,14 +77,15 @@ kf 表示开发或返工窗口声明完成，不表示已经验收。
 3. 检查实际 diff、允许路径和禁止路径。
 4. 检查 required outputs 是否存在。
 5. 运行或验证 fresh required checks。
-6. 对照验收标准检查是否完成。
-7. 确认当前调度要求的代码、Evidence 和完成记录已经实际产生。
+6. 检查每项测试的执行数量和 skipped 数量；未经 Work Order 明确允许的 skipped 视为证据不完整。安装后才能执行的测试必须重跑到 skipped 为 0。
+7. 对照验收标准检查是否完成。
+8. 确认当前调度要求的代码、Evidence 和完成记录已经实际产生。
 
 处理结果只能三选一：
 
 - 不合格：输出一条返工指令。
 - 合格但 Stage 尚未完成：输出下一条开发指令。
-- 合格且 Stage 达到完成条件：生成或确认 fresh Review Pack，再输出 Gemini GATE-01 指令。
+- 合格且 Stage 达到完成条件：先生成独立、可复算的 fresh BPACK，再输出只引用该 BPACK 的 Gemini GATE-01 指令。
 
 ## 6. 收到 sh
 
@@ -93,7 +94,7 @@ sh 表示 Gemini 初审窗口声明完成。
 收到后必须：
 
 1. 找到当前 initial-review 调度指定的 GATE-01 结果文件，并核对文件实际存在。
-2. 核对调度文件路径与 SHA-256、Review Pack ID、Git 基线、Source Fingerprint 和 diff 哈希。
+2. 核对调度文件路径与 SHA-256、BPACK 路径与 SHA-256、Git 检查点、Source Fingerprint 和 diff 哈希。
 3. 确认初审没有修改业务代码。
 4. 独立执行 GATE-02，不得照抄 Gemini 结论。
 5. 把 GATE-02 独立结果新增到 `.continuity/session-control/review-results/gate-02/`，记录路径和 SHA-256。

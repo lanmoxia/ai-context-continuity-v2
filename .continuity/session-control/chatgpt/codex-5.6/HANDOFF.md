@@ -1,6 +1,6 @@
 # Codex 5.6 接力摘要
 
-- 更新时间：2026-07-17T16:56:10+08:00
+- 更新时间：2026-07-18T08:58:39+08:00
 - 当前模式：架构设计
 - 会话状态：可接力
 - Task：TASK-0001
@@ -8,7 +8,7 @@
 - 当前计划项：DEV-001
 - 当前 Work Order：WORK-0001，状态 approved
 - 当前自托管等级：BOOTSTRAP-L0
-- 当前 Review Pack：无
+- 当前 Review Pack：`.continuity/session-control/bootstrap-packs/BPACK-0001.json`，Bootstrap 外部审核包
 - 当前 final-review 调度文件：无
 - 当前终审结果文件：无
 
@@ -42,7 +42,7 @@
 
 ## 当前事实
 
-- 尚未开始业务代码开发。
+- WORK-0001 业务代码已完成并冻结在检查点 `62a7de57f823c0a7c6682d01f9e36c3c826eb933`。
 - 尚未生成 implementation Context Pack。
 - 尚未生成任何正式 Review Pack。
 - old-demo 是归档目录，不属于当前任务。
@@ -53,10 +53,14 @@
 - 已把窗口间长篇聊天指令迁移为“短启动块 + 按角色归档的不可覆盖调度文件”；文件以 SHA-256 精确绑定并进入 Git。
 - 已建立 Bootstrap GATE-01、GATE-02、GATE-03 和 TASK-FINAL 审核结果目录与写入、读取、版本绑定规则。
 - 用户确认先前 5.5 生成的 WORK-0001 长指令从未粘贴给开发窗口，现已作废，不存在正在执行的开发者。
+- WORK-0001 已由 Sonnet 完成，5.5 已执行预检并准备 GATE-01；当前没有业务代码写入者。
+- 首版 `BREV-0001-r1` 因要求初审读取开发 HANDOFF、内嵌重复审核材料及哈希无法独立复算而作废，未产生审核结果。
+- 已建立独立 `BPACK-0001.json`，保存精确 diff argv、17 个 Git blob 哈希、可复算 Source Fingerprint 和无跳过的 fresh checks。
+- 当前有效初审调度为 `BREV-0001-r2.md`；它只引用 BPACK，不读取开发 HANDOFF，不复制 Pack 内容。
 
 ## 唯一下一步
 
-用户回到现有 Codex 5.5 协调窗口，让它重新读取最新 HANDOFF 和当前 development 调度文件，然后只输出 WORK-0001 的短启动块。
+用户新建或刷新 Codex 5.5 协调窗口，输入“启动55”；5.5 核对当前 HANDOFF 后只输出 `BREV-0001-r2` 的 Gemini GATE-01 短启动块。
 
 ## 阻塞
 

@@ -30,17 +30,18 @@ kf 只表示“开发窗口声明完成”，不表示 5.5 自动认可完成。
 
 Stage 达到完成条件并生成 fresh Review Pack 后：
 
-1. 5.5 新增 initial-review 调度文件并输出 Gemini 3.5 Flash 的 GATE-01 短启动块。
-2. 初审窗口把结构化结果写入调度文件指定的 `review-results/gate-01/` 新文件；只在聊天中说“通过”无效。
-3. 用户回到 5.5 窗口输入 sh。
-4. 5.5 验证初审结果文件绑定同一个 Review Pack 和 Source Fingerprint，然后独立执行 GATE-02 中审，并把结果写入 `review-results/gate-02/` 新文件。
-5. 普通 Stage 在 GATE-02 通过后结束阶段审核。
-6. 高风险 Stage 由 5.5 新增 final-review 调度文件，再生成 Codex 5.6 的 GATE-03 短启动块；5.6 把结果写入 `review-results/gate-03/`。
-7. 用户在 5.6 完成审核后回到 5.5 输入 zs。
+1. 5.5 先冻结一份独立、可复算的 BPACK，再新增只引用该 BPACK 路径与 SHA-256 的 initial-review 调度文件。
+2. 5.5 输出 Gemini 3.5 Flash 的 GATE-01 短启动块。
+3. 初审窗口把结构化结果写入调度文件指定的 `review-results/gate-01/` 新文件；只在聊天中说“通过”无效。
+4. 用户回到 5.5 窗口输入 sh。
+5. 5.5 验证初审结果绑定同一个 BPACK，然后独立执行 GATE-02 中审，并把结果写入 `review-results/gate-02/` 新文件。
+6. 普通 Stage 在 GATE-02 通过后结束阶段审核。
+7. 高风险 Stage 由 5.5 新增 final-review 调度文件，再生成 Codex 5.6 的 GATE-03 短启动块；5.6 把结果写入 `review-results/gate-03/`。
+8. 用户在 5.6 完成审核后回到 5.5 输入 zs。
 
 任一审核要求修改业务代码时，当前 Review Pack 立即失效。返工完成后必须重新生成 fresh Review Pack，并从 GATE-01 重新开始。
 
-GATE-01 原始结果主要由 5.5 读取。开发窗口默认不读整份审核报告；返工时由 5.5 在新 development 调度文件中列出已确认 Finding，并引用来源文件及 SHA-256。5.6 终审默认不读取前序模型结论，以保持独立判断。
+GATE-01 原始结果主要由 5.5 读取。初审者不得读取开发者 HANDOFF；开发窗口默认不读整份审核报告。返工时由 5.5 在新 development 调度文件中列出已确认 Finding，并引用来源文件及 SHA-256。5.6 终审默认不读取前序模型结论，以保持独立判断。
 
 ## 5. 整体最终验收
 

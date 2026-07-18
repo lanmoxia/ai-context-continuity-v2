@@ -1,5 +1,5 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "default_policy": "deny",
   "context_pack_policy": "deny_all",
   "root_router": {
@@ -43,6 +43,11 @@
         "final_review": "final-review/**"
       }
     },
+    "bootstrap_review_packs": {
+      "root": ".continuity/session-control/bootstrap-packs",
+      "append_only": true,
+      "read_policy": "exact_path_and_sha256_only"
+    },
     "bootstrap_review_results": {
       "root": ".continuity/session-control/review-results",
       "append_only": true,
@@ -79,10 +84,12 @@
       },
       "conditional_paths": {
         "architecture_design_write": [
+          ".continuity/session-control/bootstrap-packs/**",
           ".continuity/session-control/dispatches/**",
           ".continuity/session-control/review-results/**"
         ],
         "final_review_read_exact": [
+          ".continuity/session-control/bootstrap-packs/**",
           ".continuity/session-control/dispatches/final-review/**"
         ],
         "final_review_write_exact": [
@@ -103,12 +110,14 @@
       ],
       "conditional_paths": {
         "read_exact": [
+          ".continuity/session-control/bootstrap-packs/**",
           ".continuity/session-control/dispatches/**",
           ".continuity/session-control/review-results/gate-01/**",
           ".continuity/session-control/review-results/gate-03/**",
           ".continuity/session-control/review-results/task-final/**"
         ],
         "write_new": [
+          ".continuity/session-control/bootstrap-packs/**",
           ".continuity/session-control/dispatches/**",
           ".continuity/session-control/review-results/gate-02/**"
         ]
@@ -143,6 +152,7 @@
       ],
       "conditional_paths": {
         "read_exact": [
+          ".continuity/session-control/bootstrap-packs/**",
           ".continuity/session-control/dispatches/initial-review/**"
         ],
         "write_exact": [

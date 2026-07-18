@@ -34,10 +34,11 @@ Antigravity 使用简单中文启动文字：
 - HANDOFF.md：当前角色最新的可恢复现场，只能由该角色或项目所有者更新。
 - ROLE_REGISTRY.json：角色文件白名单；全部文件禁止进入业务 Context Pack。
 - dispatches/：按 development、initial-review、final-review 保存不可覆盖的调度指令文件。
+- bootstrap-packs/：保存不可覆盖、可独立复算的 BPACK 审核输入与检查证据。
 - review-results/：按 GATE-01、GATE-02、GATE-03、TASK-FINAL 保存不可覆盖的 Bootstrap 审核结果。
 
 ## 重要边界
 
 角色规则是提示词输入层，业务 Context Pack 是事实输入层。两者必须分别读取，不能互相复制。
 
-调度文件只负责把目标窗口路由到权威 Work Order 或 Pack；审核结果只负责保存外部 Gate 证据。两类文件都不得成为第二份业务事实来源。
+调度文件只负责路由；BPACK 冻结审核输入与证据；审核结果保存 Gate 结论。三者不得互相复制成多份事实来源。

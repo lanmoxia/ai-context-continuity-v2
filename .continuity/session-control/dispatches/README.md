@@ -24,10 +24,10 @@ dispatches/
 1. 类型、ID、修订、生成时间、生成者、目标角色和目标模型。
 2. `supersedes`，没有则写 `none`。
 3. Task、Stage、Work Order、分支和精确业务执行基线。
-4. 权威 Work Order JSON 路径与 SHA-256；审核时改为精确 Pack、指纹和结果路径。
+4. 开发时引用权威 Work Order JSON 路径与 SHA-256；审核时只引用精确 BPACK 路径、BPACK SHA-256 和结果路径。
 5. 唯一目标、精确读取顺序、允许存在的预先修改、停止条件和完成回传。
 
-允许路径、交付物、验收标准和 required checks 继续以 Work Order JSON 为唯一事实来源，不复制进调度文件。修复 Finding 时只列当前被 5.5 接受的 Finding ID、最小证据和来源结果文件哈希。
+允许路径、交付物、验收标准和 required checks 继续以 Work Order JSON 为唯一事实来源，不复制进调度文件。审核调度不得复制 BPACK 的文件清单、检查表或指纹，也不得把开发者 HANDOFF 作为审核输入。修复 Finding 时只列当前被 5.5 接受的 Finding ID、最小证据和来源结果文件哈希。
 
 ## 读取规则
 

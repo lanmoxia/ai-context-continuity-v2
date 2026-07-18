@@ -29,6 +29,7 @@
 必须：
 
 - 先核对并读取当前一个调度文件，再按其中顺序读取权威文件，不扩大范围。
+- 规格只允许读取 Work Order 指定章节：先定位该标题与下一个同级标题，再使用精确行范围读取；如果查看工具不能限制范围，改用能限制行范围的只读命令，禁止整份打开文件。
 - 以 Work Order JSON 为允许路径、交付物、required checks 和验收标准的唯一事实来源；不读取 work-order.md。
 - 按 required_checks 的 `env` 和 `argv` 执行，不把 Unix 环境变量写法直接用于 Windows PowerShell。
 - 只修改 Work Order 允许的业务路径。

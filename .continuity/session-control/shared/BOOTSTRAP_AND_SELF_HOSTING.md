@@ -95,11 +95,14 @@ Work Order 中的 allowed_paths 和 forbidden_paths约束业务实现与产品�
 正式 Review Pack 功能尚未通过验收前，Stage审核使用外部 Bootstrap审核材料：
 
 - 使用前缀 BPACK，不使用正式 PACK ID。
-- 绑定精确 Git提交、变更文件清单、diff哈希和检查结果。
+- 每份 BPACK 必须作为 `.continuity/session-control/bootstrap-packs/` 中的独立不可覆盖 JSON 文件，绑定精确 Git 提交、变更文件清单、可复算 diff 哈希和检查结果。
+- diff 哈希必须保存生成原始字节的完整 `argv`；Source Fingerprint 必须保存排序后的逐文件 SHA-256 前像规则和条目。无法独立复算的裸哈希无效。
+- required check 有失败、未运行或未经 Work Order 明确允许的 skipped 时，不得冻结 BPACK；如果安装顺序使测试稍后才完整运行，必须在正确环境中重跑并记录无跳过证据。
 - 5.5只给 Gemini 一条当前 GATE-01 指令。
 - 每道 Gate 必须把结果写入 `.continuity/session-control/review-results/` 对应目录的新文件；没有结果文件不得处理 sh 或 zs。
 - 结果文件必须引用调度文件路径与 SHA-256，并绑定 BPACK、Git提交、Source Fingerprint、diff哈希和检查结果。
 - GATE-01 结果由 Gemini 写、5.5 读；GATE-02 由 5.5 独立写；GATE-03 和 TASK-FINAL 由 5.6 写、5.5 读。
+- 审核调度只引用 BPACK 路径、SHA-256 和结果目标，不复制 BPACK 内容；审核者不得读取开发窗口 HANDOFF。
 - 开发窗口默认不读取原始审核结果；返工调度只传递 5.5 已确认的 Finding 和来源哈希。
 - 5.5的 GATE-02 和高风险时5.6的 GATE-03必须审核同一份 BPACK。
 - 代码变化后旧 BPACK 立即失效，并从 GATE-01重新开始。

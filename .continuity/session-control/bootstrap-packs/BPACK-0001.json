@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "id": "BPACK-0001",
+  "revision": 1,
+  "kind": "bootstrap-review-pack",
+  "status": "frozen",
+  "created_at": "2026-07-17T18:19:41+08:00",
+  "created_by": "codex-5.6-architecture-repair",
+  "validated_at": "2026-07-18T08:57:21+08:00",
+  "scope": "stage",
+  "target_gate": "GATE-01",
+  "supersedes": null,
+  "task_id": "TASK-0001",
+  "stage_id": "STAGE-01",
+  "plan_item_id": "DEV-001",
+  "work_order": {
+    "id": "WORK-0001",
+    "path": "docs/work-orders/DEV-001/work-order.json",
+    "sha256": "395e65fec671f5ae4dd81cc78c201a08c232d1a10bfa66aff32f78c938cf6290"
+  },
+  "git": {
+    "task_branch": "continuity/TASK-0001-project-foundation",
+    "business_execution_baseline": "165ad65244fa3e5c31307433c6d7337b1e6fb0eb",
+    "dispatch_delivery_commit": "8421d1e0008b04cbd3884cb047818aa1605b4fe0",
+    "implementation_diff_base": "8421d1e0008b04cbd3884cb047818aa1605b4fe0",
+    "implementation_checkpoint": "62a7de57f823c0a7c6682d01f9e36c3c826eb933"
+  },
+  "required_inputs": [
+    {
+      "path": "docs/work-orders/DEV-001/work-order.json",
+      "read": "full",
+      "sha256_scope": "raw full-file bytes",
+      "sha256": "395e65fec671f5ae4dd81cc78c201a08c232d1a10bfa66aff32f78c938cf6290"
+    },
+    {
+      "path": "docs/spec/ARCHITECTURE.md",
+      "read": "section",
+      "section": "3. 工具仓库结构",
+      "line_start": 38,
+      "line_end": 63,
+      "sha256_scope": "raw full-file bytes",
+      "sha256": "3cb3ba1a1087a4f8af125a3fa8ba91cb925cb5bc3a790d572293b5567889330c"
+    },
+    {
+      "path": "docs/spec/CLI_SPEC.md",
+      "read": "section",
+      "section": "1. 项目",
+      "line_start": 5,
+      "line_end": 23,
+      "sha256_scope": "raw full-file bytes",
+      "sha256": "7cd46bccb504539901b012ab55ead401dd251b8b07823438f3adab014ea4bdaa"
+    }
+  ],
+  "implementation_diff": {
+    "algorithm": "sha256(raw stdout bytes from argv)",
+    "argv": [
+      "git",
+      "diff",
+      "--binary",
+      "--no-ext-diff",
+      "--no-textconv",
+      "8421d1e0008b04cbd3884cb047818aa1605b4fe0",
+      "62a7de57f823c0a7c6682d01f9e36c3c826eb933",
+      "--",
+      "pyproject.toml",
+      "src/continuity",
+      "tests"
+    ],
+    "sha256": "640d04497d8a1daf0506cc64cc7a2143d6f3a454aff1e1c2fc904178650ee7d2"
+  },
+  "source_snapshot": {
+    "id": "BSF-0001",
+    "entry_hash_algorithm": "sha256(raw stdout bytes from git cat-file blob <implementation_checkpoint>:<path>)",
+    "fingerprint_preimage": "entries sorted by UTF-8 path bytes ascending; UTF-8 without BOM; LF line endings; each line is <path>\\t<lowercase sha256>\\n",
+    "fingerprint_sha256": "7b747c325745f4e79aa8a72a33e3d23e340a124e09fe1aa4a08fa752b9ec38a6",
+    "entries": [
+      {"path": "pyproject.toml", "sha256": "d913ace76c9a90693a21f14f54386ade8f7c26e3d3495bd59e3938eab22a6cc1"},
+      {"path": "src/continuity/__init__.py", "sha256": "49e8b0996d31ff9527f9dc3c94a1defa9ccd0f0e56b78d142dc2fa3477dcc264"},
+      {"path": "src/continuity/__main__.py", "sha256": "dde0a6ea882e9a07703174282eb5766c6a19a9a611fac167069d64a54d22d958"},
+      {"path": "src/continuity/cli.py", "sha256": "906af78cb0099b65794e1c4ab6ef9d07613491ca522c87cc43b8e87422d9ef28"},
+      {"path": "src/continuity/domain/__init__.py", "sha256": "bf5d0529a79035b374f8b187b29fde77bb0b9b8b3bcbdb01f9c5a42e29b85f78"},
+      {"path": "src/continuity/git/__init__.py", "sha256": "9d4bfdefbe7e0b46c5757bdd1473048749c5592f62430c9330c83def1cbcd531"},
+      {"path": "src/continuity/renderers/__init__.py", "sha256": "30f5bd3819d0997e4f99b98f70a0205a86d51604429ece734e4ef2b3ab43e34e"},
+      {"path": "src/continuity/schemas/__init__.py", "sha256": "47af4266f2a78ca99625c11d50ec0037e78d680df386a0b1d08bf6b1b1819b32"},
+      {"path": "src/continuity/security/__init__.py", "sha256": "a66d0e80e6d565618d3e791f17fc39737dedaa3c5f4c44e9d4df3c6de34bfa5a"},
+      {"path": "src/continuity/services/__init__.py", "sha256": "507fff45905cb930b3ced6eddef6696759afc6b1e8c112c706e1de6d73a22f74"},
+      {"path": "src/continuity/storage/__init__.py", "sha256": "1bf35b881213b75dba6226ef632379031f6de4c19f48edfac24c72bdadfdacb1"},
+      {"path": "src/continuity/templates/__init__.py", "sha256": "fe85296c621504a12846f86e13acd175bd21e7e89f6f57448f16df679192f0a6"},
+      {"path": "tests/__init__.py", "sha256": "84d9aef772cea32f10c4c6ab858446a931e06537c724afdf8a275154b88a6d90"},
+      {"path": "tests/e2e/__init__.py", "sha256": "6ef1371e55e51520b514c2b2ae0ee9d86c8d4381044fbab86402628bfb816c18"},
+      {"path": "tests/integration/__init__.py", "sha256": "3f819b329192092c6f76dfba9c7308adbf6f7702820f7e4fe02efde07245378c"},
+      {"path": "tests/unit/__init__.py", "sha256": "9d566025eaa21543b52722147774afc45981154f677dcc38078a2632e5b52947"},
+      {"path": "tests/unit/test_cli.py", "sha256": "87e9926f06609f707608753af1ba47fa00ba0bf8d635edbcd4a8e6ac4b38a295"}
+    ]
+  },
+  "check_evidence": {
+    "executed_at": "2026-07-18T08:57:21+08:00",
+    "executed_by": "codex-5.6-architecture-repair",
+    "argv_source": "docs/work-orders/DEV-001/work-order.json required_checks; argv and env are unchanged",
+    "execution_order": [
+      "PYTHON_VERSION",
+      "COMPILE",
+      "EDITABLE_INSTALL",
+      "UNIT",
+      "INSTALLED_IMPORT",
+      "MODULE_HELP",
+      "MODULE_VERSION",
+      "CONSOLE_HELP",
+      "CONSOLE_VERSION",
+      "MODULE_UNKNOWN_ARG",
+      "CONSOLE_UNKNOWN_ARG"
+    ],
+    "dependency_note": "EDITABLE_INSTALL precedes UNIT during review evidence collection so console-entry tests execute instead of skipping; required check argv and env remain unchanged.",
+    "environment": {
+      "python": "3.12.10",
+      "venv": ".venv",
+      "venv_scripts_on_path": true
+    },
+    "results": [
+      {"id": "PYTHON_VERSION", "exit_code": 0, "summary": "Python >= 3.11"},
+      {"id": "COMPILE", "exit_code": 0, "summary": "src and tests compile"},
+      {"id": "UNIT", "exit_code": 0, "tests_run": 8, "skipped": 0, "summary": "OK"},
+      {"id": "EDITABLE_INSTALL", "exit_code": 0, "summary": "continuity 0.1.0 installed editable"},
+      {"id": "INSTALLED_IMPORT", "exit_code": 0, "stdout": "0.1.0"},
+      {"id": "MODULE_HELP", "exit_code": 0, "summary": "usage printed"},
+      {"id": "MODULE_VERSION", "exit_code": 0, "stdout": "0.1.0"},
+      {"id": "CONSOLE_HELP", "exit_code": 0, "summary": "usage printed"},
+      {"id": "CONSOLE_VERSION", "exit_code": 0, "stdout": "0.1.0"},
+      {"id": "MODULE_UNKNOWN_ARG", "argv": ["python", "-m", "continuity", "--unknown-review-probe"], "exit_code": 2, "traceback": false, "summary": "short argparse error"},
+      {"id": "CONSOLE_UNKNOWN_ARG", "argv": ["continuity", "--unknown-review-probe"], "exit_code": 2, "traceback": false, "summary": "short argparse error"}
+    ]
+  },
+  "review_read_policy": {
+    "read_required_inputs_exactly": true,
+    "read_source_snapshot_entries": true,
+    "forbidden_inputs": [
+      ".continuity/session-control/antigravity/development/HANDOFF.md",
+      ".continuity/session-control/chatgpt/codex-5.5/HANDOFF.md",
+      "prior review results",
+      "chat summaries"
+    ]
+  }
+}

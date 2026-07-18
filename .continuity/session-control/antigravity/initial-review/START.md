@@ -16,8 +16,9 @@
 
 1. 先完成上述固定角色文件读取。
 2. 核对指定文件 SHA-256。
-3. 只读取该一个 initial-review 调度文件，再按其中路径读取当前 Pack 材料。
-4. 禁止列出 dispatches、review-results 或读取其他 Gate 结论。
+3. 只读取该一个 initial-review 调度文件，再核对并读取它指定的一份 BPACK。
+4. 只按 BPACK 的精确清单读取 Work Order、规格章节和源码。
+5. 禁止列出 dispatches、bootstrap-packs、review-results 或读取其他 Gate 结论。
 
 如果用户只输入“启动审核”，但 HANDOFF 记录了进行中的调度，则按 HANDOFF 的精确路径和 SHA-256 恢复；没有当前调度时保持待命。
 
