@@ -1,20 +1,20 @@
 # Codex 5.5 接力摘要
 
-- 更新时间：2026-07-18T08:58:39+08:00
-- 会话状态：GATE-01 调度架构已修复，BREV-0001-r2 已准备但尚未发送
+- 更新时间：2026-07-18T09:04:06+08:00
+- 会话状态：BREV-0001-r2 已核对并发送，等待 Gemini GATE-01 初审完成
 - Task：TASK-0001
 - 当前 Stage：STAGE-01
 - 当前计划项：DEV-001
 - 当前 Work Order：WORK-0001，状态 approved
 - 当前自托管等级：BOOTSTRAP-L0
-- 当前等待事件：5.5 核对 BPACK-0001 与 BREV-0001-r2 后，只输出新的 GATE-01 短启动块
+- 当前等待事件：用户在 Antigravity 初审窗口完成 GATE-01 后，回到 5.5 输入 `sh`
 - 上一次已发开发指令：BDEV-0001-r1，目标 Claude Sonnet 4.6，已完成并经 5.5 预检
 - 当前调度 ID：BREV-0001
 - 当前调度文件：`.continuity/session-control/dispatches/initial-review/BREV-0001-r2.md`
 - 当前调度文件 SHA-256：`4783feb2e354fa3bb48115e0d17ce05a6027b8745eac3da9ef26cf01bbb8a45a`
 - 当前调度修订：r2
 - 当前目标模型：Gemini 3.5 Flash
-- 当前指令是否已发送：否
+- 当前指令是否已发送：是
 - 当前 Review Pack：`.continuity/session-control/bootstrap-packs/BPACK-0001.json`（Bootstrap 审核材料，不是产品正式 Review Pack）
 - 当前 BPACK SHA-256：`6676d9cb34088b20732df13ddb06225bfb87d58b48089378e3b20c2c673021f4`
 - 当前 Task 分支：continuity/TASK-0001-project-foundation
@@ -43,12 +43,12 @@
 
 ## 启动后唯一动作
 
-核对当前 BPACK 和 BREV-0001-r2 的实际 SHA-256，确认 Git 已同步后，只按 COMMANDS.md 输出 r2 的 GATE-01 短启动块。不要重新生成 Pack 或调度。
+等待用户在 Antigravity 初审窗口完成 GATE-01 并回到 5.5 输入 `sh`。不要重新生成 Pack 或调度。
 
 ## 不得执行
 
 - 不得使用或重新发送 BREV-0001-r1。
-- r2 尚未发出前不得等待 `sh` 或自行写 GATE-02。
+- 收到 `sh` 前不得自行写 GATE-02。
 - 不得重复生成新的 GATE-01 调度，除非当前 BPACK 或 r2 核对失败。
 - 不得把 BPACK-0001 冒充产品正式 Review Pack。
 - 不得让开发窗口读取 Gemini 原始结果；如需返工，由 5.5 在新 development 调度中只传递已确认 Finding。
@@ -56,4 +56,4 @@
 
 ## 阻塞
 
-无技术阻塞；等待 5.5 输出 BREV-0001-r2 的短启动块。
+无技术阻塞；等待 Gemini GATE-01 初审结果文件。
