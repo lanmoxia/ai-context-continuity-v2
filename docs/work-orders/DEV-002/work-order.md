@@ -1,6 +1,6 @@
 # WORK-0002：实现首批持久化 Schema 合同
 
-状态：draft
+状态：approved
 
 - Task：TASK-0001
 - Stage：STAGE-02
@@ -77,4 +77,4 @@
 
 ## 批准门槛
 
-本文件当前只是 draft。由 Codex 5.6 架构所有者完成就绪检查；合格后由 5.6 记录批准前 draft SHA-256 并批准，不要求人类操作员审阅技术内容。
+Codex 5.6 架构所有者已完成就绪检查并批准。批准前 draft SHA-256 为 `b2ba3d17531d76f3c776e7c061970b0a815a779b59b6ad0acc83a63568eca1db`，draft 已保存在提交 `6788a16`。人类操作员无需审阅技术内容，下一步由 5.5 核对 approved JSON 后生成开发调度。

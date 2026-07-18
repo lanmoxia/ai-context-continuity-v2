@@ -1,11 +1,15 @@
 {
   "schema_version": 1,
   "id": "WORK-0002",
-  "status": "draft",
+  "status": "approved",
   "task_id": "TASK-0001",
   "stage_id": "STAGE-02",
   "revision": 1,
-  "approval": null,
+  "approval": {
+    "approved_at": "2026-07-18T13:05:53+08:00",
+    "approved_by": "architecture_owner",
+    "draft_sha256": "b2ba3d17531d76f3c776e7c061970b0a815a779b59b6ad0acc83a63568eca1db"
+  },
   "title": "实现首批持久化 Schema 合同",
   "goal": "为 Continuity 的首批持久化实体建立可打包、可离线、默认拒绝未知输入的 JSON Schema 合同和固定白名单加载器。",
   "risk_level": "high",
