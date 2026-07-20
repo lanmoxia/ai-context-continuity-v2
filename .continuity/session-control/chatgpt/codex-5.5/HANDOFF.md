@@ -1,14 +1,14 @@
 # Codex 5.5 接力摘要
 
-- 更新时间：2026-07-20T11:58:46+08:00
-- 会话状态：WORK-0002 终审前 GATE-01 与 GATE-02 已通过；已生成 Codex 5.6 的 GATE-03 final-review 调度
+- 更新时间：2026-07-20T12:32:03+08:00
+- 会话状态：WORK-0002 的 GATE-03 终审结果为 CHANGES_REQUESTED；已生成 Gemini 3.5 Flash (High) 返工调度
 - 当前角色：codex-5.5，协调、指令分发和中审窗口
 - 当前自托管等级：BOOTSTRAP-L0
 - Task：TASK-0001
 - 当前 Stage：STAGE-02
 - 当前计划项：DEV-002
-- 当前 Work Order：WORK-0002，状态 approved
-- 当前等待事件：等待 Codex 5.6 执行 BFINAL-0001-r1 / GATE-03 后，用户回到本窗口输入 `zs`
+- 当前 Work Order：WORK-0002，状态 approved，当前实现需返工
+- 当前等待事件：等待 Antigravity 开发窗口按 `BDEV-0007-r1` 完成返工后，用户回到本窗口输入 `kf`
 - 当前 Task 分支：`continuity/TASK-0001-project-foundation`
 - 当前业务执行基线：`750d3ec7a144e958c62f6f45fa8a99cbf1232a5b`
 - 实现 diff base / 调度交付提交：`83f3c21dcf2f58d99c9c898e5cd85c07f4e4625c`
@@ -28,6 +28,10 @@
 - 当前 final-review 调度：`.continuity/session-control/dispatches/final-review/BFINAL-0001-r1.md`
 - 当前 final-review 调度 SHA-256：`746ba001450a5cf0f3035cc47da18171d66adea879390e0ec1c98a8b9c4d8e70`
 - 5.6 结果目标：`.continuity/session-control/review-results/gate-03/BGATE03-0001-r1.md`
+- GATE-03 结果文件 SHA-256：`f6b3a2405c6ee72e689bb494b066f80b36ae947ad797d10dfb1dfaf287fdd189`
+- 当前 development 返工调度：`.continuity/session-control/dispatches/development/BDEV-0007-r1.md`
+- 当前 development 返工调度 SHA-256：`067d0b542f4507b859ae7dd4c12bb126f08b31b2099eb5244f191c84f79f9257`
+- 当前 development 目标模型：Gemini 3.5 Flash (High)
 
 ## 当前事实
 
@@ -36,9 +40,16 @@
 - 实现检查点 `bf0cd41aca43f144392c78b221208587df25e494` 已推送到 origin 当前 Task 分支。
 - `BPACK-0002` 已冻结并推送，绑定实现检查点、diff hash、Source Fingerprint、required inputs 和 fresh checks。
 - `BPRE-0001-r1` 已创建并推送，绑定 GATE-01 与 GATE-02 的唯一结果路径。
-- GATE-01 独立审核结果：APPROVED，无 critical/high/medium Finding。
-- GATE-02 独立审核结果：APPROVED，无 critical/high/medium Finding。
-- 5.5 已创建 `BFINAL-0001-r1`，交给 Codex 5.6 独立执行 WORK-0002 的 Stage 最终 GATE-03。
+- GATE-01 独立审核结果：APPROVED，无 critical/high/medium Finding；若返工修改业务文件，旧结果不可再作为批准依据。
+- GATE-02 独立审核结果：APPROVED，无 critical/high/medium Finding；若返工修改业务文件，旧结果不可再作为批准依据。
+- Codex 5.6 已写入 GATE-03 结果：`CHANGES_REQUESTED`。
+- GATE-03 已确认 Finding：
+  - BG03-F01 high：实体 ID 与引用字段未按实体类型精确约束。
+  - BG03-F02 high：Review Pack Schema 缺少完整 Source Fingerprint 绑定与 scope 条件约束。
+  - BG03-F03 medium：项目相对路径合同未拒绝绝对路径和目录穿越。
+  - BG03-F04 medium：预批准检查条目允许缺少执行边界。
+  - BG03-F05 low：实现 diff 含尾随空白。
+- 5.5 已创建 `BDEV-0007-r1`，作为当前唯一有效返工调度；旧 BDEV/BPRE/BFINAL/BPACK 均只保留为审计材料。
 
 ## 检查结果摘要
 
@@ -59,10 +70,11 @@
 
 ## 下一步
 
-用户复制本窗口输出的 final-review 短启动块到 Codex 5.6 终审窗口。5.6 写入 `.continuity/session-control/review-results/gate-03/BGATE03-0001-r1.md` 后，用户回到本窗口输入 `zs`。
+用户复制本窗口输出的 development 短启动块到 Antigravity 开发窗口，并手动确认模型为 Gemini 3.5 Flash (High)。开发窗口完成 `BDEV-0007-r1` 后，用户回到本窗口输入 `kf`。
 
 ## 不得执行
 
-- 5.5 不得自行写 GATE-03 结果。
-- 不得基于聊天结论推进 Stage；必须等待 5.6 的正式结果文件。
-- 不得再修改业务代码；若 GATE-03 要求改代码，必须生成新的 development 返工调度并重新冻结 BPACK。
+- 5.5 不得修改业务代码。
+- 不得基于已失败的 GATE-03 推进 Stage。
+- 不得复用 `BPACK-0002` 或既有 Gate 结果作为返工后的批准依据；返工修改后必须重新冻结 fresh BPACK，并从 GATE-01 重新开始。
+- 不得修改其他角色 HANDOFF，包括当前脏工作区中的 `.continuity/session-control/chatgpt/codex-5.6/HANDOFF.md`。
