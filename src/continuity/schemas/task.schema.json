@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:continuity:schema:task:1",
+  "title": "Continuity Task",
+  "description": "A complete user requirement. Stored in .continuity/tasks/TASK-NNNN/task.json.",
+  "type": "object",
+  "properties": {
+    "schema_version": { "$ref": "urn:continuity:schema:common:1#/$defs/schema_version" },
+    "id": { "$ref": "urn:continuity:schema:common:1#/$defs/stable_id" },
+    "title": { "type": "string", "minLength": 1 },
+    "goal": { "type": "string", "minLength": 1 },
+    "scope_in": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "scope_out": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "acceptance_criteria": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "ready", "active", "blocked", "ready_for_final_review", "approved_for_merge", "completed", "cancelled"]
+    },
+    "created_at": { "$ref": "urn:continuity:schema:common:1#/$defs/rfc3339_with_timezone" },
+    "updated_at": { "$ref": "urn:continuity:schema:common:1#/$defs/rfc3339_with_timezone" }
+  },
+  "required": ["schema_version", "id", "title", "goal", "scope_in", "scope_out", "acceptance_criteria", "status", "created_at", "updated_at"],
+  "additionalProperties": false
+}

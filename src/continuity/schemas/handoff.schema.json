@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:continuity:schema:handoff:1",
+  "title": "Continuity Handoff",
+  "description": "Formal handover record created when switching windows. Stored in .continuity/handoffs/HANDOFF-NNNN/handoff.json.",
+  "type": "object",
+  "properties": {
+    "schema_version": { "$ref": "urn:continuity:schema:common:1#/$defs/schema_version" },
+    "id": { "$ref": "urn:continuity:schema:common:1#/$defs/stable_id" },
+    "task_id": { "$ref": "urn:continuity:schema:common:1#/$defs/stable_id" },
+    "stage_id": { "$ref": "urn:continuity:schema:common:1#/$defs/stable_id" },
+    "work_order_id": { "$ref": "urn:continuity:schema:common:1#/$defs/stable_id" },
+    "kind": {
+      "type": "string",
+      "enum": ["working", "stage_complete"]
+    },
+    "based_on_checkpoint_id": { "$ref": "urn:continuity:schema:common:1#/$defs/nullable_stable_id" },
+    "completed": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "remaining": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "unverified": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "changed_files": {
+      "type": "array",
+      "items": { "$ref": "urn:continuity:schema:common:1#/$defs/path_string" }
+    },
+    "checks": {
+      "type": "array",
+      "items": { "$ref": "urn:continuity:schema:common:1#/$defs/check_summary" }
+    },
+    "risks": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "next_action": { "type": "string", "minLength": 1 },
+    "source_fingerprint": { "$ref": "urn:continuity:schema:common:1#/$defs/source_fingerprint" },
+    "created_at": { "$ref": "urn:continuity:schema:common:1#/$defs/rfc3339_with_timezone" }
+  },
+  "required": [
+    "schema_version", "id", "task_id", "stage_id", "work_order_id",
+    "kind", "based_on_checkpoint_id", "completed", "remaining", "unverified",
+    "changed_files", "checks", "risks", "next_action", "source_fingerprint", "created_at"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,1 @@
+{"schema_version": 1, "id": "TASK-0001", "title": 42, "goal": "Goal.", "scope_in": ["A"], "scope_out": [], "acceptance_criteria": ["Pass"], "status": "active", "created_at": "2026-07-17T10:00:00+08:00", "updated_at": "2026-07-17T10:00:00+08:00"}

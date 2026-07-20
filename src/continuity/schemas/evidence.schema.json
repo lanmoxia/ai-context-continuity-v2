@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:continuity:schema:evidence:1",
+  "title": "Continuity Evidence",
+  "description": "Single-check evidence record. Stored in .continuity/evidence/EVIDENCE-NNNN/evidence.json.",
+  "type": "object",
+  "properties": {
+    "schema_version": { "$ref": "urn:continuity:schema:common:1#/$defs/schema_version" },
+    "id": { "$ref": "urn:continuity:schema:common:1#/$defs/stable_id" },
+    "task_id": { "$ref": "urn:continuity:schema:common:1#/$defs/stable_id" },
+    "stage_id": { "$ref": "urn:continuity:schema:common:1#/$defs/stable_id" },
+    "check_id": { "type": "string", "minLength": 1 },
+    "capture_mode": {
+      "type": "string",
+      "enum": ["captured", "imported"]
+    },
+    "argv": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "env": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    },
+    "cwd": { "type": ["string", "null"] },
+    "timeout_seconds": { "type": ["integer", "null"], "minimum": 1 },
+    "started_at": { "$ref": "urn:continuity:schema:common:1#/$defs/rfc3339_with_timezone" },
+    "finished_at": { "$ref": "urn:continuity:schema:common:1#/$defs/rfc3339_with_timezone" },
+    "exit_code": { "type": "integer" },
+    "output_files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "path": { "$ref": "urn:continuity:schema:common:1#/$defs/path_string" },
+          "size_bytes": { "type": "integer", "minimum": 0 },
+          "sha256": { "$ref": "urn:continuity:schema:common:1#/$defs/file_sha256" }
+        },
+        "required": ["path", "size_bytes", "sha256"],
+        "additionalProperties": false
+      }
+    },
+    "source_fingerprint": { "$ref": "urn:continuity:schema:common:1#/$defs/source_fingerprint" },
+    "status": {
+      "type": "string",
+      "enum": ["fresh", "stale"]
+    }
+  },
+  "required": [
+    "schema_version", "id", "task_id", "stage_id", "check_id",
+    "capture_mode", "argv", "env", "cwd", "timeout_seconds",
+    "started_at", "finished_at", "exit_code",
+    "output_files", "source_fingerprint", "status"
+  ],
+  "additionalProperties": false
+}

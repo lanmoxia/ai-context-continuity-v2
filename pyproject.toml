@@ -7,10 +7,13 @@ name = "continuity"
 version = "0.1.0"
 description = "AI context continuity tool"
 requires-python = ">=3.11"
-dependencies = []
+dependencies = ["jsonschema>=4.26,<5"]
 
 [project.scripts]
 continuity = "continuity.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+"continuity.schemas" = ["*.schema.json"]

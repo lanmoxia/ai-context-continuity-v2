@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "id": "CTX-0001",
+  "purpose": "implementation",
+  "task_id": "TASK-0001",
+  "stage_id": "STAGE-0001",
+  "references": {"checkpoint_id": "CHECKPOINT-0001", "handoff_id": null, "review_pack_id": null},
+  "required_files": [
+    {
+      "path": "docs/work-orders/DEV-001/work-order.json",
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "content_role": "work_order"
+    }
+  ],
+  "optional_files": [],
+  "budget_chars": 12000,
+  "generator_version": "0.1.0",
+  "created_at": "2026-07-17T14:30:00+08:00"
+}

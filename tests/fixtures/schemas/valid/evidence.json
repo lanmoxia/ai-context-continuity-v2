@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "id": "EVIDENCE-0001",
+  "task_id": "TASK-0001",
+  "stage_id": "STAGE-0001",
+  "check_id": "PYTHON_VERSION",
+  "capture_mode": "captured",
+  "argv": ["python", "-c", "import sys; raise SystemExit(0)"],
+  "env": {},
+  "cwd": null,
+  "timeout_seconds": 30,
+  "started_at": "2026-07-17T14:00:00+08:00",
+  "finished_at": "2026-07-17T14:00:01+08:00",
+  "exit_code": 0,
+  "output_files": [],
+  "source_fingerprint": {
+    "git_head": "abc123",
+    "staged_diff_sha256": null,
+    "unstaged_diff_sha256": null,
+    "untracked_files": [],
+    "captured_at": "2026-07-17T14:00:00+08:00"
+  },
+  "status": "fresh"
+}

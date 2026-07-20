@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:continuity:schema:review-pack:1",
+  "title": "Continuity Review Pack",
+  "description": "Frozen review input manifest. Two scopes: stage and task. Stored in .continuity/reviews/PACK-NNNN/manifest.json.",
+  "type": "object",
+  "properties": {
+    "schema_version": { "$ref": "urn:continuity:schema:common:1#/$defs/schema_version" },
+    "pack_id": { "$ref": "urn:continuity:schema:common:1#/$defs/stable_id" },
+    "task_id": { "$ref": "urn:continuity:schema:common:1#/$defs/stable_id" },
+    "stage_id": { "$ref": "urn:continuity:schema:common:1#/$defs/nullable_stable_id" },
+    "scope": {
+      "type": "string",
+      "enum": ["stage", "task"]
+    },
+    "task_sha256": { "$ref": "urn:continuity:schema:common:1#/$defs/file_sha256" },
+    "stage_sha256": { "$ref": "urn:continuity:schema:common:1#/$defs/nullable_file_sha256" },
+    "git_baseline_commit": { "type": "string", "minLength": 1 },
+    "worktree_status": { "type": "string" },
+    "pack_files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "path": { "$ref": "urn:continuity:schema:common:1#/$defs/path_string" },
+          "size_bytes": { "type": "integer", "minimum": 0 },
+          "sha256": { "$ref": "urn:continuity:schema:common:1#/$defs/file_sha256" }
+        },
+        "required": ["path", "size_bytes", "sha256"],
+        "additionalProperties": false
+      }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "evidence_id": { "$ref": "urn:continuity:schema:common:1#/$defs/stable_id" },
+          "capture_mode": {
+            "type": "string",
+            "enum": ["captured", "imported"]
+          },
+          "source_fingerprint_sha256": { "$ref": "urn:continuity:schema:common:1#/$defs/nullable_file_sha256" }
+        },
+        "required": ["evidence_id", "capture_mode"],
+        "additionalProperties": false
+      }
+    },
+    "generator_version": { "type": "string", "minLength": 1 },
+    "status": {
+      "type": "string",
+      "enum": ["fresh", "stale"]
+    },
+    "created_at": { "$ref": "urn:continuity:schema:common:1#/$defs/rfc3339_with_timezone" }
+  },
+  "required": [
+    "schema_version", "pack_id", "task_id", "stage_id", "scope",
+    "task_sha256", "stage_sha256", "git_baseline_commit", "worktree_status",
+    "pack_files", "evidence_refs", "generator_version", "status", "created_at"
+  ],
+  "additionalProperties": false
+}

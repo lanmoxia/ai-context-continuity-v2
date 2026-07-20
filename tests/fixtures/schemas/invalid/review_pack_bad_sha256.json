@@ -1,0 +1,1 @@
+{"schema_version": 1, "pack_id": "PACK-0001", "task_id": "TASK-0001", "stage_id": "STAGE-0001", "scope": "stage", "task_sha256": "not-a-hex-hash", "stage_sha256": null, "git_baseline_commit": "abc", "worktree_status": "clean", "pack_files": [], "evidence_refs": [], "generator_version": "0.1.0", "status": "fresh", "created_at": "2026-07-17T16:00:00+08:00"}

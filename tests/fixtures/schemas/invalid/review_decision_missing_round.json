@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "review_id": "REV-0001",
+  "pack_id": "PACK-0001",
+  "manifest_sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+  "gate_id": "GATE-01",
+  "verdict": "approve",
+  "findings": [],
+  "created_at": "2026-07-17T15:00:00+08:00"
+}

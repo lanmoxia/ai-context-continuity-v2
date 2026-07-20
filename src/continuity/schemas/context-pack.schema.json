@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:continuity:schema:context-pack:1",
+  "title": "Continuity Context Pack",
+  "description": "Immutable file route manifest for a single work session. Stored in .continuity/contexts/CTX-NNNN/manifest.json.",
+  "type": "object",
+  "properties": {
+    "schema_version": { "$ref": "urn:continuity:schema:common:1#/$defs/schema_version" },
+    "id": { "$ref": "urn:continuity:schema:common:1#/$defs/stable_id" },
+    "purpose": {
+      "type": "string",
+      "enum": ["implementation", "review", "recovery", "handoff"]
+    },
+    "task_id": { "$ref": "urn:continuity:schema:common:1#/$defs/stable_id" },
+    "stage_id": { "type": ["string", "null"] },
+    "references": {
+      "type": "object",
+      "properties": {
+        "checkpoint_id": { "type": ["string", "null"] },
+        "handoff_id": { "type": ["string", "null"] },
+        "review_pack_id": { "type": ["string", "null"] }
+      },
+      "additionalProperties": false
+    },
+    "required_files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "path": { "$ref": "urn:continuity:schema:common:1#/$defs/path_string" },
+          "sha256": { "$ref": "urn:continuity:schema:common:1#/$defs/file_sha256" },
+          "content_role": {
+            "type": "string",
+            "enum": ["authoritative_spec", "work_order", "current_state", "evidence", "source_data"]
+          }
+        },
+        "required": ["path", "sha256", "content_role"],
+        "additionalProperties": false
+      }
+    },
+    "optional_files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "path": { "$ref": "urn:continuity:schema:common:1#/$defs/path_string" },
+          "sha256": { "$ref": "urn:continuity:schema:common:1#/$defs/file_sha256" },
+          "content_role": {
+            "type": "string",
+            "enum": ["authoritative_spec", "work_order", "current_state", "evidence", "source_data"]
+          },
+          "condition": { "type": "string" }
+        },
+        "required": ["path", "sha256", "content_role"],
+        "additionalProperties": false
+      }
+    },
+    "budget_chars": { "type": "integer", "minimum": 1 },
+    "generator_version": { "type": "string", "minLength": 1 },
+    "created_at": { "$ref": "urn:continuity:schema:common:1#/$defs/rfc3339_with_timezone" }
+  },
+  "required": [
+    "schema_version", "id", "purpose", "task_id", "stage_id",
+    "references", "required_files", "optional_files",
+    "budget_chars", "generator_version", "created_at"
+  ],
+  "additionalProperties": false
+}

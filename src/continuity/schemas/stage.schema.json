@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:continuity:schema:stage:1",
+  "title": "Continuity Stage",
+  "description": "An independently developable and reviewable segment of a Task. Stored in .continuity/tasks/TASK-NNNN/stages/STAGE-NN/stage.json.",
+  "type": "object",
+  "properties": {
+    "schema_version": { "$ref": "urn:continuity:schema:common:1#/$defs/schema_version" },
+    "id": { "$ref": "urn:continuity:schema:common:1#/$defs/stable_id" },
+    "task_id": { "$ref": "urn:continuity:schema:common:1#/$defs/stable_id" },
+    "title": { "type": "string", "minLength": 1 },
+    "goal": { "type": "string", "minLength": 1 },
+    "acceptance_criteria": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "dependencies": {
+      "type": "array",
+      "items": { "$ref": "urn:continuity:schema:common:1#/$defs/stable_id" }
+    },
+    "allowed_paths": {
+      "type": "array",
+      "items": { "$ref": "urn:continuity:schema:common:1#/$defs/path_string" },
+      "minItems": 1
+    },
+    "required_checks": {
+      "type": "array",
+      "items": { "$ref": "urn:continuity:schema:common:1#/$defs/check_argv_entry" }
+    },
+    "review_gates": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": ["low", "normal", "high", "critical"]
+    },
+    "risk_reasons": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["planned", "active", "blocked", "ready_for_review", "changes_requested", "approved", "completed"]
+    },
+    "created_at": { "$ref": "urn:continuity:schema:common:1#/$defs/rfc3339_with_timezone" },
+    "updated_at": { "$ref": "urn:continuity:schema:common:1#/$defs/rfc3339_with_timezone" }
+  },
+  "required": [
+    "schema_version", "id", "task_id", "title", "goal", "acceptance_criteria",
+    "dependencies", "allowed_paths", "required_checks", "review_gates",
+    "risk_level", "risk_reasons", "status", "created_at", "updated_at"
+  ],
+  "additionalProperties": false
+}

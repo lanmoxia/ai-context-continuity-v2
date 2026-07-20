@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:continuity:schema:work-order:1",
+  "title": "Continuity Work Order",
+  "description": "Versioned task instruction for a single development attempt. Stored in .continuity/work-orders/WORK-NNNN/work-order.json.",
+  "type": "object",
+  "properties": {
+    "schema_version": { "$ref": "urn:continuity:schema:common:1#/$defs/schema_version" },
+    "id": { "$ref": "urn:continuity:schema:common:1#/$defs/stable_id" },
+    "task_id": { "$ref": "urn:continuity:schema:common:1#/$defs/stable_id" },
+    "stage_id": { "$ref": "urn:continuity:schema:common:1#/$defs/stable_id" },
+    "revision": { "type": "integer", "minimum": 1 },
+    "title": { "type": "string", "minLength": 1 },
+    "goal": { "type": "string", "minLength": 1 },
+    "risk_level": {
+      "type": "string",
+      "enum": ["low", "normal", "high", "critical"]
+    },
+    "risk_reasons": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "required_review_gates": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "allowed_paths": {
+      "type": "array",
+      "items": { "$ref": "urn:continuity:schema:common:1#/$defs/path_string" },
+      "minItems": 1
+    },
+    "forbidden_paths": {
+      "type": "array",
+      "items": { "$ref": "urn:continuity:schema:common:1#/$defs/path_string" }
+    },
+    "required_inputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "path": { "$ref": "urn:continuity:schema:common:1#/$defs/path_string" },
+          "sections": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "purpose": { "type": "string" }
+        },
+        "required": ["path"],
+        "additionalProperties": false
+      }
+    },
+    "required_outputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "path": { "$ref": "urn:continuity:schema:common:1#/$defs/path_string" },
+          "purpose": { "type": "string" }
+        },
+        "required": ["path"],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "required_checks": {
+      "type": "array",
+      "items": { "$ref": "urn:continuity:schema:common:1#/$defs/check_argv_entry" },
+      "minItems": 1
+    },
+    "acceptance_criteria": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "known_constraints": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "approved", "active", "superseded", "completed"]
+    },
+    "approval": { "$ref": "urn:continuity:schema:common:1#/$defs/approval" },
+    "supersedes_work_order_id": { "$ref": "urn:continuity:schema:common:1#/$defs/nullable_stable_id" }
+  },
+  "required": [
+    "schema_version", "id", "task_id", "stage_id", "revision", "title", "goal",
+    "risk_level", "risk_reasons", "required_review_gates",
+    "allowed_paths", "forbidden_paths", "required_inputs", "required_outputs",
+    "required_checks", "acceptance_criteria", "known_constraints",
+    "status", "supersedes_work_order_id"
+  ],
+  "additionalProperties": false
+}

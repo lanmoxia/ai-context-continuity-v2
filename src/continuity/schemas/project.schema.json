@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:continuity:schema:project:1",
+  "title": "Continuity Project",
+  "description": "Immutable project identity record stored in .continuity/project.json.",
+  "type": "object",
+  "properties": {
+    "schema_version": { "$ref": "urn:continuity:schema:common:1#/$defs/schema_version" },
+    "id": { "$ref": "urn:continuity:schema:common:1#/$defs/stable_id" },
+    "name": { "type": "string", "minLength": 1 },
+    "root_path": { "type": "string", "minLength": 1, "description": "Normalised absolute root path of the business project." },
+    "created_at": { "$ref": "urn:continuity:schema:common:1#/$defs/rfc3339_with_timezone" },
+    "data_format_version": { "type": "integer", "minimum": 1 }
+  },
+  "required": ["schema_version", "id", "name", "root_path", "created_at", "data_format_version"],
+  "additionalProperties": false
+}

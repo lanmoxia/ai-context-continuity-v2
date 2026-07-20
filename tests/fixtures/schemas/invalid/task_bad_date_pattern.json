@@ -1,0 +1,1 @@
+{"schema_version": 1, "id": "TASK-0001", "title": "Build project foundation", "goal": "Establish Python skeleton.", "scope_in": ["Create pyproject.toml and package layout"], "scope_out": ["Business logic"], "acceptance_criteria": ["All checks pass"], "status": "active", "created_at": "2026-99-99T99:99:99+99:99", "updated_at": "2026-07-17T10:00:00+08:00"}

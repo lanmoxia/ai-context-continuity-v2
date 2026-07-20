@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:continuity:schema:config:1",
+  "title": "Continuity Config",
+  "description": "Adjustable policy configuration stored in .continuity/config.json.",
+  "type": "object",
+  "properties": {
+    "schema_version": { "$ref": "urn:continuity:schema:common:1#/$defs/schema_version" },
+    "git": {
+      "type": "object",
+      "properties": {
+        "formal_review_required": { "type": "boolean" },
+        "dirty_worktree_policy": {
+          "type": "string",
+          "enum": ["reject_unrelated_changes", "allow_all", "reject_all"]
+        },
+        "task_branch_prefix": { "type": "string", "minLength": 1 },
+        "portable_state": { "type": "string", "enum": ["all_recoverable", "minimal"] },
+        "transfer_auto_commit": { "type": "boolean" },
+        "transfer_auto_push": { "type": "boolean" },
+        "resume_strategy": { "type": "string", "enum": ["fast_forward_only"] },
+        "merge_strategy": { "type": "string", "enum": ["squash"] },
+        "merge_requires_confirmation": { "type": "boolean" },
+        "archive_tag_prefix": { "type": "string", "minLength": 1 }
+      },
+      "required": [
+        "formal_review_required", "dirty_worktree_policy", "task_branch_prefix",
+        "portable_state", "transfer_auto_commit", "transfer_auto_push",
+        "resume_strategy", "merge_strategy", "merge_requires_confirmation", "archive_tag_prefix"
+      ],
+      "additionalProperties": false
+    },
+    "context": {
+      "type": "object",
+      "properties": {
+        "start_max_chars": { "type": "integer", "minimum": 1 },
+        "handoff_max_chars": { "type": "integer", "minimum": 1 },
+        "bundle_max_chars": { "type": "integer", "minimum": 1 }
+      },
+      "required": ["start_max_chars", "handoff_max_chars", "bundle_max_chars"],
+      "additionalProperties": false
+    },
+    "writer_lease": {
+      "type": "object",
+      "properties": {
+        "timeout_minutes": { "type": "integer", "minimum": 1 },
+        "renew_on_checkpoint": { "type": "boolean" }
+      },
+      "required": ["timeout_minutes", "renew_on_checkpoint"],
+      "additionalProperties": false
+    },
+    "checkpoint": {
+      "type": "object",
+      "properties": {
+        "after_completed_step": { "type": "boolean" },
+        "before_risky_change": { "type": "boolean" },
+        "before_handoff": { "type": "boolean" }
+      },
+      "required": ["after_completed_step", "before_risky_change", "before_handoff"],
+      "additionalProperties": false
+    },
+    "retention": {
+      "type": "object",
+      "properties": {
+        "archive_completed_tasks": { "type": "boolean" },
+        "delete_automatically": { "type": "boolean" }
+      },
+      "required": ["archive_completed_tasks", "delete_automatically"],
+      "additionalProperties": false
+    },
+    "review": {
+      "type": "object",
+      "properties": {
+        "normal_stage_gates": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1
+        },
+        "high_risk_extra_gate": { "type": "string", "minLength": 1 },
+        "task_final_gate": { "type": "string", "minLength": 1 }
+      },
+      "required": ["normal_stage_gates", "high_risk_extra_gate", "task_final_gate"],
+      "additionalProperties": false
+    },
+    "safety": {
+      "type": "object",
+      "properties": {
+        "max_evidence_file_bytes": { "type": "integer", "minimum": 1 },
+        "exclude_globs": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "required": ["max_evidence_file_bytes", "exclude_globs"],
+      "additionalProperties": false
+    },
+    "checks": {
+      "type": "array",
+      "items": { "$ref": "urn:continuity:schema:common:1#/$defs/check_argv_entry" }
+    }
+  },
+  "required": ["schema_version", "git", "context", "writer_lease", "checkpoint", "retention", "review", "safety", "checks"],
+  "additionalProperties": false
+}

@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "id": "WORK-0001",
+  "task_id": "TASK-0001",
+  "stage_id": "STAGE-0001",
+  "revision": 1,
+  "title": "Create skeleton",
+  "goal": "Establish Python package skeleton.",
+  "risk_level": "normal",
+  "risk_reasons": ["First implementation"],
+  "required_review_gates": ["GATE-01", "GATE-02"],
+  "allowed_paths": ["pyproject.toml", "src/continuity/**"],
+  "forbidden_paths": ["docs/**"],
+  "required_inputs": [{"path": "docs/spec/ARCHITECTURE.md", "sections": ["3. Repo structure"], "purpose": "Understand layout"}],
+  "required_outputs": [{"path": "pyproject.toml", "purpose": "Package definition"}],
+  "required_checks": [{"id": "PYTHON_VERSION", "argv": ["python", "-c", "import sys; raise SystemExit(0)"]}],
+  "acceptance_criteria": ["Package installs"],
+  "known_constraints": ["Use Python 3.11+"],
+  "status": "approved",
+  "approval": {
+    "approved_at": "2026-07-17T16:00:00+08:00",
+    "approved_by": "architecture_owner",
+    "draft_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "supersedes_work_order_id": null
+}
