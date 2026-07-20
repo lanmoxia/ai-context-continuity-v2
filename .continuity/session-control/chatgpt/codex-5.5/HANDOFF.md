@@ -1,14 +1,14 @@
 # Codex 5.5 接力摘要
 
-- 更新时间：2026-07-20T12:55:00+08:00
-- 会话状态：WORK-0002 返工后 GATE-01 与 GATE-02 已通过；已生成 Codex 5.6 的 GATE-03 final-review 调度
+- 更新时间：2026-07-20T13:10:00+08:00
+- 会话状态：WORK-0002 的 BPACK-0003 终审因检查环境证据被退回；5.5 已在项目 `.venv` 中重跑检查、冻结 BPACK-0004，并重新通过 GATE-01/GATE-02
 - 当前角色：codex-5.5，协调、指令分发和中审窗口
 - 当前自托管等级：BOOTSTRAP-L0
 - Task：TASK-0001
 - 当前 Stage：STAGE-02
 - 当前计划项：DEV-002
 - 当前 Work Order：WORK-0002，状态 approved
-- 当前等待事件：等待 Codex 5.6 执行 `BFINAL-0002-r1` / GATE-03 后，用户回到本窗口输入 `zs`
+- 当前等待事件：等待 Codex 5.6 执行 `BFINAL-0003-r1` / GATE-03 后，用户回到本窗口输入 `zs`
 - 当前 Task 分支：`continuity/TASK-0001-project-foundation`
 - 当前业务执行基线：`750d3ec7a144e958c62f6f45fa8a99cbf1232a5b`
 - 实现 diff base / 调度交付提交：`83f3c21dcf2f58d99c9c898e5cd85c07f4e4625c`
@@ -17,38 +17,41 @@
 - 当前 Work Order JSON：`docs/work-orders/DEV-002/work-order.json`
 - 当前 Work Order SHA-256：`9249ab044d29f761060c0aa1224630018a3b9aec143ab333aae0fced53c14714`
 - Required review gates：GATE-01、GATE-02、GATE-03
-- 当前 Review Pack / BPACK：`BPACK-0003`
-- 当前 BPACK 文件：`.continuity/session-control/bootstrap-packs/BPACK-0003.json`
-- 当前 BPACK SHA-256：`5519cef0f0e822e7d9dc6eb0ecdb7aca98702a42e4476a7025b012056c0128f8`
-- 当前 Source Fingerprint：BSF-0003 `b75b347b6439ce6fa0b3dc10ba2e4807afc025ec5a24d61ff8477fcabb41ddae`
+- 当前 Review Pack / BPACK：`BPACK-0004`
+- 当前 BPACK 文件：`.continuity/session-control/bootstrap-packs/BPACK-0004.json`
+- 当前 BPACK SHA-256：`7e3afad35e3aa6cbcb41f31893e628d1e04db78c98131b78ca5f8e2e9f090a98`
+- 当前 Source Fingerprint：BSF-0004 `b75b347b6439ce6fa0b3dc10ba2e4807afc025ec5a24d61ff8477fcabb41ddae`
 - 当前 implementation diff SHA-256：`2f09914a1bc2f6eeca5ad649392e1005ffa46be5666584e8bbdd49bf1d9ab7b5`
-- pre-final-review 调度：`.continuity/session-control/dispatches/pre-final-review/BPRE-0002-r1.md`
-- pre-final-review 调度 SHA-256：`1427b60f4d95209feb110b6e1d8a4f591ae7ef1874174e60cc68dca385b4295a`
-- GATE-01 结果文件：`.continuity/session-control/review-results/gate-01/BGATE01-0003-r1.md`
-- GATE-01 结果文件 SHA-256：`9a00c573ae40ea148940459fc4d9f6a78ad9f62c7f9de3566c3c653007787891`
-- GATE-02 结果文件：`.continuity/session-control/review-results/gate-02/BGATE02-0003-r1.md`
-- GATE-02 结果文件 SHA-256：`5167264217e783e21f2db48f008f10f2b9303e49364f77ba5bb23590d37cc780`
-- 当前 final-review 调度：`.continuity/session-control/dispatches/final-review/BFINAL-0002-r1.md`
-- 当前 final-review 调度 SHA-256：`1bd896a890a7780b1f5ec85dcb3ebe3cd73425761eed6106460aa416ebcb9faa`
-- 5.6 结果目标：`.continuity/session-control/review-results/gate-03/BGATE03-0002-r1.md`
+- pre-final-review 调度：`.continuity/session-control/dispatches/pre-final-review/BPRE-0003-r1.md`
+- pre-final-review 调度 SHA-256：`ccd8c5fe58ecfbfba9b76f7bc24c6a1631aaa6d6fcd6b1e50fe88333ba5cd1bf`
+- GATE-01 结果文件：`.continuity/session-control/review-results/gate-01/BGATE01-0004-r1.md`
+- GATE-01 结果文件 SHA-256：`c2bff4ca64690acd563474283ba15506bee365408eb10eebf48bce96e5a70c1b`
+- GATE-02 结果文件：`.continuity/session-control/review-results/gate-02/BGATE02-0004-r1.md`
+- GATE-02 结果文件 SHA-256：`5e26aee7310e6466ab0badba185f8ebcfe3e429cf8f799cfe903080cf12e2eca`
+- 前一 GATE-03 结果文件：`.continuity/session-control/review-results/gate-03/BGATE03-0002-r1.md`
+- 前一 GATE-03 结果文件 SHA-256：`6a78c104c093f7f7831190223bf1a989b98763d9ffddb144a6118e65fecece0b`
+- 当前 final-review 调度：`.continuity/session-control/dispatches/final-review/BFINAL-0003-r1.md`
+- 当前 final-review 调度 SHA-256：`4e0458441bd623b3e774ad0f9180bf34c49171780daa1b69630118bac0841b55`
+- 5.6 结果目标：`.continuity/session-control/review-results/gate-03/BGATE03-0003-r1.md`
 
 ## 当前事实
 
-- 5.5 收到 `BDEV-0008-r1` 后的 `kf`，核对开发窗口 HANDOFF，确认开发完成记录匹配 Gemini 3.5 Flash (High) 与调度 SHA-256。
-- 5.5 在实现检查点前运行 WORK-0002 全部 14 项 required checks，全部退出码 0；UNIT 为 44 tests，0 failures，0 skipped；额外 `git diff --check` 退出码 0。
-- 5.5 直接探针确认 GATE-03 已退回的实体 ID、Review Pack source fingerprint/scope、项目相对路径、检查项边界和尾随空白问题均已关闭。
-- 5.5 将返工实现固化为实现检查点 `00bf24e06f1e85cb6f1ba077b5bfb9d806203143`，并已推送到 origin 当前 Task 分支。
-- 5.5 在实现检查点后再次运行 WORK-0002 全部 14 项 required checks，全部退出码 0；UNIT 为 44 tests，0 failures，0 skipped。
-- `BPACK-0003` 已冻结，绑定实现检查点、完整 implementation diff hash、Source Fingerprint、required inputs 和 fresh checks；它 supersedes `BPACK-0002`。
+- 5.6 对 `BPACK-0003` 的 GATE-03 结果为 `CHANGES_REQUESTED`，审核状态 `PACK_INVALID`。
+- 5.6 finding：`BG03-0002-F01` high，BPACK-0003 记录 required checks 环境为系统 Python、`venv = null`、`venv_scripts_on_path = false`，不满足 WORK-0002 必须在项目专用且已激活虚拟环境中执行检查的要求。
+- 5.6 明确本轮没有评价业务源码，也没有要求新的业务代码修改；问题位于冻结审核证据。
+- 5.5 已设置 `VIRTUAL_ENV=E:/chatGPT/ai-context-continuity-v2/.venv`，将 `.venv/Scripts` 放到 PATH 首项，并用 Work Order 原始 argv/env 重新运行全部 14 项 required checks。
+- `.venv/pyvenv.cfg` 显示 `include-system-site-packages = false`；`sys.prefix` 为项目 `.venv`；`jsonschema` 从 `.venv/Lib/site-packages` 导入。
+- `.venv` 环境下 required checks 全部 exit code 0；UNIT 为 44 tests，0 failures，0 skipped。
+- 5.5 冻结 `BPACK-0004`，它 supersedes `BPACK-0003`，只更新检查证据环境；implementation checkpoint、implementation diff 和 Source Fingerprint 均与 BPACK-0003 绑定的业务实现一致。
 - GATE-01 独立审核结果：APPROVED，无 critical/high/medium Finding。
 - GATE-02 独立审核结果：APPROVED，无 critical/high/medium Finding。
-- 5.5 已创建 `BFINAL-0002-r1`，交给 Codex 5.6 独立执行 WORK-0002 的 Stage 最终 GATE-03。
+- 5.5 已创建 `BFINAL-0003-r1`，交给 Codex 5.6 独立执行 WORK-0002 的 Stage 最终 GATE-03。
 - 当前工作区只剩 `.continuity/session-control/chatgpt/codex-5.6/HANDOFF.md` 的既有会话控制修改；5.5 不修改、不暂存该文件。
 
 ## 检查结果摘要
 
 - PYTHON_VERSION：0
-- EDITABLE_INSTALL：0
+- EDITABLE_INSTALL：0，项目 `.venv` Python
 - DEPENDENCY_CHECK：0
 - COMPILE：0
 - UNIT：0，44 tests，0 skipped
@@ -65,7 +68,7 @@
 
 ## 下一步
 
-用户复制本窗口输出的 final-review 短启动块到 Codex 5.6 终审窗口。5.6 写入 `.continuity/session-control/review-results/gate-03/BGATE03-0002-r1.md` 后，用户回到本窗口输入 `zs`。
+用户复制本窗口输出的 final-review 短启动块到 Codex 5.6 终审窗口。5.6 写入 `.continuity/session-control/review-results/gate-03/BGATE03-0003-r1.md` 后，用户回到本窗口输入 `zs`。
 
 ## 不得执行
 
