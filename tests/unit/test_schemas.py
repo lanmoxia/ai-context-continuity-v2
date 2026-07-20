@@ -604,6 +604,45 @@ class TestOfflineAndSecurityGuards(unittest.TestCase):
         })
         self.assertTrue(any(e["code"] == "allOf" or "stage_id" in e["path"] for e in errs_task_scope))
 
+    def test_structured_error_sorting_stability(self) -> None:
+        """Verify that structured errors are sorted stably and independently of dict insertion order."""
+        # inst1 has created_at inserted before updated_at
+        inst1 = {}
+        inst1["schema_version"] = 1
+        inst1["id"] = "TASK-0001"
+        inst1["title"] = "T"
+        inst1["goal"] = "G"
+        inst1["scope_in"] = ["a"]
+        inst1["scope_out"] = []
+        inst1["acceptance_criteria"] = ["a"]
+        inst1["status"] = "invalid_enum_val"  # schema validation error
+        inst1["created_at"] = "2026-02-29T10:00:00+08:00"  # strict calendar error
+        inst1["updated_at"] = "2026-07-32T10:00:00+08:00"  # strict calendar error
+
+        # inst2 has updated_at inserted before created_at, and status in different position
+        inst2 = {}
+        inst2["updated_at"] = "2026-07-32T10:00:00+08:00"
+        inst2["created_at"] = "2026-02-29T10:00:00+08:00"
+        inst2["status"] = "invalid_enum_val"
+        inst2["schema_version"] = 1
+        inst2["id"] = "TASK-0001"
+        inst2["title"] = "T"
+        inst2["goal"] = "G"
+        inst2["scope_in"] = ["a"]
+        inst2["scope_out"] = []
+        inst2["acceptance_criteria"] = ["a"]
+
+        errors1 = validate("task", inst1)
+        errors2 = validate("task", inst2)
+
+        # Both validation runs must produce the exact same sorted list of errors
+        self.assertEqual(errors1, errors2)
+
+        # The error list must be sorted by path: created_at, status, updated_at
+        # Lexicographically: "created_at" < "status" < "updated_at"
+        paths = [e["path"] for e in errors1]
+        self.assertEqual(paths, ["created_at", "status", "updated_at", "updated_at"])
+
 
 if __name__ == "__main__":
     unittest.main()

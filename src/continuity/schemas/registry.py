@@ -286,6 +286,9 @@ def _collect_errors(
         # F02: strict RFC 3339 post-validation for timestamp fields.
         _check_rfc3339_strict(instance, errors)
 
+        # Sort the final merged list of structured errors stably by path and code.
+        errors.sort(key=lambda x: (x["path"], x["code"]))
+
         return errors
     except Exception as exc:
         return [{
