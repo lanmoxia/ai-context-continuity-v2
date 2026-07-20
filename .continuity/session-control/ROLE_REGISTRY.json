@@ -1,5 +1,5 @@
 {
-  "schema_version": 4,
+  "schema_version": 5,
   "default_policy": "deny",
   "context_pack_policy": "deny_all",
   "root_router": {
@@ -8,9 +8,11 @@
       "启动55",
       "启动56",
       "启动开发",
-      "启动审核",
       "【角色绑定】CODEX_56_FINAL_REVIEW",
-      "【角色启动】启动开发",
+      "【角色启动】启动开发"
+    ],
+    "retired_phrases": [
+      "启动审核",
       "【角色启动】启动审核"
     ]
   },
@@ -26,8 +28,10 @@
     "path": ".agents/rules/session-router.md",
     "activation_phrases": [
       "启动开发",
+      "【角色启动】启动开发"
+    ],
+    "retired_phrases": [
       "启动审核",
-      "【角色启动】启动开发",
       "【角色启动】启动审核"
     ]
   },
@@ -39,8 +43,9 @@
       "read_policy": "exact_path_and_sha256_only",
       "directories": {
         "development": "development/**",
-        "initial_review": "initial-review/**",
-        "final_review": "final-review/**"
+        "pre_final_review": "pre-final-review/**",
+        "final_review": "final-review/**",
+        "historical_initial_review": "initial-review/**"
       }
     },
     "bootstrap_review_packs": {
@@ -93,9 +98,11 @@
           ".continuity/session-control/dispatches/final-review/**"
         ],
         "final_review_write_exact": [
+          ".continuity/session-control/review-results/gate-02/**",
           ".continuity/session-control/review-results/gate-03/**",
           ".continuity/session-control/review-results/task-final/**"
-        ]
+        ],
+        "final_review_write_condition": "stage_gate_must_be_last_required_gate"
       }
     },
     "codex-5.5": {
@@ -113,14 +120,19 @@
           ".continuity/session-control/bootstrap-packs/**",
           ".continuity/session-control/dispatches/**",
           ".continuity/session-control/review-results/gate-01/**",
+          ".continuity/session-control/review-results/gate-02/**",
           ".continuity/session-control/review-results/gate-03/**",
           ".continuity/session-control/review-results/task-final/**"
         ],
         "write_new": [
           ".continuity/session-control/bootstrap-packs/**",
-          ".continuity/session-control/dispatches/**",
+          ".continuity/session-control/dispatches/development/**",
+          ".continuity/session-control/dispatches/pre-final-review/**",
+          ".continuity/session-control/dispatches/final-review/**",
+          ".continuity/session-control/review-results/gate-01/**",
           ".continuity/session-control/review-results/gate-02/**"
-        ]
+        ],
+        "review_write_condition": "gate_must_precede_last_required_gate"
       }
     },
     "antigravity-development": {
@@ -132,6 +144,10 @@
         ".continuity/session-control/antigravity/development/RULES.md",
         ".continuity/session-control/antigravity/development/HANDOFF.md"
       ],
+      "allowed_models": [
+        "Gemini 3.5 Flash (Medium)",
+        "Gemini 3.5 Flash (High)"
+      ],
       "conditional_paths": {
         "read_exact": [
           ".continuity/session-control/dispatches/development/**"
@@ -140,26 +156,15 @@
           ".continuity/session-control/antigravity/development/HANDOFF.md"
         ]
       }
-    },
+    }
+  },
+  "retired_roles": {
     "antigravity-initial-review": {
-      "startup": ".continuity/session-control/antigravity/initial-review/START.md",
-      "allowed_role_files": [
-        ".continuity/session-control/shared/COMMON_RULES.md",
-        ".continuity/session-control/shared/WORKFLOW.md",
-        ".continuity/session-control/shared/BOOTSTRAP_AND_SELF_HOSTING.md",
-        ".continuity/session-control/antigravity/initial-review/RULES.md",
-        ".continuity/session-control/antigravity/initial-review/HANDOFF.md"
-      ],
-      "conditional_paths": {
-        "read_exact": [
-          ".continuity/session-control/bootstrap-packs/**",
-          ".continuity/session-control/dispatches/initial-review/**"
-        ],
-        "write_exact": [
-          ".continuity/session-control/review-results/gate-01/**",
-          ".continuity/session-control/antigravity/initial-review/HANDOFF.md"
-        ]
-      }
+      "status": "retired",
+      "historical_root": ".continuity/session-control/antigravity/initial-review",
+      "dispatch_history": ".continuity/session-control/dispatches/initial-review/**",
+      "read_policy_for_new_sessions": "deny",
+      "write_policy": "deny"
     }
   },
   "never_context_pack": [

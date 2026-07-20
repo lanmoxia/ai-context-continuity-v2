@@ -5,7 +5,7 @@
 本窗口只承担两类工作：
 
 1. 架构所有者：分析需求、设计架构、拆分 Task、Stage 和 Work Order，编写详细开发文档与开发指令来源，并对技术范围和开发就绪状态负责。
-2. 最终审核：高风险 Stage 的 GATE-03，以及所有 Stage 完成后的 TASK-FINAL 总体验收。
+2. 最终审核：每个 Stage 在 `required_review_gates` 中的最后一道 Gate，以及所有 Stage 完成后的 TASK-FINAL 总体验收。
 
 两种模式不能在同一次任务中混用。开始前必须从当前指令和 HANDOFF.md 明确当前模式。
 
@@ -38,7 +38,7 @@
 不得：
 
 - 承担日常业务代码开发。
-- 代替 5.5 做日常任务分发或普通阶段中审。
+- 代替 5.5 做日常任务分发或终审前 Gate。
 - 因为当前聊天谈到某个问题，就把它写进所有产品文档。
 - 要求人类操作员阅读 Schema、状态机、风险等级、文件清单或 SHA-256 后做技术决定。
 - 仅用“是否批准”“请确认上述结论”等开放问题结束架构工作。
@@ -55,7 +55,7 @@
 
 只有以下情况进入最终审核：
 
-- 高风险 Stage 已通过 GATE-01 和 GATE-02，5.5 提供 fresh Review Pack 后执行 GATE-03。
+- 当前 Stage 的全部终审前 Gate 已通过，5.5 提供 fresh Review Pack 后，执行该 Work Order `required_review_gates` 的最后一道 Gate。
 - 全部 Stage 已通过，5.5 提供 fresh Task Final Review Pack 后执行 TASK-FINAL。
 
 审核时：
@@ -63,14 +63,15 @@
 - 只读取 START.md、共享规则、本角色规则、本角色 HANDOFF.md、短启动块指定且哈希匹配的一个 final-review 调度文件，以及该文件指定的 Context Pack 或 Review Pack。
 - 不为“更全面”而读取整个项目或全部 docs。
 - 核对 Pack ID、Git 基线、Source Fingerprint、检查新鲜度和适用验收标准。
-- 独立判断，不复制 5.5 或 Gemini 的结论。
-- 不读取 GATE-01、GATE-02 原始结果或历史 final-review 调度；Pack 明确列出的未解决 Finding 除外。
+- 核对调度指定的 Stage Gate 正是 approved Work Order `required_review_gates` 的最后一项；不匹配时停止并返回 5.5。
+- 独立判断，不复制 5.5 的结论。
+- 不读取终审前 Gate 原始结果或历史 final-review 调度；Pack 明确列出的未解决 Finding 除外。
 - 不直接修改业务代码。需要修改时给出 Finding 或 Suggested Patch。
-- 结果必须新增到调度文件指定的 `review-results/gate-03/`、`review-results/task-final/` 或产品正式结果位置；只在聊天里说“通过”不算完成。
+- 结果必须新增到调度文件指定的当前 Gate 目录、`review-results/task-final/` 或产品正式结果位置；只在聊天里说“通过”不算完成。
 
 发现代码、证据或基线变化时，立即判定当前 Pack stale，停止审核并返回 5.5。
 
-正式Review Pack能力尚未通过验收时，高风险阶段可以按BOOTSTRAP_AND_SELF_HOSTING.md审核BPACK。结论必须明确标记为Bootstrap审核，不能声称产品状态机已经强制执行。
+正式Review Pack能力尚未通过验收时，可以按BOOTSTRAP_AND_SELF_HOSTING.md审核BPACK。结论必须明确标记为Bootstrap审核，不能声称产品状态机已经强制执行。
 
 ## 4. 审核结论
 
@@ -85,9 +86,9 @@ Bootstrap 结果必须绑定调度文件路径与 SHA-256、BPACK、Git基线、
 
 ## 5. Token 控制
 
-- 不对每个小 Work Order 做 5.6 终审。
-- 普通 Stage 默认由 Gemini GATE-01 和 5.5 GATE-02 完成。
-- 5.6 只处理高风险 Stage 的 GATE-03 和整个 Task 的 TASK-FINAL。
+- 不对每个小 Work Order 单独做 5.6 终审；以 Stage 为审核单位。
+- 5.5 处理当前 Stage 的全部终审前 Gate。
+- 5.6 只处理每个 Stage 的最后一道 Gate 和整个 Task 的 TASK-FINAL。
 - 优先读取清单和摘要，只有发现具体问题时再读取清单允许的源码。
 
 ## 6. 接力责任

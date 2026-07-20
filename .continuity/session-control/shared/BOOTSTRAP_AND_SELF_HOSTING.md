@@ -66,7 +66,7 @@ Work Order 中的 allowed_paths 和 forbidden_paths约束业务实现与产品�
 
 因此，“禁止修改 .continuity”与“更新自己的角色 HANDOFF”不冲突：前者保护产品核心状态，后者是一个精确授权的外部角色状态例外。
 
-同理，5.5 新增调度文件、审核角色新增短启动块指定的结果文件，都是会话控制层的精确授权例外，不属于 Work Order 业务交付。任何角色都不能借此修改其他会话控制文件。
+同理，5.5 新增调度、BPACK 和终审前 Gate 结果，5.6 新增短启动块指定的最后一道 Stage Gate 或 TASK-FINAL 结果，都是会话控制层的精确授权例外，不属于 Work Order 业务交付。任何角色都不能借此修改其他会话控制文件。
 
 ## 6. Bootstrap 跨电脑接力
 
@@ -98,17 +98,18 @@ Work Order 中的 allowed_paths 和 forbidden_paths约束业务实现与产品�
 - 每份 BPACK 必须作为 `.continuity/session-control/bootstrap-packs/` 中的独立不可覆盖 JSON 文件，绑定精确 Git 提交、变更文件清单、可复算 diff 哈希和检查结果。
 - diff 哈希必须保存生成原始字节的完整 `argv`；Source Fingerprint 必须保存排序后的逐文件 SHA-256 前像规则和条目。无法独立复算的裸哈希无效。
 - required check 有失败、未运行或未经 Work Order 明确允许的 skipped 时，不得冻结 BPACK；如果安装顺序使测试稍后才完整运行，必须在正确环境中重跑并记录无跳过证据。
-- 5.5只给 Gemini 一条当前 GATE-01 指令。
-- 每道 Gate 必须把结果写入 `.continuity/session-control/review-results/` 对应目录的新文件；没有结果文件不得处理 sh 或 zs。
+- 5.5 按 approved Work Order 的 `required_review_gates` 顺序执行除最后一道外的全部 Gate；5.6 执行最后一道 Stage Gate。
+- 每道 Gate 必须把结果写入 `.continuity/session-control/review-results/` 对应目录的新文件；最后一道 Stage Gate 或 TASK-FINAL 没有结果文件时不得处理 `zs`。
 - 结果文件必须引用调度文件路径与 SHA-256，并绑定 BPACK、Git提交、Source Fingerprint、diff哈希和检查结果。
-- GATE-01 结果由 Gemini 写、5.5 读；GATE-02 由 5.5 独立写；GATE-03 和 TASK-FINAL 由 5.6 写、5.5 读。
+- 5.5 为自己负责的每道终审前 Gate 分别新增独立结果；5.6 写最后一道 Stage Gate 和 TASK-FINAL，5.5 只读取当前 final-review 调度指定的 5.6 结果。
 - 审核调度只引用 BPACK 路径、SHA-256 和结果目标，不复制 BPACK 内容；审核者不得读取开发窗口 HANDOFF。
 - 开发窗口默认不读取原始审核结果；返工调度只传递 5.5 已确认的 Finding 和来源哈希。
-- 5.5的 GATE-02 和高风险时5.6的 GATE-03必须审核同一份 BPACK。
+- 当前 Stage 的全部 Gate 必须审核同一份 BPACK；同一角色执行多道终审前 Gate 时，每道都要重新核对并单独记录，不能合并为一次审核。
 - 代码变化后旧 BPACK 立即失效，并从 GATE-01重新开始。
 - Bootstrap审核结果只证明开发过程受控，不冒充产品自身已经实现并强制了审核状态机。
-- 审核文件保证版本绑定和可追溯，不承诺某个固定准确率；可靠性来自 fresh checks 和独立多 Gate 复查。
-- 5.5 在处理 `sh` 或 `zs` 时核对对应结果和角色 HANDOFF，并把它们纳入安全检查点提交；中途跨电脑前必须先走 Bootstrap 跨电脑接力。
+- 审核文件保证版本绑定和可追溯，不承诺某个固定准确率；可靠性来自 fresh checks、逐 Gate 复查和独立的 5.6 最终审核。
+- 5.5 在完成自己的 Gate 或处理 `zs` 时核对对应结果，并把它们纳入安全检查点提交；中途跨电脑前必须先走 Bootstrap 跨电脑接力。
+- `initial-review/` 角色文件、BREV 调度和既有结果只作不可变历史保留；本迁移生效后不得创建新 BREV 或用 `sh` 推进流程。
 
 产品 Review Pack 和 Gate能力完成后，必须使用产品重新演练相应流程。
 

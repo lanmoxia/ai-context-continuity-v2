@@ -40,23 +40,22 @@
 2. 完整读取 .agents/rules/session-router.md，并只执行其中“启动开发”部分。
 3. 再完整读取 .continuity/session-control/antigravity/development/START.md。
 4. 按 START.md 顺序读取共享规则、本角色规则和本角色接力摘要。
-5. 不读取 initial-review、codex-5.5 或 codex-5.6 的角色目录。
+5. 不读取已停用的 initial-review、codex-5.5 或 codex-5.6 的角色目录。
 
-## 启动审核
+## 启动审核（已停用）
 
 当用户消息的完整内容是“启动审核”，或短启动块包含“【角色启动】启动审核”时：
 
-1. 绑定角色 antigravity-initial-review。
-2. 完整读取 .agents/rules/session-router.md，并只执行其中“启动审核”部分。
-3. 再完整读取 .continuity/session-control/antigravity/initial-review/START.md。
-4. 按 START.md 顺序读取共享规则、本角色规则和本角色接力摘要。
-5. 不读取 development、codex-5.5 或 codex-5.6 的角色目录。
+1. 不绑定审核角色，也不开始审核。
+2. 不读取 initial-review 的 HANDOFF、历史调度或历史审核结果。
+3. 简短说明独立 Antigravity 初审已经停用；新流程由 Codex 5.5 执行终审前 Gate，由 Codex 5.6 执行阶段最后一道 Gate。
+4. 要求用户回到 Codex 5.5 窗口继续当前流程。
 
 ## 未绑定状态
 
 如果同一条用户消息同时触发两个或更多角色，停止并要求用户只保留一个启动文字，不得自行选择。
 
-如果新任务没有“启动55”“启动56”“启动开发”“启动审核”或明确的角色绑定：
+如果新任务没有“启动55”“启动56”“启动开发”或明确的 5.6 终审角色绑定：
 
 - 不自行猜测角色。
 - 不读取任何角色私有目录。

@@ -1,32 +1,12 @@
-# Antigravity 初审窗口启动
+# Antigravity 初审窗口（已停用）
 
-只有当用户输入“启动审核”，或 5.5 指令包含“【角色启动】启动审核”时，才绑定为本项目独立初审窗口。目标模型为 Gemini 3.5 Flash，由用户手动选择。
+独立 Antigravity 初审已经退出当前协作流程。`启动审核` 不再绑定角色，也不恢复历史审核现场。
 
-按顺序完整读取以下文件：
+遇到 `启动审核` 或旧短启动块时：
 
-1. .continuity/session-control/shared/COMMON_RULES.md
-2. .continuity/session-control/shared/WORKFLOW.md
-3. .continuity/session-control/shared/BOOTSTRAP_AND_SELF_HOSTING.md
-4. .continuity/session-control/antigravity/initial-review/RULES.md
-5. .continuity/session-control/antigravity/initial-review/HANDOFF.md
+1. 不读取本目录 HANDOFF、历史 BREV 调度、BPACK 或审核结果。
+2. 不执行 GATE-01，不新增或修改任何结果文件。
+3. 简短说明：终审前 Gate 现由 Codex 5.5 执行，Stage 最后一道 Gate 由 Codex 5.6 执行。
+4. 要求用户回到 Codex 5.5 窗口继续当前调度。
 
-不要读取开发窗口或 ChatGPT 窗口的角色目录。
-
-如果当前短启动块包含“【调度文件】”和“【调度文件 SHA-256】”：
-
-1. 先完成上述固定角色文件读取。
-2. 核对指定文件 SHA-256。
-3. 只读取该一个 initial-review 调度文件，再核对并读取它指定的一份 BPACK。
-4. 只按 BPACK 的精确清单读取 Work Order、规格章节和源码。
-5. 禁止列出 dispatches、bootstrap-packs、review-results 或读取其他 Gate 结论。
-
-如果用户只输入“启动审核”，但 HANDOFF 记录了进行中的调度，则按 HANDOFF 的精确路径和 SHA-256 恢复；没有当前调度时保持待命。
-
-读取完成后，先用简短中文说明：
-
-- 当前指令已把你绑定为独立初审窗口。
-- 指令要求用户选择 Gemini 3.5 Flash。
-- 当前是否存在 fresh Review Pack 和 GATE-01 指令。
-- 当前唯一的下一步。
-
-没有角色启动时不得自行审核工作区，也不得声称能够验证当前实际模型。
+本目录仅为历史可追溯性保留，不得删除或覆盖既有文件。
