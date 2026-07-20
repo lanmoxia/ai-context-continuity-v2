@@ -2,26 +2,14 @@
   "schema_version": 1,
   "pack_id": "PACK-0001",
   "task_id": "TASK-0001",
-  "stage_id": "STAGE-0001",
+  "stage_id": null,
   "scope": "stage",
   "task_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
   "stage_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
   "git_baseline_commit": "abc123def456",
   "worktree_status": "clean",
-  "pack_files": [
-    {
-      "path": "code.patch",
-      "size_bytes": 1024,
-      "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
-    }
-  ],
-  "evidence_refs": [
-    {
-      "evidence_id": "EVIDENCE-0001",
-      "capture_mode": "captured",
-      "source_fingerprint_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
-    }
-  ],
+  "pack_files": [],
+  "evidence_refs": [],
   "source_fingerprint": {
     "git_head": "abc123def456",
     "staged_diff_sha256": null,

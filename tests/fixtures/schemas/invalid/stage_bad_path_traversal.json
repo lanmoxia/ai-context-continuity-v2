@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "id": "STAGE-0001",
+  "task_id": "TASK-0001",
+  "title": "Traversal path test",
+  "goal": "Allowed paths contains directory traversal segment",
+  "acceptance_criteria": ["None"],
+  "dependencies": [],
+  "allowed_paths": ["src/../outside.py"],
+  "required_checks": [],
+  "review_gates": ["GATE-01"],
+  "risk_level": "normal",
+  "risk_reasons": [],
+  "status": "active",
+  "created_at": "2026-07-17T10:00:00+08:00",
+  "updated_at": "2026-07-17T10:00:00+08:00"
+}

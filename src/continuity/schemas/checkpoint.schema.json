@@ -6,9 +6,9 @@
   "type": "object",
   "properties": {
     "schema_version": { "$ref": "urn:continuity:schema:common:1#/$defs/schema_version" },
-    "id": { "$ref": "urn:continuity:schema:common:1#/$defs/stable_id" },
-    "task_id": { "$ref": "urn:continuity:schema:common:1#/$defs/stable_id" },
-    "stage_id": { "$ref": "urn:continuity:schema:common:1#/$defs/stable_id" },
+    "id": { "$ref": "urn:continuity:schema:common:1#/$defs/checkpoint_id" },
+    "task_id": { "$ref": "urn:continuity:schema:common:1#/$defs/task_id" },
+    "stage_id": { "$ref": "urn:continuity:schema:common:1#/$defs/stage_id" },
     "state_revision": { "type": "integer", "minimum": 0 },
     "writer_lease_id": { "type": ["string", "null"] },
     "completed_steps": {

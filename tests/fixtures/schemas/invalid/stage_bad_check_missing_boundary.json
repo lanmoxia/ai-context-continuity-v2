@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "id": "STAGE-0001",
+  "task_id": "TASK-0001",
+  "title": "Missing check boundary test",
+  "goal": "Required checks contains check missing cwd and timeout",
+  "acceptance_criteria": ["None"],
+  "dependencies": [],
+  "allowed_paths": ["pyproject.toml"],
+  "required_checks": [{"id": "PYTHON_VERSION", "argv": ["python"]}],
+  "review_gates": ["GATE-01"],
+  "risk_level": "normal",
+  "risk_reasons": [],
+  "status": "active",
+  "created_at": "2026-07-17T10:00:00+08:00",
+  "updated_at": "2026-07-17T10:00:00+08:00"
+}

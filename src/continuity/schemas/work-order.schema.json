@@ -6,9 +6,9 @@
   "type": "object",
   "properties": {
     "schema_version": { "$ref": "urn:continuity:schema:common:1#/$defs/schema_version" },
-    "id": { "$ref": "urn:continuity:schema:common:1#/$defs/stable_id" },
-    "task_id": { "$ref": "urn:continuity:schema:common:1#/$defs/stable_id" },
-    "stage_id": { "$ref": "urn:continuity:schema:common:1#/$defs/stable_id" },
+    "id": { "$ref": "urn:continuity:schema:common:1#/$defs/work_order_id" },
+    "task_id": { "$ref": "urn:continuity:schema:common:1#/$defs/task_id" },
+    "stage_id": { "$ref": "urn:continuity:schema:common:1#/$defs/stage_id" },
     "revision": { "type": "integer", "minimum": 1 },
     "title": { "type": "string", "minLength": 1 },
     "goal": { "type": "string", "minLength": 1 },
@@ -82,7 +82,7 @@
       "enum": ["draft", "approved", "active", "superseded", "completed"]
     },
     "approval": { "$ref": "urn:continuity:schema:common:1#/$defs/approval" },
-    "supersedes_work_order_id": { "$ref": "urn:continuity:schema:common:1#/$defs/nullable_stable_id" }
+    "supersedes_work_order_id": { "$ref": "urn:continuity:schema:common:1#/$defs/nullable_work_order_id" }
   },
   "required": [
     "schema_version", "id", "task_id", "stage_id", "revision", "title", "goal",

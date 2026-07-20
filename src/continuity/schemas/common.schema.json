@@ -41,7 +41,7 @@
       "type": "object",
       "description": "Per-file entry in a Source Fingerprint (path, size, content hash).",
       "properties": {
-        "path": { "type": "string", "minLength": 1 },
+        "path": { "$ref": "urn:continuity:schema:common:1#/$defs/path_string" },
         "size_bytes": { "type": "integer", "minimum": 0 },
         "sha256": { "$ref": "urn:continuity:schema:common:1#/$defs/file_sha256" }
       },
@@ -115,20 +115,61 @@
           "type": "object",
           "additionalProperties": { "type": "string" }
         },
-        "cwd": { "type": ["string", "null"] },
+        "cwd": { "$ref": "urn:continuity:schema:common:1#/$defs/nullable_path_string" },
         "timeout_seconds": { "type": ["integer", "null"], "minimum": 1 },
         "allowed_exit_codes": {
           "type": "array",
           "items": { "type": "integer" }
         }
       },
-      "required": ["id", "argv"],
+      "required": ["id", "argv", "cwd", "timeout_seconds", "allowed_exit_codes"],
       "additionalProperties": false
     },
     "path_string": {
       "type": "string",
       "minLength": 1,
-      "description": "A non-empty relative path string."
+      "pattern": "^(?![/\\\\])(?!^[a-zA-Z]:)(?!.*[/\\\\]\\.\\.([/\\\\]|$))(?!.*[/\\\\]\\.([/\\\\]|$))(?!^\\.\\.([/\\\\]|$))(?!^\\.([/\\\\]|$))[^/\\\\]+([/\\\\][^/\\\\]+)*$",
+      "description": "A non-empty relative path string, rejecting absolute paths, drive letters, and relative traversal segments."
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^PROJECT-[0-9]{4,}$"
+    },
+    "task_id": {
+      "type": "string",
+      "pattern": "^TASK-[0-9]{4,}$"
+    },
+    "stage_id": {
+      "type": "string",
+      "pattern": "^STAGE-[0-9]{4,}$"
+    },
+    "work_order_id": {
+      "type": "string",
+      "pattern": "^WORK-[0-9]{4,}$"
+    },
+    "checkpoint_id": {
+      "type": "string",
+      "pattern": "^CHECKPOINT-[0-9]{4,}$"
+    },
+    "handoff_id": {
+      "type": "string",
+      "pattern": "^HANDOFF-[0-9]{4,}$"
+    },
+    "evidence_id": {
+      "type": "string",
+      "pattern": "^EVIDENCE-[0-9]{4,}$"
+    },
+    "context_pack_id": {
+      "type": "string",
+      "pattern": "^CTX-[0-9]{4,}$"
+    },
+    "review_pack_id": {
+      "type": "string",
+      "pattern": "^PACK-[0-9]{4,}$"
+    },
+    "review_id": {
+      "type": "string",
+      "pattern": "^REVIEW-[0-9]{4,}$"
     },
     "nullable_stable_id": {
       "description": "A stable ID or null.",
@@ -137,10 +178,77 @@
         { "type": "null" }
       ]
     },
+    "nullable_project_id": {
+      "anyOf": [
+        { "$ref": "urn:continuity:schema:common:1#/$defs/project_id" },
+        { "type": "null" }
+      ]
+    },
+    "nullable_task_id": {
+      "anyOf": [
+        { "$ref": "urn:continuity:schema:common:1#/$defs/task_id" },
+        { "type": "null" }
+      ]
+    },
+    "nullable_stage_id": {
+      "anyOf": [
+        { "$ref": "urn:continuity:schema:common:1#/$defs/stage_id" },
+        { "type": "null" }
+      ]
+    },
+    "nullable_work_order_id": {
+      "anyOf": [
+        { "$ref": "urn:continuity:schema:common:1#/$defs/work_order_id" },
+        { "type": "null" }
+      ]
+    },
+    "nullable_checkpoint_id": {
+      "anyOf": [
+        { "$ref": "urn:continuity:schema:common:1#/$defs/checkpoint_id" },
+        { "type": "null" }
+      ]
+    },
+    "nullable_handoff_id": {
+      "anyOf": [
+        { "$ref": "urn:continuity:schema:common:1#/$defs/handoff_id" },
+        { "type": "null" }
+      ]
+    },
+    "nullable_evidence_id": {
+      "anyOf": [
+        { "$ref": "urn:continuity:schema:common:1#/$defs/evidence_id" },
+        { "type": "null" }
+      ]
+    },
+    "nullable_context_pack_id": {
+      "anyOf": [
+        { "$ref": "urn:continuity:schema:common:1#/$defs/context_pack_id" },
+        { "type": "null" }
+      ]
+    },
+    "nullable_review_pack_id": {
+      "anyOf": [
+        { "$ref": "urn:continuity:schema:common:1#/$defs/review_pack_id" },
+        { "type": "null" }
+      ]
+    },
+    "nullable_review_id": {
+      "anyOf": [
+        { "$ref": "urn:continuity:schema:common:1#/$defs/review_id" },
+        { "type": "null" }
+      ]
+    },
     "nullable_file_sha256": {
       "description": "A SHA-256 digest or null.",
       "anyOf": [
         { "$ref": "urn:continuity:schema:common:1#/$defs/file_sha256" },
+        { "type": "null" }
+      ]
+    },
+    "nullable_path_string": {
+      "description": "A path string or null.",
+      "anyOf": [
+        { "$ref": "urn:continuity:schema:common:1#/$defs/path_string" },
         { "type": "null" }
       ]
     }

@@ -7,7 +7,7 @@
   "acceptance_criteria": ["All checks pass"],
   "dependencies": [],
   "allowed_paths": ["pyproject.toml", "src/continuity/**"],
-  "required_checks": [{"id": "PYTHON_VERSION", "argv": ["python", "-c", "import sys; raise SystemExit(0)"]}],
+  "required_checks": [{"id": "PYTHON_VERSION", "argv": ["python", "-c", "import sys; raise SystemExit(0)"], "cwd": null, "timeout_seconds": null, "allowed_exit_codes": []}],
   "review_gates": ["GATE-01", "GATE-02"],
   "risk_level": "normal",
   "risk_reasons": [],

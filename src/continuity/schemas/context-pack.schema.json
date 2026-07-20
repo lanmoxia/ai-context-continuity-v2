@@ -6,19 +6,19 @@
   "type": "object",
   "properties": {
     "schema_version": { "$ref": "urn:continuity:schema:common:1#/$defs/schema_version" },
-    "id": { "$ref": "urn:continuity:schema:common:1#/$defs/stable_id" },
+    "id": { "$ref": "urn:continuity:schema:common:1#/$defs/context_pack_id" },
     "purpose": {
       "type": "string",
       "enum": ["implementation", "review", "recovery", "handoff"]
     },
-    "task_id": { "$ref": "urn:continuity:schema:common:1#/$defs/stable_id" },
-    "stage_id": { "type": ["string", "null"] },
+    "task_id": { "$ref": "urn:continuity:schema:common:1#/$defs/task_id" },
+    "stage_id": { "$ref": "urn:continuity:schema:common:1#/$defs/nullable_stage_id" },
     "references": {
       "type": "object",
       "properties": {
-        "checkpoint_id": { "type": ["string", "null"] },
-        "handoff_id": { "type": ["string", "null"] },
-        "review_pack_id": { "type": ["string", "null"] }
+        "checkpoint_id": { "$ref": "urn:continuity:schema:common:1#/$defs/nullable_checkpoint_id" },
+        "handoff_id": { "$ref": "urn:continuity:schema:common:1#/$defs/nullable_handoff_id" },
+        "review_pack_id": { "$ref": "urn:continuity:schema:common:1#/$defs/nullable_review_pack_id" }
       },
       "additionalProperties": false
     },

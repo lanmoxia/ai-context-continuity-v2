@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "git": {
+    "formal_review_required": true,
+    "dirty_worktree_policy": "reject_unrelated_changes",
+    "task_branch_prefix": "continuity/",
+    "portable_state": "all_recoverable",
+    "transfer_auto_commit": true,
+    "transfer_auto_push": true,
+    "resume_strategy": "fast_forward_only",
+    "merge_strategy": "squash",
+    "merge_requires_confirmation": true,
+    "archive_tag_prefix": "continuity/archive/"
+  },
+  "context": {"start_max_chars": 2000, "handoff_max_chars": 3000, "bundle_max_chars": 12000},
+  "writer_lease": {"timeout_minutes": 30, "renew_on_checkpoint": true},
+  "checkpoint": {"after_completed_step": true, "before_risky_change": true, "before_handoff": true},
+  "retention": {"archive_completed_tasks": true, "delete_automatically": false},
+  "review": {"normal_stage_gates": ["GATE-01"], "high_risk_extra_gate": "GATE-03", "task_final_gate": "TASK-FINAL"},
+  "safety": {"max_evidence_file_bytes": 5242880, "exclude_globs": []},
+  "checks": [
+    {
+      "id": "PYTHON_VERSION",
+      "argv": ["python"],
+      "cwd": "../outside",
+      "timeout_seconds": null,
+      "allowed_exit_codes": []
+    }
+  ]
+}

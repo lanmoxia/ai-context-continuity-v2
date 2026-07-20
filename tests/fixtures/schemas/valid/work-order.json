@@ -13,7 +13,7 @@
   "forbidden_paths": ["docs/**"],
   "required_inputs": [{"path": "docs/spec/ARCHITECTURE.md", "sections": ["3. Repo structure"], "purpose": "Understand layout"}],
   "required_outputs": [{"path": "pyproject.toml", "purpose": "Package definition"}],
-  "required_checks": [{"id": "PYTHON_VERSION", "argv": ["python", "-c", "import sys; raise SystemExit(0)"]}],
+  "required_checks": [{"id": "PYTHON_VERSION", "argv": ["python", "-c", "import sys; raise SystemExit(0)"], "cwd": null, "timeout_seconds": null, "allowed_exit_codes": []}],
   "acceptance_criteria": ["Package installs"],
   "known_constraints": ["Use Python 3.11+"],
   "status": "approved",

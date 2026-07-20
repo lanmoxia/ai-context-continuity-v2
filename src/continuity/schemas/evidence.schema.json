@@ -6,9 +6,9 @@
   "type": "object",
   "properties": {
     "schema_version": { "$ref": "urn:continuity:schema:common:1#/$defs/schema_version" },
-    "id": { "$ref": "urn:continuity:schema:common:1#/$defs/stable_id" },
-    "task_id": { "$ref": "urn:continuity:schema:common:1#/$defs/stable_id" },
-    "stage_id": { "$ref": "urn:continuity:schema:common:1#/$defs/stable_id" },
+    "id": { "$ref": "urn:continuity:schema:common:1#/$defs/evidence_id" },
+    "task_id": { "$ref": "urn:continuity:schema:common:1#/$defs/task_id" },
+    "stage_id": { "$ref": "urn:continuity:schema:common:1#/$defs/stage_id" },
     "check_id": { "type": "string", "minLength": 1 },
     "capture_mode": {
       "type": "string",
@@ -23,7 +23,7 @@
       "type": "object",
       "additionalProperties": { "type": "string" }
     },
-    "cwd": { "type": ["string", "null"] },
+    "cwd": { "$ref": "urn:continuity:schema:common:1#/$defs/nullable_path_string" },
     "timeout_seconds": { "type": ["integer", "null"], "minimum": 1 },
     "started_at": { "$ref": "urn:continuity:schema:common:1#/$defs/rfc3339_with_timezone" },
     "finished_at": { "$ref": "urn:continuity:schema:common:1#/$defs/rfc3339_with_timezone" },

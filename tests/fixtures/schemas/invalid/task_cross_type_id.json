@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "id": "STAGE-0001",
+  "title": "Cross type ID test",
+  "goal": "Task ID starts with STAGE- instead of TASK-",
+  "scope_in": ["pyproject.toml"],
+  "scope_out": [],
+  "acceptance_criteria": ["None"],
+  "status": "active",
+  "created_at": "2026-07-17T10:00:00+08:00",
+  "updated_at": "2026-07-17T10:00:00+08:00"
+}

@@ -6,7 +6,7 @@
   "type": "object",
   "properties": {
     "schema_version": { "$ref": "urn:continuity:schema:common:1#/$defs/schema_version" },
-    "id": { "$ref": "urn:continuity:schema:common:1#/$defs/stable_id" },
+    "id": { "$ref": "urn:continuity:schema:common:1#/$defs/task_id" },
     "title": { "type": "string", "minLength": 1 },
     "goal": { "type": "string", "minLength": 1 },
     "scope_in": {

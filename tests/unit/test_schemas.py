@@ -171,6 +171,21 @@ class TestInvalidFixtures(unittest.TestCase):
     def test_review_decision_bad_verdict_is_rejected(self) -> None:
         self._assert_rejected("review-decision", "review_decision_bad_verdict.json")
 
+    def test_new_gate03_invalid_fixtures_are_rejected(self) -> None:
+        """Verify the newly added Gate-03 invalid fixtures are rejected as expected."""
+        self._assert_rejected("task", "task_cross_type_id.json")
+        self._assert_rejected("stage", "stage_bad_path_traversal.json")
+        self._assert_rejected("stage", "stage_bad_path_absolute.json")
+        self._assert_rejected("stage", "stage_bad_check_missing_boundary.json")
+        self._assert_rejected("review-pack", "review_pack_bad_scope_task.json")
+        self._assert_rejected("review-pack", "review_pack_bad_scope_stage.json")
+        # F55-WORK-0002-09 path/cwd boundary checks:
+        self._assert_rejected("checkpoint", "checkpoint_bad_fingerprint_path_traversal.json")
+        self._assert_rejected("review-pack", "review_pack_bad_fingerprint_path_absolute.json")
+        self._assert_rejected("evidence", "evidence_bad_cwd_traversal.json")
+        self._assert_rejected("stage", "stage_bad_check_cwd_absolute.json")
+        self._assert_rejected("config", "config_bad_check_cwd_traversal.json")
+
     def test_inline_unknown_field_rejected(self) -> None:
         """additionalProperties: false guard via inline instance."""
         errors = validate("task", {
@@ -504,6 +519,90 @@ class TestOfflineAndSecurityGuards(unittest.TestCase):
                     with self.assertRaises(ValueError):
                         _validate_refs(corrupt_schema, "test")
                     mock_files.assert_not_called()
+
+    def test_gate03_schema_details_validation(self) -> None:
+        """Verify type-specific ID validation, scope conditionals, and relative paths."""
+        # BG03-F01: Cross-type ID validation
+        # Task ID should start with TASK-
+        errs_task = validate("task", {
+            "schema_version": 1,
+            "id": "STAGE-0001",  # wrong prefix
+            "title": "T", "goal": "G",
+            "scope_in": ["a"], "scope_out": [],
+            "acceptance_criteria": ["a"], "status": "active",
+            "created_at": "2026-07-17T10:00:00+08:00",
+            "updated_at": "2026-07-17T10:00:00+08:00"
+        })
+        self.assertTrue(any(e["path"] == "id" and e["code"] == "pattern" for e in errs_task))
+
+        # Stage ID should start with STAGE-
+        errs_stage = validate("stage", {
+            "schema_version": 1,
+            "id": "TASK-0001",  # wrong prefix
+            "task_id": "TASK-0001",
+            "title": "T", "goal": "G",
+            "acceptance_criteria": ["a"], "dependencies": [],
+            "allowed_paths": ["a"], "required_checks": [],
+            "review_gates": ["GATE-01"], "risk_level": "normal",
+            "risk_reasons": [], "status": "active",
+            "created_at": "2026-07-17T10:00:00+08:00",
+            "updated_at": "2026-07-17T10:00:00+08:00"
+        })
+        self.assertTrue(any(e["path"] == "id" and e["code"] == "pattern" for e in errs_stage))
+
+        # BG03-F03: Relative path string schema level check
+        bad_paths = [
+            "/absolute/posix",
+            "\\absolute\\windows",
+            "C:/drive/letter",
+            "d:\\drive\\letter",
+            "//unc/share",
+            "\\\\unc\\share",
+            "../traversal",
+            "..\\traversal",
+            "a/../b",
+            "a\\..\\b",
+            "a/.",
+            "a/./b",
+            "a/..",
+            ".",
+            ".."
+        ]
+        for bp in bad_paths:
+            with self.subTest(bad_path=bp):
+                errs = validate("stage", {
+                    "schema_version": 1,
+                    "id": "STAGE-0001", "task_id": "TASK-0001",
+                    "title": "T", "goal": "G",
+                    "acceptance_criteria": ["a"], "dependencies": [],
+                    "allowed_paths": [bp], "required_checks": [],
+                    "review_gates": ["GATE-01"], "risk_level": "normal",
+                    "risk_reasons": [], "status": "active",
+                    "created_at": "2026-07-17T10:00:00+08:00",
+                    "updated_at": "2026-07-17T10:00:00+08:00"
+                })
+                self.assertTrue(any("allowed_paths.0" in e["path"] and e["code"] == "pattern" for e in errs), f"Path {bp!r} should be rejected")
+
+        # BG03-F02: Review Pack scope conditional check
+        # Scope is task, but stage_id is not null -> Rejected
+        errs_task_scope = validate("review-pack", {
+            "schema_version": 1,
+            "pack_id": "PACK-0001", "task_id": "TASK-0001",
+            "stage_id": "STAGE-0001",  # should be null
+            "scope": "task",
+            "task_sha256": "a"*64,
+            "stage_sha256": None,
+            "git_baseline_commit": "abc", "worktree_status": "clean",
+            "pack_files": [], "evidence_refs": [],
+            "source_fingerprint": {
+                "git_head": "abc", "staged_diff_sha256": None,
+                "unstaged_diff_sha256": None, "untracked_files": [],
+                "captured_at": "2026-07-17T10:00:00+08:00"
+            },
+            "generator_version": "1.0", "status": "fresh",
+            "created_at": "2026-07-17T10:00:00+08:00"
+        })
+        self.assertTrue(any(e["code"] == "allOf" or "stage_id" in e["path"] for e in errs_task_scope))
 
 
 if __name__ == "__main__":

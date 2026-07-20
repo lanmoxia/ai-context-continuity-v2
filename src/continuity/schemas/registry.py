@@ -268,7 +268,7 @@ def _collect_errors(
     try:
         validator = _make_validator(schema, registry)
         raw_errors = list(validator.iter_errors(instance))
-        
+
         def _sort_key(e: jsonschema.ValidationError) -> tuple[str, str]:
             path = ".".join(str(p) for p in e.absolute_path)
             return (path, e.validator or "")

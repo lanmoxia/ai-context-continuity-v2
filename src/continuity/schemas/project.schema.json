@@ -6,7 +6,7 @@
   "type": "object",
   "properties": {
     "schema_version": { "$ref": "urn:continuity:schema:common:1#/$defs/schema_version" },
-    "id": { "$ref": "urn:continuity:schema:common:1#/$defs/stable_id" },
+    "id": { "$ref": "urn:continuity:schema:common:1#/$defs/project_id" },
     "name": { "type": "string", "minLength": 1 },
     "root_path": { "type": "string", "minLength": 1, "description": "Normalised absolute root path of the business project." },
     "created_at": { "$ref": "urn:continuity:schema:common:1#/$defs/rfc3339_with_timezone" },

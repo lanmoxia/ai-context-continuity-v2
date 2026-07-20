@@ -6,8 +6,8 @@
   "type": "object",
   "properties": {
     "schema_version": { "$ref": "urn:continuity:schema:common:1#/$defs/schema_version" },
-    "review_id": { "$ref": "urn:continuity:schema:common:1#/$defs/stable_id" },
-    "pack_id": { "$ref": "urn:continuity:schema:common:1#/$defs/stable_id" },
+    "review_id": { "$ref": "urn:continuity:schema:common:1#/$defs/review_id" },
+    "pack_id": { "$ref": "urn:continuity:schema:common:1#/$defs/review_pack_id" },
     "manifest_sha256": { "$ref": "urn:continuity:schema:common:1#/$defs/file_sha256" },
     "gate_id": { "type": "string", "minLength": 1 },
     "round": { "type": "integer", "minimum": 1, "description": "Generic review round number, not tied to any specific client." },
