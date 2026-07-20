@@ -1,14 +1,14 @@
 # Codex 5.5 接力摘要
 
-- 更新时间：2026-07-20T12:32:03+08:00
-- 会话状态：WORK-0002 的 GATE-03 终审结果为 CHANGES_REQUESTED；已生成 Gemini 3.5 Flash (High) 返工调度
+- 更新时间：2026-07-20T12:42:18+08:00
+- 会话状态：WORK-0002 的 BDEV-0007 返工完成但未通过 5.5 预检；已生成 Gemini 3.5 Flash (High) 新返工调度
 - 当前角色：codex-5.5，协调、指令分发和中审窗口
 - 当前自托管等级：BOOTSTRAP-L0
 - Task：TASK-0001
 - 当前 Stage：STAGE-02
 - 当前计划项：DEV-002
 - 当前 Work Order：WORK-0002，状态 approved，当前实现需返工
-- 当前等待事件：等待 Antigravity 开发窗口按 `BDEV-0007-r1` 完成返工后，用户回到本窗口输入 `kf`
+- 当前等待事件：等待 Antigravity 开发窗口按 `BDEV-0008-r1` 完成返工后，用户回到本窗口输入 `kf`
 - 当前 Task 分支：`continuity/TASK-0001-project-foundation`
 - 当前业务执行基线：`750d3ec7a144e958c62f6f45fa8a99cbf1232a5b`
 - 实现 diff base / 调度交付提交：`83f3c21dcf2f58d99c9c898e5cd85c07f4e4625c`
@@ -29,8 +29,8 @@
 - 当前 final-review 调度 SHA-256：`746ba001450a5cf0f3035cc47da18171d66adea879390e0ec1c98a8b9c4d8e70`
 - 5.6 结果目标：`.continuity/session-control/review-results/gate-03/BGATE03-0001-r1.md`
 - GATE-03 结果文件 SHA-256：`f6b3a2405c6ee72e689bb494b066f80b36ae947ad797d10dfb1dfaf287fdd189`
-- 当前 development 返工调度：`.continuity/session-control/dispatches/development/BDEV-0007-r1.md`
-- 当前 development 返工调度 SHA-256：`067d0b542f4507b859ae7dd4c12bb126f08b31b2099eb5244f191c84f79f9257`
+- 当前 development 返工调度：`.continuity/session-control/dispatches/development/BDEV-0008-r1.md`
+- 当前 development 返工调度 SHA-256：`20ba43cde767516292bf34a6a0318ce913579263fd9308032229cb31afe357f7`
 - 当前 development 目标模型：Gemini 3.5 Flash (High)
 
 ## 当前事实
@@ -49,7 +49,10 @@
   - BG03-F03 medium：项目相对路径合同未拒绝绝对路径和目录穿越。
   - BG03-F04 medium：预批准检查条目允许缺少执行边界。
   - BG03-F05 low：实现 diff 含尾随空白。
-- 5.5 已创建 `BDEV-0007-r1`，作为当前唯一有效返工调度；旧 BDEV/BPRE/BFINAL/BPACK 均只保留为审计材料。
+- 5.5 收到用户 `kf` 后，核对 `BDEV-0007-r1` 与开发窗口 HANDOFF，确认开发完成记录匹配 Gemini 3.5 Flash (High) 与调度 SHA-256。
+- 5.5 重新运行 WORK-0002 全部 14 项 required checks，全部退出码 0；UNIT 为 44 tests，0 failures，0 skipped；额外 `git diff --check` 退出码 0。
+- 5.5 预检发现 `source_fingerprint_entry.path`、`check_argv_entry.cwd` 和 Evidence `cwd` 仍未复用项目相对路径约束，直接探针可让 `../outside.py`、`C:/outside.py` 等路径返回零错误。
+- 5.5 已创建 `BDEV-0008-r1`，作为当前唯一有效返工调度；旧 BDEV/BPRE/BFINAL/BPACK 均只保留为审计材料。
 
 ## 检查结果摘要
 
@@ -70,7 +73,7 @@
 
 ## 下一步
 
-用户复制本窗口输出的 development 短启动块到 Antigravity 开发窗口，并手动确认模型为 Gemini 3.5 Flash (High)。开发窗口完成 `BDEV-0007-r1` 后，用户回到本窗口输入 `kf`。
+用户复制本窗口输出的 development 短启动块到 Antigravity 开发窗口，并手动确认模型为 Gemini 3.5 Flash (High)。开发窗口完成 `BDEV-0008-r1` 后，用户回到本窗口输入 `kf`。
 
 ## 不得执行
 
