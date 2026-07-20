@@ -1,0 +1,450 @@
+{
+  "schema_version": 1,
+  "id": "BPACK-0002",
+  "revision": 1,
+  "kind": "bootstrap-review-pack",
+  "status": "frozen",
+  "created_at": "2026-07-20T11:53:02+08:00",
+  "created_by": "codex-5.5",
+  "validated_at": "2026-07-20T11:53:02+08:00",
+  "scope": "stage",
+  "target_gate": "GATE-01",
+  "required_review_gates": [
+    "GATE-01",
+    "GATE-02",
+    "GATE-03"
+  ],
+  "pre_final_gates": [
+    "GATE-01",
+    "GATE-02"
+  ],
+  "final_gate": "GATE-03",
+  "supersedes": null,
+  "task_id": "TASK-0001",
+  "stage_id": "STAGE-02",
+  "plan_item_id": "DEV-002",
+  "work_order": {
+    "id": "WORK-0002",
+    "path": "docs/work-orders/DEV-002/work-order.json",
+    "sha256": "9249ab044d29f761060c0aa1224630018a3b9aec143ab333aae0fced53c14714"
+  },
+  "git": {
+    "task_branch": "continuity/TASK-0001-project-foundation",
+    "business_execution_baseline": "750d3ec7a144e958c62f6f45fa8a99cbf1232a5b",
+    "dispatch_delivery_commit": "83f3c21dcf2f58d99c9c898e5cd85c07f4e4625c",
+    "implementation_diff_base": "83f3c21dcf2f58d99c9c898e5cd85c07f4e4625c",
+    "implementation_checkpoint": "bf0cd41aca43f144392c78b221208587df25e494"
+  },
+  "required_inputs": [
+    {
+      "path": "docs/work-orders/DEV-002/work-order.json",
+      "read": "full",
+      "sha256_scope": "raw full-file bytes",
+      "sha256": "9249ab044d29f761060c0aa1224630018a3b9aec143ab333aae0fced53c14714"
+    },
+    {
+      "path": "docs/spec/DATA_MODEL.md",
+      "read": "sections",
+      "sections": [
+        "1. 关系",
+        "2. 当前状态",
+        "2.1 Project 与 Config",
+        "2.2 Source Fingerprint",
+        "3. Task",
+        "4. Stage",
+        "5. Work Order",
+        "6. Checkpoint",
+        "7. Handoff",
+        "8. Evidence",
+        "9. Review Pack",
+        "10. Context Pack",
+        "14. 不可破坏的约束"
+      ],
+      "sha256_scope": "raw full-file bytes",
+      "sha256": "2813705ddc0ccf07dd2561f001898b72bec3142af6593ac41fde776d57be02bb"
+    },
+    {
+      "path": "docs/spec/ARCHITECTURE.md",
+      "read": "sections",
+      "sections": [
+        "3. 工具仓库结构",
+        "4. 业务项目状态目录",
+        "5. 单一事实来源",
+        "9. 配置和版本"
+      ],
+      "sha256_scope": "raw full-file bytes",
+      "sha256": "3cb3ba1a1087a4f8af125a3fa8ba91cb925cb5bc3a790d572293b5567889330c"
+    },
+    {
+      "path": "docs/spec/REQUIREMENTS.md",
+      "read": "sections",
+      "sections": [
+        "2.2 长任务分阶段",
+        "2.3 窗口接力",
+        "2.5 分阶段审核",
+        "2.6 审核可信",
+        "2.9 状态一致",
+        "2.10 任务并发边界",
+        "2.11 配置与生命周期",
+        "3. 安全要求",
+        "4. 非功能要求"
+      ],
+      "sha256_scope": "raw full-file bytes",
+      "sha256": "e3cfb14140b0e5bc0fdd63cf859200781397a6453ab9adb214363346ae7977f5"
+    },
+    {
+      "path": "docs/spec/CONFIGURATION.md",
+      "read": "sections",
+      "sections": [
+        "1. 配置文件",
+        "2. 检查命令",
+        "4. 版本迁移",
+        "6. Windows 兼容"
+      ],
+      "sha256_scope": "raw full-file bytes",
+      "sha256": "51982bb348f7d0a467aa90f6d8b958addd32aa292f7b60feaffbadab317513f1"
+    },
+    {
+      "path": "docs/spec/CORE_WORKFLOW.md",
+      "read": "sections",
+      "sections": [
+        "2. 创建大任务",
+        "4. 生成并读取 Context Pack",
+        "6. 正常换窗口",
+        "9. Stage 完成和审核",
+        "10. Task 总体验收与合并"
+      ],
+      "sha256_scope": "raw full-file bytes",
+      "sha256": "590ec00ea72a8470732cbcdfb7e7ad77cbff96ac7222cd5899d422557ac1f178"
+    },
+    {
+      "path": "docs/spec/REVIEW_POLICY.md",
+      "read": "sections",
+      "sections": [
+        "1. 两种审核范围",
+        "2. Stage Review Gate",
+        "3. 风险等级",
+        "4. 必要检查",
+        "5. Finding 分级",
+        "7. Task Final Review"
+      ],
+      "sha256_scope": "raw full-file bytes",
+      "sha256": "dcd04955890445074767a333df088418aeaebd3252f28acd7ee303cf808cc520"
+    }
+  ],
+  "implementation_diff": {
+    "algorithm": "sha256(raw stdout bytes from argv)",
+    "argv": [
+      "git",
+      "diff",
+      "--binary",
+      "--no-ext-diff",
+      "--no-textconv",
+      "83f3c21dcf2f58d99c9c898e5cd85c07f4e4625c",
+      "bf0cd41aca43f144392c78b221208587df25e494",
+      "--",
+      "pyproject.toml",
+      "src/continuity/schemas",
+      "tests/fixtures/schemas",
+      "tests/unit/test_schemas.py"
+    ],
+    "sha256": "e6ddbbc1175c3c23964121d3b1ed29ab6a3d097a011e6a47278febddbfc18d25"
+  },
+  "source_snapshot": {
+    "id": "BSF-0002",
+    "entry_hash_algorithm": "sha256(raw stdout bytes from git cat-file blob <implementation_checkpoint>:<path>)",
+    "fingerprint_preimage": "entries sorted by UTF-8 path bytes ascending; UTF-8 without BOM; LF line endings; each line is <path>\\t<lowercase sha256>\\n",
+    "fingerprint_sha256": "a89119fba6ae3d77c0d5e4f9179c64e42db4a72c4d979817a8da5f4e93f8aa42",
+    "entries": [
+      {
+        "path": "pyproject.toml",
+        "sha256": "5d57fd26fc88bcdf258cc15e53f30ce2e0769ebc33f395ebbb0c663e28a8a08e"
+      },
+      {
+        "path": "src/continuity/schemas/__init__.py",
+        "sha256": "72f6d744d7ed2c9143ac8d2536133cf2248953765042cc9a4119c5d548891a11"
+      },
+      {
+        "path": "src/continuity/schemas/checkpoint.schema.json",
+        "sha256": "39400744f25d0b37429efc305ae330451fe168d6136895799429992b028e92db"
+      },
+      {
+        "path": "src/continuity/schemas/common.schema.json",
+        "sha256": "c03717fdc85e2ea1d6940cb598b246c8510379be28919cc01701e5bc82e04412"
+      },
+      {
+        "path": "src/continuity/schemas/config.schema.json",
+        "sha256": "1018b66fecf74f0832d317ee5d18a270a89cea11d3fb94fe324bd6b7d2d6100d"
+      },
+      {
+        "path": "src/continuity/schemas/context-pack.schema.json",
+        "sha256": "f96a706242fbb4923cd955d0d09e1fda31b2a3ebf73c454a7a0c29c2c4819d34"
+      },
+      {
+        "path": "src/continuity/schemas/current.schema.json",
+        "sha256": "e5f24d2aacc7b914e497238366a4dad632ef484aaa6e1cc146d99c8133d21c4b"
+      },
+      {
+        "path": "src/continuity/schemas/evidence.schema.json",
+        "sha256": "b033453930b1db2cd87a20deafd268ec1adcac2202c64d97773d143894d2a82b"
+      },
+      {
+        "path": "src/continuity/schemas/handoff.schema.json",
+        "sha256": "a930d12c15ee22bed218412af9430f809a63a4071fa0d9395c6da81305f7b6b4"
+      },
+      {
+        "path": "src/continuity/schemas/project.schema.json",
+        "sha256": "19f90ed5a4820d6d658517dcd0e0c02e69c140619707af92e4a3d35a79d742ee"
+      },
+      {
+        "path": "src/continuity/schemas/registry.py",
+        "sha256": "259e50b2d55a75e5620a81c645afb1d9f79ea163884a640a1a285040119dc479"
+      },
+      {
+        "path": "src/continuity/schemas/review-decision.schema.json",
+        "sha256": "bcdc7452692256f1f735bd03d5f5809ac0b7cd7b39aa293fd8e7cc03b23775f5"
+      },
+      {
+        "path": "src/continuity/schemas/review-pack.schema.json",
+        "sha256": "af9db95af6b0646163db8f8226e419f0bcd394513216829b020ef88edba016c1"
+      },
+      {
+        "path": "src/continuity/schemas/stage.schema.json",
+        "sha256": "7ba0f6ce1120f52c5803a2f3822ddc978920cbcd2024fa5c3fab743e236b9d9f"
+      },
+      {
+        "path": "src/continuity/schemas/task.schema.json",
+        "sha256": "8e145292b1e545e802a67fd56e732daef22eb1f6ca2237c1ed97a33b0c96ec67"
+      },
+      {
+        "path": "src/continuity/schemas/work-order.schema.json",
+        "sha256": "7102a509b6554745551f8af4cf015b826719e259d9dad4dea5eda8af147cc9eb"
+      },
+      {
+        "path": "tests/fixtures/schemas/invalid/checkpoint_bad_fingerprint_size.json",
+        "sha256": "9092f90ee60b7ec784831ca2611a3af0d0de7e57364ef76e2d233645d18a0a5c"
+      },
+      {
+        "path": "tests/fixtures/schemas/invalid/current_bad_id.json",
+        "sha256": "0d6d6a5a347e2dee7a25f51acfda46abc6071839731d2b056121e1825b14c04f"
+      },
+      {
+        "path": "tests/fixtures/schemas/invalid/review_decision_bad_verdict.json",
+        "sha256": "f8cc228efdacee7147ef06a81f64a60d1b4369c5c1d348c2ee8a7e09128b2c89"
+      },
+      {
+        "path": "tests/fixtures/schemas/invalid/review_decision_missing_round.json",
+        "sha256": "d258118347231b37aef9770a357675322f57ecd350d1746556271564ee3073a0"
+      },
+      {
+        "path": "tests/fixtures/schemas/invalid/review_pack_bad_sha256.json",
+        "sha256": "9f272d7184273cfcd91ece87e1bcf044247256eadfea4548c7a3cc38172ee9e5"
+      },
+      {
+        "path": "tests/fixtures/schemas/invalid/task_bad_date_hour24.json",
+        "sha256": "cf30256042bbfe6128404ce09d013fd69276a9d071f0a7365e0087edb437b4f8"
+      },
+      {
+        "path": "tests/fixtures/schemas/invalid/task_bad_date_leap.json",
+        "sha256": "be5de6929b602604e1a6078d5a456a512dde3566e0da3c95cde8bfebb81e6e94"
+      },
+      {
+        "path": "tests/fixtures/schemas/invalid/task_bad_date_pattern.json",
+        "sha256": "334e744a60561a3912ca27154ad8ba785ee9ab7197a20036011bd596c471cdd6"
+      },
+      {
+        "path": "tests/fixtures/schemas/invalid/task_bad_enum.json",
+        "sha256": "9dc5b42c6a146dced21e4d535e4861cef8f886c96d2ba2c5ef020276b878170b"
+      },
+      {
+        "path": "tests/fixtures/schemas/invalid/task_bad_id.json",
+        "sha256": "63da67e02d11ad8603b5a8080a45651e0c757f1e3d8eea545f1310b5bf50e3ca"
+      },
+      {
+        "path": "tests/fixtures/schemas/invalid/task_missing_fields.json",
+        "sha256": "97793b767a410c8bcfd8f7e3b558cbd76bc5aa0b0dae4526837c2627a22b34a9"
+      },
+      {
+        "path": "tests/fixtures/schemas/invalid/task_no_timezone.json",
+        "sha256": "a2170397027906bc7635098b2e5a42e23ef4834271230bce0522a594708b35d9"
+      },
+      {
+        "path": "tests/fixtures/schemas/invalid/task_unknown_field.json",
+        "sha256": "ef0be1853663fa18890c234c4c7b21afc11538a430999897158866faff57ce7b"
+      },
+      {
+        "path": "tests/fixtures/schemas/invalid/task_wrong_type.json",
+        "sha256": "e493491f98b1e7563ef47a7442a3122a15e72273c2d28c1c27bda9ee413bb93c"
+      },
+      {
+        "path": "tests/fixtures/schemas/valid/checkpoint.json",
+        "sha256": "219153f9d5a357a65e8addbbdb53ce1e6c30a65943b60906dcd0e59a0f4eaec2"
+      },
+      {
+        "path": "tests/fixtures/schemas/valid/config.json",
+        "sha256": "ea6e8b02cc7bd4a4ad19792537be2ccb902b51f561186f333d69e394bc4b4284"
+      },
+      {
+        "path": "tests/fixtures/schemas/valid/context-pack.json",
+        "sha256": "5ee3994ba35ae5bbd88a4da3b761d136fa86c52a308d304aef5c7e3f388545ad"
+      },
+      {
+        "path": "tests/fixtures/schemas/valid/current.json",
+        "sha256": "15e8f28604c7ed2ed58d6fb08cef2a922f02e21c343e0fd2f4a895eef01b3acc"
+      },
+      {
+        "path": "tests/fixtures/schemas/valid/evidence.json",
+        "sha256": "1e81a5216718e0b50b9639bc411a71eede364939b138694a5e8ba1aff0b7ee1a"
+      },
+      {
+        "path": "tests/fixtures/schemas/valid/handoff.json",
+        "sha256": "dcda30c3ea4ae9aceacc499b76b86a1d890a4fd34dcd2c4991e0ed9017d9219d"
+      },
+      {
+        "path": "tests/fixtures/schemas/valid/project.json",
+        "sha256": "1589dfa26c3e18b961a1032a58018009b3b0ac0f3a11fcfcb5075e7699ec36ec"
+      },
+      {
+        "path": "tests/fixtures/schemas/valid/review-decision.json",
+        "sha256": "c0156262f8a78948052e8eb13211800d77c2d5d242062a6329285e84d8c1f3d2"
+      },
+      {
+        "path": "tests/fixtures/schemas/valid/review-pack.json",
+        "sha256": "2da57ea4f61e5d7ec3a277d30ebd71e8e2c3cc9e81fee7a2be83d835a0642536"
+      },
+      {
+        "path": "tests/fixtures/schemas/valid/stage.json",
+        "sha256": "d7a5fe8e53e300b42c3ab1a5d928eba6ac41bfc2b07f857cb8e24e2f85d28531"
+      },
+      {
+        "path": "tests/fixtures/schemas/valid/task.json",
+        "sha256": "33d96bec621f782662acc225454cd9604274be667cbdc95892a46f4aed8c12c3"
+      },
+      {
+        "path": "tests/fixtures/schemas/valid/work-order.json",
+        "sha256": "fdf0931db41d3511762d303b917ca12720fa659ea50e9c36660a793af934897c"
+      },
+      {
+        "path": "tests/unit/test_schemas.py",
+        "sha256": "e5e4263800eba39ea63632692f31da83b589551b719d9e431006242435f4655e"
+      }
+    ]
+  },
+  "check_evidence": {
+    "executed_at": "2026-07-20T11:55:00+08:00",
+    "executed_by": "codex-5.5",
+    "argv_source": "docs/work-orders/DEV-002/work-order.json required_checks; argv and env are unchanged",
+    "execution_order": [
+      "PYTHON_VERSION",
+      "EDITABLE_INSTALL",
+      "DEPENDENCY_CHECK",
+      "COMPILE",
+      "UNIT",
+      "SCHEMA_SELF_CHECK",
+      "SCHEMA_PACKAGE_RESOURCES",
+      "WHEEL_PREP",
+      "WHEEL_BUILD",
+      "WHEEL_SCHEMA_RESOURCES",
+      "MODULE_HELP",
+      "MODULE_VERSION",
+      "CONSOLE_HELP",
+      "CONSOLE_VERSION"
+    ],
+    "environment": {
+      "python": "3.12.10",
+      "venv": ".venv",
+      "venv_scripts_on_path": true
+    },
+    "results": [
+      {
+        "id": "PYTHON_VERSION",
+        "exit_code": 0,
+        "summary": "Python >= 3.11"
+      },
+      {
+        "id": "EDITABLE_INSTALL",
+        "exit_code": 0,
+        "summary": "continuity 0.1.0 installed editable"
+      },
+      {
+        "id": "DEPENDENCY_CHECK",
+        "exit_code": 0,
+        "summary": "No broken requirements found"
+      },
+      {
+        "id": "COMPILE",
+        "exit_code": 0,
+        "summary": "src and tests compile"
+      },
+      {
+        "id": "UNIT",
+        "exit_code": 0,
+        "tests_run": 42,
+        "skipped": 0,
+        "summary": "OK"
+      },
+      {
+        "id": "SCHEMA_SELF_CHECK",
+        "exit_code": 0,
+        "summary": "all schemas pass Draft 2020-12 meta-schema check"
+      },
+      {
+        "id": "SCHEMA_PACKAGE_RESOURCES",
+        "exit_code": 0,
+        "summary": "12 public schemas loaded from package resources"
+      },
+      {
+        "id": "WHEEL_PREP",
+        "exit_code": 0,
+        "summary": "build/work-0002-wheel prepared"
+      },
+      {
+        "id": "WHEEL_BUILD",
+        "exit_code": 0,
+        "summary": "continuity-0.1.0 wheel built without dependencies"
+      },
+      {
+        "id": "WHEEL_SCHEMA_RESOURCES",
+        "exit_code": 0,
+        "summary": "wheel contains common plus 12 entity .schema.json files"
+      },
+      {
+        "id": "MODULE_HELP",
+        "exit_code": 0,
+        "summary": "usage printed"
+      },
+      {
+        "id": "MODULE_VERSION",
+        "exit_code": 0,
+        "stdout": "0.1.0"
+      },
+      {
+        "id": "CONSOLE_HELP",
+        "exit_code": 0,
+        "summary": "usage printed"
+      },
+      {
+        "id": "CONSOLE_VERSION",
+        "exit_code": 0,
+        "stdout": "0.1.0"
+      }
+    ]
+  },
+  "acceptance_probe_summary": [
+    "All 12 public schemas load from package resources; common remains internal.",
+    "Draft 2020-12 schema self-check passes for common plus 12 entity schemas.",
+    "42 unittest tests pass with 0 skipped, including invalid RFC3339, stable IDs, SHA-256 fields, Source Fingerprint size_bytes, Review Decision round, and disallowed $ref boundary coverage.",
+    "Manual 5.5 probes confirmed external URI, file URI, relative file reference, and unregistered URN $ref values are rejected before arbitrary I/O.",
+    "Wheel contains 13 .schema.json resources: common plus 12 entity schemas."
+  ],
+  "review_read_policy": {
+    "read_required_inputs_exactly": true,
+    "read_source_snapshot_entries": true,
+    "forbidden_inputs": [
+      ".continuity/session-control/antigravity/development/HANDOFF.md",
+      ".continuity/session-control/chatgpt/codex-5.5/HANDOFF.md",
+      "prior review results",
+      "chat summaries"
+    ]
+  }
+}
