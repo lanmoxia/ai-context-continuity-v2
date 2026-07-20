@@ -1,14 +1,14 @@
 # Codex 5.5 接力摘要
 
-- 更新时间：2026-07-20T13:10:00+08:00
-- 会话状态：WORK-0002 的 BPACK-0003 终审因检查环境证据被退回；5.5 已在项目 `.venv` 中重跑检查、冻结 BPACK-0004，并重新通过 GATE-01/GATE-02
+- 更新时间：2026-07-20T13:28:07+08:00
+- 会话状态：WORK-0002 的 BPACK-0004 终审结果为 CHANGES_REQUESTED；已生成 Gemini 3.5 Flash (High) 返工调度
 - 当前角色：codex-5.5，协调、指令分发和中审窗口
 - 当前自托管等级：BOOTSTRAP-L0
 - Task：TASK-0001
 - 当前 Stage：STAGE-02
 - 当前计划项：DEV-002
 - 当前 Work Order：WORK-0002，状态 approved
-- 当前等待事件：等待 Codex 5.6 执行 `BFINAL-0003-r1` / GATE-03 后，用户回到本窗口输入 `zs`
+- 当前等待事件：等待 Antigravity 开发窗口按 `BDEV-0009-r1` 完成返工后，用户回到本窗口输入 `kf`
 - 当前 Task 分支：`continuity/TASK-0001-project-foundation`
 - 当前业务执行基线：`750d3ec7a144e958c62f6f45fa8a99cbf1232a5b`
 - 实现 diff base / 调度交付提交：`83f3c21dcf2f58d99c9c898e5cd85c07f4e4625c`
@@ -33,6 +33,10 @@
 - 当前 final-review 调度：`.continuity/session-control/dispatches/final-review/BFINAL-0003-r1.md`
 - 当前 final-review 调度 SHA-256：`4e0458441bd623b3e774ad0f9180bf34c49171780daa1b69630118bac0841b55`
 - 5.6 结果目标：`.continuity/session-control/review-results/gate-03/BGATE03-0003-r1.md`
+- 当前 GATE-03 结果文件 SHA-256：`d10871536494f33014e9bad56d6cf8bb86893dbc31450fb55b91e592fe337914`
+- 当前 development 返工调度：`.continuity/session-control/dispatches/development/BDEV-0009-r1.md`
+- 当前 development 返工调度 SHA-256：`de9cd9f8d169407f2abcf9a7249b87fa52507c7c76176c3df709556e4de35cc3`
+- 当前 development 目标模型：Gemini 3.5 Flash (High)
 
 ## 当前事实
 
@@ -45,7 +49,10 @@
 - 5.5 冻结 `BPACK-0004`，它 supersedes `BPACK-0003`，只更新检查证据环境；implementation checkpoint、implementation diff 和 Source Fingerprint 均与 BPACK-0003 绑定的业务实现一致。
 - GATE-01 独立审核结果：APPROVED，无 critical/high/medium Finding。
 - GATE-02 独立审核结果：APPROVED，无 critical/high/medium Finding。
-- 5.5 已创建 `BFINAL-0003-r1`，交给 Codex 5.6 独立执行 WORK-0002 的 Stage 最终 GATE-03。
+- Codex 5.6 已写入 `BGATE03-0003-r1.md`，verdict 为 `CHANGES_REQUESTED`，审核状态 `COMPLETED_WITH_FINDINGS`。
+- GATE-03 finding：`F-GATE03-0003-01` medium，`validate()` 的结构化错误顺序依赖输入对象键插入顺序。严格 RFC 3339 错误在 jsonschema 错误排序后追加，但没有对合并后的错误列表统一重排。
+- 5.6 确认 BPACK-0004、输入、源码快照、实现差异和 `.venv` 检查证据均有效，14 项 required checks 全部通过；阻塞点为稳定排序验收要求。
+- 5.5 已创建 `BDEV-0009-r1`，作为当前唯一有效返工调度；旧 BDEV/BPRE/BFINAL/BPACK/Gate 结果均只保留为审计材料。
 - 当前工作区只剩 `.continuity/session-control/chatgpt/codex-5.6/HANDOFF.md` 的既有会话控制修改；5.5 不修改、不暂存该文件。
 
 ## 检查结果摘要
@@ -68,11 +75,11 @@
 
 ## 下一步
 
-用户复制本窗口输出的 final-review 短启动块到 Codex 5.6 终审窗口。5.6 写入 `.continuity/session-control/review-results/gate-03/BGATE03-0003-r1.md` 后，用户回到本窗口输入 `zs`。
+用户复制本窗口输出的 development 短启动块到 Antigravity 开发窗口，并手动确认模型为 Gemini 3.5 Flash (High)。开发窗口完成 `BDEV-0009-r1` 后，用户回到本窗口输入 `kf`。
 
 ## 不得执行
 
-- 5.5 不得自行写 GATE-03 结果。
-- 不得基于聊天结论推进 Stage；必须等待 5.6 的正式结果文件。
-- 不得再修改业务代码；若 GATE-03 要求改代码，必须生成新的 development 返工调度并重新冻结 BPACK。
+- 5.5 不得修改业务代码。
+- 不得基于已失败的 GATE-03 推进 Stage。
+- 不得复用 `BPACK-0004` 或既有 Gate 结果作为返工后的批准依据；返工修改后必须重新冻结 fresh BPACK，并从 GATE-01 重新开始。
 - 不得修改其他角色 HANDOFF，包括当前脏工作区中的 `.continuity/session-control/chatgpt/codex-5.6/HANDOFF.md`。
