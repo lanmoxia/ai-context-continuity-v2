@@ -1,7 +1,7 @@
 # Codex 5.5 接力摘要
 
-- 更新时间：2026-07-23T14:19:23+08:00
-- 会话状态：WORK-0003 开发交付已收到并由 5.5 fresh 验收；required checks 通过，但 acceptance criteria 未满足；已生成唯一 development 返工调度，等待开发窗口完成后回本窗口输入 `kf`
+- 更新时间：2026-07-23T14:30:38+08:00
+- 会话状态：WORK-0003 的 BDEV-0011 返工已提交并推送为实现检查点；required checks 与领域返工探针通过，但 Stage 冻结前的累计 diff check 发现 EOF 多空行；已生成唯一 development 返工调度，等待开发窗口完成后回本窗口输入 `kf`
 - 当前角色：codex-5.5，协调、Work Order 验收和 Stage 计划消费窗口
 - 当前自托管等级：BOOTSTRAP-L0
 - Task：TASK-0001
@@ -34,41 +34,53 @@
 - Work Order 目标：实现纯领域状态转换与跨实体约束
 - Work Order 风险：`high`
 - 业务执行基线：`67c9d6471b7f8cba17a2ca41fe02aea300c07a34`
+- Stage 累计实现 diff base：`83f3c21dcf2f58d99c9c898e5cd85c07f4e4625c`
 
-## 验收结论
+## 已完成核对
 
-- 来源 development 调度：`.continuity/session-control/dispatches/development/BDEV-0010-r1.md`
-- 来源 development 调度 SHA-256：`c4b672549ae831cba746b7dcd6b5993fe5cdd9acbd16bfad6b2efeae44fa3532`
-- 5.5 fresh required checks：全部 11 项通过
+- BDEV-0011 调度：`.continuity/session-control/dispatches/development/BDEV-0011-r1.md`
+- BDEV-0011 调度 SHA-256：`b1b423dcd290cb97ce65176280d44ac823d1c11d84c2b9b42642adcc77526441`
+- BDEV-0011 实现检查点：`728717f2a641f589ac2c8575f2522c3ae778e33e`
+- 实现提交：`728717f Implement WORK-0003 domain invariants`
+- 推送状态：已推送到 `origin/continuity/TASK-0001-project-foundation`
+- WORK-0003 fresh required checks：全部 11 项通过
+- WORK-0003 UNIT：126 tests，0 skipped
+- WORK-0002 fresh required checks：全部 14 项通过
+- WORK-0002 UNIT：126 tests，0 skipped；wheel 资源检查通过
+- 返工探针：F-55-KF-001 至 F-55-KF-004 均返回预期 violation
 - `.venv`：`E:\chatGPT\ai-context-continuity-v2\.venv`
 - Python：`.venv\Scripts\python.exe`，3.12.10
-- UNIT：118 tests，0 skipped
-- `git diff --check`：exit 0
-- 业务范围：当前 WORK-0003 业务改动限于 `src/continuity/domain/**` 与 `tests/unit/test_domain.py`
-- 未验收原因：领域不变量实现未满足 Work Order acceptance criteria，不能冻结 Stage BPACK
 
-## 已确认返工 Finding
+## 未冻结 BPACK 的原因
 
-- F-55-KF-001：`current.json` 指针存在性检查不完整；`latest_handoff_id`、`active_review_pack_id` 等 dangling 指针当前返回空 violation。
-- F-55-KF-002：Handoff 只检查引用实体存在，未校验 `current.latest_handoff_id` 指向的 Handoff 属于当前 Task / Stage / Work Order。
-- F-55-KF-003：Stage approval 只检查 required gates 是否存在且 approve，未拒绝错误 Gate 顺序，也未绑定当前 fresh Pack。
-- F-55-KF-004：状态边测试从实现私有 transition table 取期望值，不能独立证明全部 accepted edges。
+Stage 累计实现 diff check 失败：
+
+```text
+git diff --check 83f3c21dcf2f58d99c9c898e5cd85c07f4e4625c 728717f2a641f589ac2c8575f2522c3ae778e33e -- pyproject.toml src/continuity/schemas tests/fixtures/schemas tests/unit/test_schemas.py src/continuity/domain tests/unit/test_domain.py
+```
+
+返回：
+
+```text
+src/continuity/domain/invariants.py:663: new blank line at EOF.
+```
+
+该问题阻止冻结 Stage BPACK；本轮未生成 BPACK、Gate 或 5.6 final-review。
 
 ## 当前返工调度
 
-- 当前 development 返工调度：`.continuity/session-control/dispatches/development/BDEV-0011-r1.md`
-- 当前 development 返工调度 SHA-256：`b1b423dcd290cb97ce65176280d44ac823d1c11d84c2b9b42642adcc77526441`
+- 当前 development 返工调度：`.continuity/session-control/dispatches/development/BDEV-0012-r1.md`
+- 当前 development 返工调度 SHA-256：`6e0e6e7cb76594e9e780daefc511c718fa9e9a40e82bbc044039db783d6e4257`
 - 调度目标角色：Antigravity 开发窗口
 - 目标模型策略：`user_selected_available_model`
 - 等待事件：开发窗口完成 WORK-0003 返工后，用户回到 Codex 5.5 输入 `kf`
-- 本轮未冻结 Stage BPACK，未生成 Gate 或 5.6 final-review
 
 ## 保留现场
 
-- 保留 BDEV-0010 后全部既有 WORK-0003 业务改动，开发窗口按 BDEV-0011 增量返工。
+- 保留 BDEV-0010/BDEV-0011 后已经提交的 WORK-0003 业务改动，开发窗口按 BDEV-0012 增量返工。
 - 保留 `.continuity/session-control/chatgpt/codex-5.6/HANDOFF.md` 的既有修改；5.5 未修改、未暂存该文件。
-- ignored `__pycache__` 输出保持 ignored 状态。
+- ignored build/cache 输出保持 ignored 状态。
 
 ## 下一步
 
-唯一下一步：用户把 `BDEV-0011-r1` 的短启动块交给 Antigravity 开发窗口。开发完成后回 Codex 5.5 输入 `kf`。
+唯一下一步：用户把 `BDEV-0012-r1` 的短启动块交给 Antigravity 开发窗口。开发完成后回 Codex 5.5 输入 `kf`。
