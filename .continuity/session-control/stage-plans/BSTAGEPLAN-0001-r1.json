@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "id": "BSTAGEPLAN-0001",
+  "revision": 1,
+  "status": "draft",
+  "supersedes": null,
+  "task_id": "TASK-0001",
+  "stage_id": "STAGE-02",
+  "plan_item_id": "DEV-002",
+  "title": "Schema 与领域模型",
+  "goal": "完成首批持久化 Schema 合同、纯领域状态转换和跨实体约束，并对两张 Work Order 的累计实现执行一次 Stage 审核。",
+  "risk_level": "high",
+  "risk_reasons": [
+    "本 Stage 定义首批公共持久化格式和决定状态能否推进的领域规则。",
+    "错误可能破坏后续状态仓库、审核可信和跨窗口恢复。"
+  ],
+  "required_review_gates": [
+    "GATE-01",
+    "GATE-02",
+    "GATE-03"
+  ],
+  "work_orders": [
+    {
+      "sequence": 1,
+      "work_order_id": "WORK-0002",
+      "path": "docs/work-orders/DEV-002/work-order.json",
+      "sha256": "9249ab044d29f761060c0aa1224630018a3b9aec143ab333aae0fced53c14714",
+      "depends_on": [],
+      "terminal_for_stage": false,
+      "state_at_plan_creation": "completed_before_plan",
+      "completion_checkpoint": "67c9d6471b7f8cba17a2ca41fe02aea300c07a34",
+      "completion_commit": "1173d9d8b06934797b6977b0eebfe5a4db8032c3"
+    },
+    {
+      "sequence": 2,
+      "work_order_id": "WORK-0003",
+      "path": "docs/work-orders/WORK-0003/work-order.json",
+      "sha256": "8409492acd277568420af81e741a062210ef47b87e1f96edd5f534a361766dc9",
+      "depends_on": [
+        "WORK-0002"
+      ],
+      "terminal_for_stage": true,
+      "state_at_plan_creation": "ready"
+    }
+  ],
+  "next_ready_work_order_id": "WORK-0003",
+  "stage_acceptance_criteria": [
+    "WORK-0002 的首批实体 Schema、离线 registry、合法/非法 fixtures、稳定错误和 wheel 包资源继续全部通过。",
+    "WORK-0003 的合法状态边、非法状态边和跨实体不变量全部有确定性单元测试且 0 skipped。",
+    "domain 不复制 Schema 字段模型，不读写文件，不依赖网络、Git、时间或当前工作目录。",
+    "全部 unittest、Schema 自检、领域 API 检查和 CLI help/version 回归检查通过。",
+    "最终 Stage BPACK 覆盖 WORK-0002 与 WORK-0003 的累计业务实现，并绑定同一 fresh Source Fingerprint。"
+  ],
+  "dispatch_policy": {
+    "consume_in_sequence": true,
+    "allow_5_5_to_create_work_orders": false,
+    "continue_without_architecture_roundtrip": true,
+    "freeze_stage_pack_only_after_terminal_work_order": true,
+    "return_to_architecture_only_if": [
+      "plan file or listed Work Order is missing or its SHA-256 mismatches",
+      "a listed dependency cannot be proven satisfied",
+      "accepted specification or required public interface is ambiguous",
+      "implementation requires paths or behavior outside the approved Work Order",
+      "the Stage plan itself must be revised"
+    ]
+  },
+  "historical_review_interpretation": {
+    "work_order_id": "WORK-0002",
+    "result_path": ".continuity/session-control/review-results/gate-03/BGATE03-0004-r1.md",
+    "result_sha256": "595c69c0f7ee4c6943ef172a1cdb118a9cd1dad8cd7f3798cc911dbaacfeff97",
+    "meaning": "valid intermediate checkpoint evidence for WORK-0002; does not close STAGE-02"
+  },
+  "created_at": "2026-07-23T13:34:40+08:00",
+  "created_by": "codex-5.6:architecture_design"
+}
