@@ -34,6 +34,7 @@ Antigravity 只保留一个开发角色和一个开发会话：
 - OPERATOR_PROTOCOL.md：规定 5.6 负责技术决策，人类用户只负责窗口切换和指令转发。
 - HANDOFF.md：当前角色最新的可恢复现场，只能由该角色更新；人类操作员不手工维护。Codex 5.6 是例外：架构模式使用 `ARCHITECTURE_HANDOFF.md`，最终审核模式使用 `HANDOFF.md`，两者不得互相覆盖。
 - ROLE_REGISTRY.json：活动角色文件白名单和历史角色禁用状态；全部文件禁止进入业务 Context Pack。
+- stage-plans/：保存 5.6 在 Stage 启动前生成的不可覆盖 Work Order 队列；5.5 只按精确路径和哈希消费。
 - dispatches/development/：保存不可覆盖的开发与返工调度。
 - dispatches/pre-final-review/：旧流程历史，只读保留，不再新增。
 - dispatches/final-review/：保存 5.6 Stage 最终 Gate 与 TASK-FINAL 调度。

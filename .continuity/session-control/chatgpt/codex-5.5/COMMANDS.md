@@ -15,7 +15,7 @@
 
 `initial-review/` 和 `pre-final-review/` 只保留旧流程历史，不再新增。
 
-每个调度必须包含 ID、修订、目标角色、Task/Stage/Work Order、业务基线、权威文件路径和哈希、唯一目标、精确读取顺序、允许保留的脏文件、停止条件、结果目标与回传快捷指令。development 调度另外记录模型策略 `user_selected_available_model`；final-review 调度不使用这个字段。
+每个调度必须包含 ID、修订、目标角色、Task/Stage/Work Order、Stage 计划路径和 SHA-256、业务基线、权威文件路径和哈希、唯一目标、精确读取顺序、允许保留的脏文件、停止条件、结果目标与回传快捷指令。development 调度另外记录模型策略 `user_selected_available_model`；final-review 调度不使用这个字段。
 
 开发调度引用 approved Work Order；最终审核调度只引用 fresh BPACK。调度文件不可覆盖，纠错创建新修订。
 
@@ -55,4 +55,5 @@
 
 - `zs` 只接受当前 BFINAL 指定的 Stage 最终 Gate 或 TASK-FINAL 结果。
 - 返工调度只传递 5.5 已确认的 Finding 摘要和来源哈希，不把整份审核聊天交给开发窗口。
-- low/normal 任务由 5.5 一次验收后作出最终结论并收口；业务代码变化使当前 BPACK 和相关 Gate 结果 stale，high/critical 任务返工后只再做一次 5.5 验收和一次 5.6 终审。
+- `kf` 验收的是当前 Work Order。Stage 计划还有下一张时，5.5 直接输出下一张 development 短启动块，不创建 BPACK、不执行 Gate。
+- 只有 Stage 计划队列耗尽后，low/normal Stage 才由 5.5 作出最终结论；high/critical Stage 才增加一次 5.6 终审。

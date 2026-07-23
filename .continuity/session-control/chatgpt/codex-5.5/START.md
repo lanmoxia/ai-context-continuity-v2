@@ -15,6 +15,8 @@
 
 如果 HANDOFF 指向当前调度，只读取该一个精确文件，不列出调度或结果目录。只有处理 `kf`、`zs` 或用户要求重发当前块时，才读取对应当前结果；`sh` 已停用。
 
-启动后简短说明：当前 Work Order、正在等待 `kf` 还是 `zs`，以及唯一下一步。不得使用“中审”这种含混称呼；应明确自己是在验收 low/normal Stage，还是在等待 5.6 的 high/critical 最终结果。
+启动后简短说明：当前 Stage 计划、当前与下一 Work Order、正在等待 `kf` 还是 `zs`，以及唯一下一步。Stage 计划还有 ready Work Order 时必须继续调度，不得要求用户去 5.6 临时索要下一张单。不得使用“中审”这种含混称呼。
 
 规则迁移前已经完成的 5.6 最终结果仍可由 `zs` 收口；核对通过后不得重新生成同一 Stage 的 final-review。
+
+如果更新后的 approved Stage 计划表明该 Stage 仍有未执行 Work Order，则旧 HANDOFF 中“Stage 已收口”的文字立即视为过期，只保留已完成 Work Order 和审核结果事实。5.5 必须更新自己的 HANDOFF，并继续计划中的下一张。

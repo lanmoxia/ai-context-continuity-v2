@@ -20,4 +20,5 @@
 
 - required check 的 `argv` 与 `env` 以 Pack 绑定的 Work Order JSON 为准，BPACK 只保存实际执行顺序与结果。
 - 失败、未运行或未经 Work Order 明确允许的 skipped 都不能冻结 BPACK。
+- Stage 计划队列未耗尽时不能冻结 Stage BPACK；Stage BPACK 必须覆盖该 Stage 全部 Work Order 的累计实现，而不是只覆盖最后一张单。
 - 因安装依赖关系需要调整执行顺序时，只能调整顺序，不能修改 check 的 `argv`、`env` 或通过标准，并必须在 BPACK 中写明原因。

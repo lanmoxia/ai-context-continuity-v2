@@ -94,8 +94,8 @@ V2 是一个独立的 Python 本地 CLI 工具，不是常驻服务，也不是�
 
 这是当前项目的协作方式，不属于核心产品数据模型：
 
-- Codex 5.6：架构所有者，负责需求、架构、任务拆分、Work Order 技术批准、详细开发文档、high/critical Stage 终审和整个 Task 的 TASK-FINAL。
-- Codex 5.5：协调器和日常验收员；一次一条开发指令，对每个开发结果只验收一次，low/normal 任务直接收口，high/critical 任务再路由 5.6。
+- Codex 5.6：架构所有者，负责需求、架构、任务拆分，并在 Stage 开始前一次准备和批准该 Stage 的 Work Order 队列；同时负责 high/critical Stage 终审和整个 Task 的 TASK-FINAL。
+- Codex 5.5：协调器和日常验收员；按已批准 Stage 计划一次一条连续派发 Work Order，不逐张向 5.6 索要；队列耗尽后才进入 Stage 审核。
 - Antigravity 开发窗口：不绑定固定模型；用户在同一个开发会话中手动选择当前有额度的模型执行开发或返工。
 - Antigravity 初审窗口：已停用；角色文件、BREV 调度和历史结果仅作不可变历史保留。
 
@@ -131,7 +131,7 @@ V2 是一个独立的 Python 本地 CLI 工具，不是常驻服务，也不是�
 - 20 项架构决定处于 accepted。
 - 25 个验收场景已经整理。
 - 内部计划项 DEV-001 对应正式 Work Order WORK-0001，内容是“建立 Python 工程骨架”，已通过 Bootstrap GATE-01 和 GATE-02。
-- 下一计划项 DEV-002 已分成两张工作单：WORK-0002 只实现 Schema 合同，已由 5.6 架构所有者批准；后续 WORK-0003 再实现纯领域状态转换与跨实体校验。
+- DEV-002 / STAGE-02 已分成两张工作单：WORK-0002 的 Schema 合同已经完成；WORK-0003 的纯领域状态转换与跨实体校验已经批准，等待 5.5 按 `BSTAGEPLAN-0001-r1` 调度。
 - 当前处于 BOOTSTRAP-L0；在 Task状态、Context Pack和Review Pack等能力实现前，使用外部会话控制层和Git渐进式自托管，不伪造正式产品状态。
 - 尚未生成 implementation Context Pack。
 - 尚未生成正式 Review Pack。

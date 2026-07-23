@@ -1,5 +1,5 @@
 {
-  "schema_version": 7,
+  "schema_version": 8,
   "default_policy": "deny",
   "context_pack_policy": "deny_all",
   "root_router": {
@@ -53,6 +53,13 @@
       "append_only": true,
       "read_policy": "exact_path_and_sha256_only"
     },
+    "bootstrap_stage_plans": {
+      "root": ".continuity/session-control/stage-plans",
+      "append_only": true,
+      "creator": "codex-5.6:architecture_design",
+      "consumer": "codex-5.5",
+      "read_policy": "exact_path_and_sha256_only"
+    },
     "bootstrap_review_results": {
       "root": ".continuity/session-control/review-results",
       "append_only": true,
@@ -96,11 +103,13 @@
         "architecture_design_write": [
           ".continuity/session-control/bootstrap-packs/**",
           ".continuity/session-control/dispatches/**",
+          ".continuity/session-control/stage-plans/**",
           ".continuity/session-control/review-results/**"
         ],
         "final_review_read_exact": [
           ".continuity/session-control/bootstrap-packs/**",
-          ".continuity/session-control/dispatches/final-review/**"
+          ".continuity/session-control/dispatches/final-review/**",
+          ".continuity/session-control/stage-plans/**"
         ],
         "final_review_write_exact": [
           ".continuity/session-control/review-results/gate-03/**",
@@ -123,6 +132,7 @@
         "read_exact": [
           ".continuity/session-control/bootstrap-packs/**",
           ".continuity/session-control/dispatches/**",
+          ".continuity/session-control/stage-plans/**",
           ".continuity/session-control/review-results/gate-01/**",
           ".continuity/session-control/review-results/gate-02/**",
           ".continuity/session-control/review-results/gate-03/**",

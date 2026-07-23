@@ -16,6 +16,8 @@ review-results/
 
 GATE-01 和 GATE-02 可以由 5.5 的同一次连续验收产生；目录分开是为了兼容 Work Order 的 Gate 证据结构，不表示发生了两次独立代码审核。low/normal Stage 在 5.5 完成所需 Gate 后直接收口；high/critical Stage 才增加一次 5.6 GATE-03。
 
+Stage Gate 只在 Stage 计划队列耗尽后产生。历史上对中间 Work Order 形成的结果继续保留为对应检查点证据，但不能单独关闭 Stage。
+
 ## 保存与修订
 
 - 结果文件只新增、不覆盖、不删除，并进入 Git。

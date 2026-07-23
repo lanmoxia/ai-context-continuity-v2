@@ -24,7 +24,7 @@ dispatches/
 
 1. 类型、ID、修订、生成时间、生成者和目标角色。开发调度记录模型选择策略为“用户手动选择当前可用模型”，不绑定具体模型。
 2. `supersedes`，没有则写 `none`。
-3. Task、Stage、Work Order、分支和精确业务执行基线。
+3. Task、Stage、Work Order、当前 Stage 计划路径与 SHA-256、分支和精确业务执行基线。
 4. 开发时引用权威 Work Order JSON 路径与 SHA-256；审核时只引用精确 BPACK 路径、BPACK SHA-256 和结果路径。
 5. 唯一目标、精确读取顺序、允许存在的预先修改、停止条件和完成回传。
 

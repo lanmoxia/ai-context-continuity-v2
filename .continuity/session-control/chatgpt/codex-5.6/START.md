@@ -19,7 +19,7 @@
 
 6. 读取 .continuity/session-control/chatgpt/codex-5.6/HANDOFF.md。
 7. 核对短启动块指定的 final-review 调度文件 SHA-256，并只读取该一个调度文件。
-8. 再只读取调度文件指定的 Context Pack、Review Pack 或 Task Final Review Pack。
+8. 再只读取调度文件指定的 Stage 计划，以及 Context Pack、Review Pack 或 Task Final Review Pack。
 9. 不读取 PROJECT_BRIEF.md、docs/planning、其他调度修订或前序审核者结论。
 
 不要读取其他角色目录。

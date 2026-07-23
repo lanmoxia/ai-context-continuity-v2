@@ -16,7 +16,8 @@
 - 产品 CLI 还不能创建正式 Task、Stage、Work Order、Writer Lease 或 Context Pack。
 - Task、Stage 和 Work Order 的逻辑身份由已确认文档与角色当前模式接力文件共同记录。
 - 5.6作为架构所有者维护并技术批准工作单 JSON 源文件和 Markdown 阅读页。
-- 5.5根据已批准工作单新增一次一条、按目标角色分目录保存的调度文件，并只在聊天中输出短启动块。
+- 5.6 在 Stage 开始前新增不可覆盖 Stage 计划，固定该 Stage 全部 approved Work Order 的顺序、路径和哈希。
+- 5.5根据已批准 Stage 计划连续消费工作单，新增一次一条、按目标角色分目录保存的调度文件，并只在聊天中输出短启动块。
 - 各窗口使用自己的角色与模式接力文件。
 - Git提交负责保存可恢复代码基线。
 
@@ -26,12 +27,12 @@ BOOTSTRAP-L0 不创建假的产品核心状态文件。
 
 5.5发出第一条开发指令前必须全部满足：
 
-1. Codex 5.6 架构所有者已经独立复核并批准当前 Work Order；人类操作员不承担技术审批。
+1. Codex 5.6 架构所有者已经独立复核并批准当前 Stage 计划及其中全部 Work Order；人类操作员不承担技术审批。
 2. Work Order JSON 状态为 approved，并包含 `approval` 对象：`approved_at` 使用带时区的 RFC 3339 时间，`approved_by` 对新工作单固定为 `architecture_owner`，`draft_sha256` 记录批准前完整 draft JSON 文件的小写 SHA-256；不得让哈希字段循环包含自身。WORK-0001 的历史 `project_owner` 值保留有效，不回写历史。
 3. Markdown 阅读页与 JSON 内容一致，但 JSON 是唯一权威来源。
 4. Git仓库、固定 .gitignore、初始基线提交和当前 Task 分支已经存在。
 5. 当前开发环境满足 Work Order 的 Python 版本。
-6. 5.5调度文件列出精确输入、当前 approved Work Order 文件的 SHA-256、Git 基线和停止条件；允许路径、禁止路径、交付物和检查只引用 Work Order JSON，不重复维护。
+6. 5.5调度文件列出 Stage 计划路径与 SHA-256、当前 approved Work Order 文件的 SHA-256、Git 基线和停止条件；允许路径、禁止路径、交付物和检查只引用 Work Order JSON，不重复维护。
 7. 只有一个开发窗口被指定为代码写入者。
 8. 已配置名为 `origin` 的远端仓库，并已把主分支和当前 Task 分支安全推送到远端，确保公司与家里电脑都能恢复。
 
@@ -40,6 +41,7 @@ BOOTSTRAP-L0 不创建假的产品核心状态文件。
 ## 4. BOOTSTRAP-L0 指令和接力
 
 - 5.5先在 `.continuity/session-control/dispatches/` 的目标角色目录新增调度文件，再计算 SHA-256 并更新自己的 HANDOFF。
+- 5.5 只按当前 Stage 计划消费 Work Order；当前单验收通过且队列未结束时，直接生成下一张 development 调度，不回 5.6 索要。
 - 聊天只输出角色启动、调度文件路径和 SHA-256；Antigravity 模型由用户现场选择，调度详情不复制进聊天。
 - Bootstrap 开发调度必须明确不能冒充正式 implementation Context Pack；不生成 CTX 编号。
 - 调度文件只引用精确权威文件路径与哈希，不复制 Work Order 的允许路径、交付物和 required checks。
@@ -98,13 +100,15 @@ Work Order 中的 allowed_paths 和 forbidden_paths约束业务实现与产品�
 - 每份 BPACK 必须作为 `.continuity/session-control/bootstrap-packs/` 中的独立不可覆盖 JSON 文件，绑定精确 Git 提交、变更文件清单、可复算 diff 哈希和检查结果。
 - diff 哈希必须保存生成原始字节的完整 `argv`；Source Fingerprint 必须保存排序后的逐文件 SHA-256 前像规则和条目。无法独立复算的裸哈希无效。
 - required check 有失败、未运行或未经 Work Order 明确允许的 skipped 时，不得冻结 BPACK；如果安装顺序使测试稍后才完整运行，必须在正确环境中重跑并记录无跳过证据。
-- 5.5 对每个开发结果只执行一次连续验收，并在这一次验收中写完 Work Order 要求的前置 Gate 证据；low/normal Stage 随后由 5.5 直接收口，high/critical Stage 再由 5.6 执行唯一一次最终 Stage Gate。
+- 单个 Work Order 验收通过时只记录本单完成；Stage 计划仍有后续 Work Order 时不得冻结 BPACK、执行 Gate 或关闭 Stage。
+- Stage 计划队列耗尽且累计验收标准满足后，5.5 才冻结覆盖整个 Stage 的 BPACK，并在一次连续 Stage 验收中写完前置 Gate 证据；low/normal Stage 随后由 5.5 直接收口，high/critical Stage 再由 5.6 执行唯一一次最终 Stage Gate。
 - 每道 Gate 必须把结果写入 `.continuity/session-control/review-results/` 对应目录的新文件；最后一道 Stage Gate 或 TASK-FINAL 没有结果文件时不得处理 `zs`。
 - 结果文件必须引用调度文件路径与 SHA-256，并绑定 BPACK、Git提交、Source Fingerprint、diff哈希和检查结果。
 - 5.5 写最后一道之前的初验结果；5.6 写最后一道 Stage Gate 和 TASK-FINAL。5.5 处理 `zs` 时只核对当前结果并收口。
 - 审核调度只引用 BPACK 路径、SHA-256 和结果目标，不复制 BPACK 内容；审核者不得读取开发窗口 HANDOFF。
 - 开发窗口默认不读取原始审核结果；返工调度只传递 5.5 已确认的 Finding 和来源哈希。
 - 当前 Stage 的全部 Gate 必须审核同一份 BPACK；同一 `Task + Stage + BPACK + Gate` 不得重复调度或产生多个有效结论。
+- 历史上为 Stage 中间 Work Order 生成的 BPACK 和 Gate 结果可以保留为检查点证据，但不能证明整个 Stage 完成。
 - 代码变化后旧 BPACK 立即失效，并从 GATE-01重新开始。
 - Bootstrap审核结果只证明开发过程受控，不冒充产品自身已经实现并强制了审核状态机。
 - 审核文件保证版本绑定和可追溯，不承诺固定准确率；可靠性来自 Antigravity 开发、5.5 一次验收与证据核对，以及仅在高风险范围启用的 5.6 最终裁决。

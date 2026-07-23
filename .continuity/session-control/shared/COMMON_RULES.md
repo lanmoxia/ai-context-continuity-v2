@@ -24,6 +24,7 @@
 
 - 角色规则决定“你是谁、能做什么、不能做什么”。
 - 调度文件决定“本轮只执行哪一步、到哪里读取权威事实”，但不能改写业务事实。
+- Bootstrap Stage 计划决定“当前 Stage 预先批准了哪些 Work Order、顺序和结束条件”；5.5 只能消费，不能改写。
 - Context Pack、Work Order 和 Review Pack 提供“本次任务的事实与范围”。
 - Bootstrap 审核结果保存外部 Gate 证据，不是产品正式 Review Decision。
 - BPACK 冻结审核输入、源码指纹和检查证据；裸哈希必须连同可复算算法和前像清单保存。
@@ -43,7 +44,7 @@
 - 只修改当前 Work Order 允许的业务路径。
 - 产品核心 .continuity 状态只能按当前已实现能力和自托管等级更新。
 - 本角色规则指定的 session-control 接力文件是外部角色状态，由角色规则单独授权，不属于 Work Order 业务路径。
-- 5.5 可以新增当前流程需要的 development/final-review 调度、BPACK，以及 Stage 最终 Gate 之前的初验结果；5.6 只能写阶段最后一道 Gate或 TASK-FINAL 结果。开发窗口不能修改调度文件或审核结果。
+- 5.5 可以新增当前流程需要的 development/final-review 调度、BPACK，以及 Stage 最终 Gate 之前的初验结果；5.6 架构模式可以新增不可覆盖 Stage 计划，最终审核模式只能写阶段最后一道 Gate或 TASK-FINAL 结果。开发窗口不能修改 Stage 计划、调度文件或审核结果。
 - 调度文件和 Bootstrap 审核结果只新增、不覆盖、不删除；纠错使用新修订并由 5.5 HANDOFF 指向当前版本。
 - `pre-final-review/`、`initial-review/` 以及 Antigravity 初审角色只保留历史，新流程不得新增或恢复。
 - BPACK 同样只新增、不覆盖、不删除；审核者只能读取当前调度精确指定且 SHA-256 匹配的一份。

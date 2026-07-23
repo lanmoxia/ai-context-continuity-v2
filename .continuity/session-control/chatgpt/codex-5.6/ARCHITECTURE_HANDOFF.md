@@ -1,36 +1,52 @@
 # Codex 5.6 架构模式接力摘要
 
-- 更新时间：2026-07-23T13:11:18+08:00
+- 更新时间：2026-07-23T13:34:53+08:00
 - 当前模式：架构设计
-- 会话状态：协作规则简化完成；等待 5.5 收口 WORK-0002 后继续规划
+- 会话状态：STAGE-02 计划已修复，WORK-0003 已批准，可交给 5.5 连续调度
 - Task：TASK-0001
-- 当前 Stage：STAGE-02
+- 当前 Stage：STAGE-02，状态 active
 - 当前计划项：DEV-002
-- 当前 Work Order：WORK-0002，状态 approved，风险 high
+- 已完成 Work Order：WORK-0002
+- 下一 Work Order：WORK-0003，状态 approved，风险 high
 - 当前自托管等级：BOOTSTRAP-L0
 
 ## 已完成
 
-- WORK-0002 的业务实现已形成检查点，fresh BPACK 为 `BPACK-0005`。
-- 5.6 已完成 WORK-0002 的 GATE-03 最终审核，结果 `BGATE03-0004-r1` 为 APPROVED；该结果正在等待 5.5 处理 `zs` 并收口。
-- 外部协作流程已简化：Antigravity 只保留一个开发会话，不绑定具体模型；用户可在同一会话内手动切换当前有额度的模型。
-- 每个开发结果只由 5.5 验收一次。low/normal Stage 由 5.5 作出最终结论；high/critical Stage 才增加一次 5.6 最终审核。
-- 5.6 的 TASK-FINAL 只检查跨 Stage 整合、最终 E2E、未解决 Finding 和合并准备度，不重复逐文件审核未变化的 Stage。
-- 架构模式与最终审核模式已拆分接力文件，避免最终审核覆盖架构所有者现场。
-- 协作规则提交 `b079321` 已推送到 `origin/continuity/TASK-0001-project-foundation`。
+- 确认旧流程错误地把 WORK-0002 收口等同于 STAGE-02 收口；accepted 规格和 `DEVELOPMENT_TASKS.md` 均表明 STAGE-02 还包含 WORK-0003。
+- 新增并批准 `WORK-0003`：只实现纯领域状态转换与跨实体不变量，不实现存储、CLI、Git 或文件写入。
+- 新增并批准 Stage 计划 `BSTAGEPLAN-0001-r1`，固定 STAGE-02 的两张 Work Order、顺序、依赖、哈希和队列末项。
+- 规则已改为：5.6 在 Stage 开始前一次准备全部 Work Order；5.5 在 Stage 内连续调度，不逐张向 5.6 索要。
+- WORK-0002 的 `BGATE03-0004-r1` 保留为有效的中间检查点审核证据，但不能单独关闭 STAGE-02。
+- STAGE-02 只有在 WORK-0003 验收完成、最终累计 BPACK 覆盖 WORK-0002 与 WORK-0003，并通过 GATE-01、GATE-02、GATE-03 后才能收口。
+
+## 当前绑定
+
+- Stage 计划：`.continuity/session-control/stage-plans/BSTAGEPLAN-0001-r1.json`
+- Stage 计划 SHA-256：`4213ace8c0758c1e958223e7e3c7aaf0aecfcffb62111eb94c049c92eb2dd820`
+- WORK-0003 JSON：`docs/work-orders/WORK-0003/work-order.json`
+- WORK-0003 SHA-256：`8409492acd277568420af81e741a062210ef47b87e1f96edd5f534a361766dc9`
+- WORK-0003 draft SHA-256：`c60f4659e183d3405313e0ce9a8d923eb975075769b7f13b9dc6c723d562733c`
+- 当前 Task 分支：`continuity/TASK-0001-project-foundation`
 
 ## 当前边界
 
 - 架构模式只读取和更新本文件，不读取或修改最终审核 `HANDOFF.md`。
-- 当前 5.6 最终审核结果和最终审核 `HANDOFF.md` 属于在途收口材料，不由架构模式修改或提交。
-- 在 5.5 完成 `zs` 收口前，不批准下一 Work Order，也不重复审核 WORK-0002。
+- 5.5 不得修改 Work Order 或 Stage 计划，只按当前精确路径和哈希消费。
+- 当前工作区中既有的最终审核 `HANDOFF.md` 修改属于另一模式，不由本模式暂存或提交。
 
 ## 唯一下一步
 
-1. 先检查 WORK-0002 的 GATE-03 结果是否已由 5.5 收口并形成安全提交。
-2. 如果尚未收口，要求人类操作员回到当前 5.5 窗口输入 `zs`，不提出其他技术选择。
-3. 如果已经收口，继续核对实现计划，自主编写、复核并批准下一张最小 Work Order；不要让人类操作员决定技术批准。
+人类操作员把下面整段复制到当前 Codex 5.5 窗口。5.5 核对 Stage 计划和 WORK-0003 后，应直接生成 WORK-0003 的 Antigravity development 短启动块，不再要求切回 5.6。
+
+```text
+规则与 STAGE-02 计划已修复。请重新读取本角色 START.md、RULES.md、COMMANDS.md，然后核对：
+- Stage 计划：.continuity/session-control/stage-plans/BSTAGEPLAN-0001-r1.json
+- Stage 计划 SHA-256：4213ace8c0758c1e958223e7e3c7aaf0aecfcffb62111eb94c049c92eb2dd820
+- 下一 Work Order：docs/work-orders/WORK-0003/work-order.json
+- Work Order SHA-256：8409492acd277568420af81e741a062210ef47b87e1f96edd5f534a361766dc9
+WORK-0002 已完成，但 STAGE-02 尚未完成。请直接生成 WORK-0003 的唯一 development 调度；不要再向 5.6 索要 Work Order，也不要冻结 Stage BPACK。
+```
 
 ## 阻塞
 
-无。当前只是等待 5.5 完成既有审核结果的流程收口。
+无。
