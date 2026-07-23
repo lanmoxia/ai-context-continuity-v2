@@ -1,43 +1,54 @@
 # Antigravity 开发窗口接力摘要
 
-- 更新时间：2026-07-20T13:35+08:00
+- 更新时间：2026-07-23T14:24+08:00
 - 会话状态：完成（等待用户回 5.5 输入 kf）
-- 当前指定模型：Gemini 3.5 Flash (High)（用户手动确认）
+- 当前指定模型：Gemini 3.6 Flash (High)（用户手动选择）
 - Task：TASK-0001
 - 当前 Stage：STAGE-02
-- 当前计划项：DEV-002
-- 当前 Work Order：WORK-0002，状态 approved
+- 计划项：DEV-002
+- 当前 Work Order：WORK-0003，状态 approved
 - 当前自托管等级：BOOTSTRAP-L0
 - 当前 Context Pack：无（Bootstrap 模式）
-- 当前调度文件：`.continuity/session-control/dispatches/development/BDEV-0009-r1.md`
-- 当前调度文件 SHA-256：`de9cd9f8d169407f2abcf9a7249b87fa52507c7c76176c3df709556e4de35cc3`（短启动块提供，已核对实际文件一致）
+- 当前调度文件：`.continuity/session-control/dispatches/development/BDEV-0011-r1.md`
+- 当前调度文件 SHA-256：`b1b423dcd290cb97ce65176280d44ac823d1c11d84c2b9b42642adcc77526441`（短启动块提供，已核对实际文件一致）
+- Stage 计划：`.continuity/session-control/stage-plans/BSTAGEPLAN-0001-r1.json`
+- Stage 计划 SHA-256：`4213ace8c0758c1e958223e7e3c7aaf0aecfcffb62111eb94c049c92eb2dd820`
+- Work Order：`docs/work-orders/WORK-0003/work-order.json`
+- Work Order SHA-256：`8409492acd277568420af81e741a062210ef47b87e1f96edd5f534a361766dc9`（已核对一致）
+- 替代调度：`.continuity/session-control/dispatches/development/BDEV-0010-r1.md`
+- 替代调度 SHA-256：`c4b672549ae831cba746b7dcd6b5993fe5cdd9acbd16bfad6b2efeae44fa3532`
 - 当前 Task 分支：continuity/TASK-0001-project-foundation
-- 初始 Git 基线：6a1f38b3cff00e07a9bdfc6e914313fb76122a7b
-- 业务执行基线：750d3ec7a144e958c62f6f45fa8a99cbf1232a5b
-- Work Order SHA-256：`9249ab044d29f761060c0aa1224630018a3b9aec143ab333aae0fced53c14714`（已核对一致）
+- 业务执行基线：`67c9d6471b7f8cba17a2ca41fe02aea300c07a34`
+- 未触碰 `.continuity/session-control/chatgpt/codex-5.6/HANDOFF.md`
 
 ## 当前事实
 
-- WORK-0002 已批准；Work Order SHA-256 已核对一致。
-- 业务执行基线核对通过。
-- 检查运行在项目专用且激活的 `.venv` 环境中，Python 版本为 `.venv/Scripts/python` (3.12.10 >= 3.11)。
-- 单元测试增至 45 个，全部通过（0 failures, 0 skipped）。
-- `git diff --check` 检查无尾随空白（退出码 0）。
-- 重新运行全部 14 项 required checks，全部成功通过。
+- WORK-0003 已批准；Work Order SHA-256 已核对一致。
+- Stage 计划 SHA-256 已核对一致；WORK-0003 是 `next_ready_work_order_id`，`terminal_for_stage = true`。
+- 检查运行在项目专用且激活的 `.venv` 环境中，Python 版本 3.12.10 (>= 3.11)。
+- 单元测试 126 个（45 现有 schema + 81 新增/更新 domain），全部通过，0 failures，0 skipped。
+- `git diff --check` 无尾随空白（退出码 0）。
+- 全部 11 项 required checks 成功通过。
 
-## 已完成事项
+## 已完成 Finding 修复
 
-### BDEV-0009-r1 修复
-1. **F-GATE03-0003-01 (验证错误顺序稳定排序)**:
-   - 在 `src/continuity/schemas/registry.py` 的 `_collect_errors` 方法中，在追加严格 RFC 3339 错误（通过 `_check_rfc3339_strict` 追加）之后，增加全局 `errors.sort(key=lambda x: (x["path"], x["code"]))`。
-   - 这确保了合并后的 jsonschema 与严格日期时间检验错误不受字典内部插入顺序或任何其他外界因素的影响，其输出永远只根据 JSON 相对路径与错误代码执行确定性的、词法性的稳定全局排序。
-   - 新增了 `test_structured_error_sorting_stability` 单元测试，对于字段集合和值相同、但键插入顺序完全颠倒的 Task 对象（同时故意引入 status 字段校验错、created_at 闰年错、updated_at 日历超界错），断言其返回的错误列表顺序恒等一致（符合由 path 升序排序的稳定序列 `["created_at", "status", "updated_at", "updated_at"]`）。
+1. **F-55-KF-001 (high)**:
+   - 补全 `current.json` 全部非空指针存在性检查：补齐 `latest_checkpoint_id`、`latest_handoff_id`、`latest_context_id`、`active_review_pack_id`、`latest_transfer_id` 和 `task_final_review_pack_id`。
+
+2. **F-55-KF-002 (high)**:
+   - 增加最新 Handoff 归属校验：当 `current.latest_handoff_id` 非空且目标 Handoff 存在时，校验其 `task_id`、`stage_id` 和 `work_order_id` 是否与当前 `active_*_id` 指针完全一致，不一致返回 `HANDOFF_OWNERSHIP_MISMATCH` 违反。
+
+3. **F-55-KF-003 (high)**:
+   - 严格 Gate 决策顺序与 Pack 绑定：Stage 批准必须按 `stage.review_gates` 顺序逐项 approve，并对 round/created_at 递增性实施校验；若 `current.active_review_pack_id` 非空，必须与满足审批条件的 Pack ID 一致。
+
+4. **F-55-KF-004 (medium)**:
+   - 测试重构：在 `tests/unit/test_domain.py` 中引入显式硬编码 expected transition 集合（`EXPECTED_TASK_TRANSITIONS`、`EXPECTED_STAGE_TRANSITIONS`、`EXPECTED_WORK_ORDER_TRANSITIONS`），不再仅依赖实现私有表作为唯一期望数据源。
 
 ## 修改文件（全部在 allowed_paths 内）
 
-- `src/continuity/schemas/registry.py` (修改)
-- `tests/unit/test_schemas.py` (修改)
-- `.continuity/session-control/antigravity/development/HANDOFF.md` (会话控制例外，本次更新)
+- `src/continuity/domain/invariants.py`（修改）
+- `tests/unit/test_domain.py`（修改）
+- `.continuity/session-control/antigravity/development/HANDOFF.md`（会话控制例外，本次更新）
 
 ## 检查结果
 
@@ -47,19 +58,16 @@
 | EDITABLE_INSTALL | 0 | .venv | continuity-0.1.0 installed |
 | DEPENDENCY_CHECK | 0 | .venv | No broken requirements found |
 | COMPILE | 0 | .venv | 无警告/无报错 |
-| UNIT | 0 | .venv | 45 tests, 0 failures, 0 skipped |
-| SCHEMA_SELF_CHECK | 0 | .venv | Meta-schema check passed |
-| SCHEMA_PACKAGE_RESOURCES | 0 | .venv | 12 entity schemas loaded OK |
-| WHEEL_PREP | 0 | .venv | build/work-0002-wheel directory prepared |
-| WHEEL_BUILD | 0 | .venv | continuity-0.1.0-py3-none-any.whl built |
-| WHEEL_SCHEMA_RESOURCES | 0 | .venv | wheel contains 13 schemas (common + 12 entities) |
+| UNIT | 0 | .venv | 126 tests, 0 failures, 0 skipped |
+| DOMAIN_API | 0 | .venv | can_transition/validate_transition/validate_invariants 断言通过 |
+| SCHEMA_REGRESSION | 0 | .venv | Meta-schema check passed |
 | MODULE_HELP | 0 | .venv | usage check passed |
 | MODULE_VERSION | 0 | .venv | 0.1.0 |
 | CONSOLE_HELP | 0 | .venv | usage check passed |
 | CONSOLE_VERSION | 0 | .venv | 0.1.0 |
-| **git diff --check** | **0** | **-** | **无任何尾随空白警告** |
+| **git diff --check** | **0** | **-** | **无尾随空白** |
 
-全部 required checks 以及 `git diff --check` 顺利通过。
+全部 required checks 及 `git diff --check` 顺利通过。
 
 ## 未完成项
 
