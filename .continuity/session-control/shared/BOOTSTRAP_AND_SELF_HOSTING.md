@@ -14,10 +14,10 @@
 
 - 产品工程骨架已经完成，首批业务能力尚未开始。
 - 产品 CLI 还不能创建正式 Task、Stage、Work Order、Writer Lease 或 Context Pack。
-- Task、Stage 和 Work Order 的逻辑身份由已确认文档与角色 HANDOFF 共同记录。
+- Task、Stage 和 Work Order 的逻辑身份由已确认文档与角色当前模式接力文件共同记录。
 - 5.6作为架构所有者维护并技术批准工作单 JSON 源文件和 Markdown 阅读页。
 - 5.5根据已批准工作单新增一次一条、按目标角色分目录保存的调度文件，并只在聊天中输出短启动块。
-- 各窗口使用自己的角色 HANDOFF 接力。
+- 各窗口使用自己的角色与模式接力文件。
 - Git提交负责保存可恢复代码基线。
 
 BOOTSTRAP-L0 不创建假的产品核心状态文件。
@@ -56,15 +56,15 @@ BOOTSTRAP-L0 不创建假的产品核心状态文件。
 
 Work Order 中的 allowed_paths 和 forbidden_paths约束业务实现与产品核心状态。
 
-角色规则单独授权窗口更新自己的 session-control HANDOFF.md。这个更新：
+角色规则单独授权窗口更新自己的 session-control 接力文件。这个更新：
 
 - 不算 Work Order 的业务输出。
 - 不允许扩大到其他 session-control 文件。
-- 不允许修改其他角色 HANDOFF。
+- 不允许修改其他角色或本角色其他模式的接力文件。
 - 不允许修改 .continuity 中的产品核心状态。
 - 必须与业务变更一起保留在Git中。
 
-因此，“禁止修改 .continuity”与“更新自己的角色 HANDOFF”不冲突：前者保护产品核心状态，后者是一个精确授权的外部角色状态例外。
+因此，“禁止修改 .continuity”与“更新自己的当前模式接力文件”不冲突：前者保护产品核心状态，后者是一个精确授权的外部角色状态例外。
 
 同理，5.5 新增调度、BPACK 和 Stage 最终 Gate 之前的初验结果，5.6 新增最后一道 Stage Gate 或 TASK-FINAL 结果，都是会话控制层的精确授权例外，不属于 Work Order 业务交付。任何角色都不能借此修改其他会话控制文件。
 
@@ -84,7 +84,7 @@ Work Order 中的 allowed_paths 和 forbidden_paths约束业务实现与产品�
 
 1. 首次使用时 clone 远端仓库；已有仓库时先确认工作区没有未处理修改。
 2. fetch `origin`，切换到同名 Task 分支，只允许 fast-forward 更新。
-3. 核对最新提交和角色 HANDOFF。
+3. 核对最新提交和当前角色、当前模式的接力文件。
 4. 重新创建本机 `.venv`，运行当前 Work Order 要求的环境检查。
 5. 新开发窗口按启动规则接力，旧电脑上的窗口不再写代码。
 
@@ -120,7 +120,7 @@ Work Order 中的 allowed_paths 和 forbidden_paths约束业务实现与产品�
 DEV-006通过后：
 
 - 使用正式 init、Task、Stage、Work Order和Writer Lease。
-- 停止用角色 HANDOFF代替核心任务状态。
+- 停止用角色接力文件代替核心任务状态。
 - Bootstrap记录保留为历史，不反向导入未经校验的状态。
 
 ### L2：接力自托管
@@ -128,7 +128,7 @@ DEV-006通过后：
 DEV-008通过后：
 
 - 使用正式 Checkpoint、Handoff、Restore和Context Pack。
-- 角色 HANDOFF只保留窗口角色恢复，不再重复业务进度事实。
+- 角色接力文件只保留窗口恢复，不再重复业务进度事实。
 - 外部调度文件继续只做客户端路由，但改为引用正式 Context Pack，不再直接列业务输入。
 
 ### L3：审核自托管

@@ -32,7 +32,7 @@ Antigravity 只保留一个开发角色和一个开发会话：
 - COMMANDS.md：Codex 5.5 使用的快捷指令协议。
 - PROJECT_BRIEF.md：只供 5.6 架构模式使用的项目初衷、已确认架构和文档地图。
 - OPERATOR_PROTOCOL.md：规定 5.6 负责技术决策，人类用户只负责窗口切换和指令转发。
-- HANDOFF.md：当前角色最新的可恢复现场，只能由该角色更新；人类操作员不手工维护。
+- HANDOFF.md：当前角色最新的可恢复现场，只能由该角色更新；人类操作员不手工维护。Codex 5.6 是例外：架构模式使用 `ARCHITECTURE_HANDOFF.md`，最终审核模式使用 `HANDOFF.md`，两者不得互相覆盖。
 - ROLE_REGISTRY.json：活动角色文件白名单和历史角色禁用状态；全部文件禁止进入业务 Context Pack。
 - dispatches/development/：保存不可覆盖的开发与返工调度。
 - dispatches/pre-final-review/：旧流程历史，只读保留，不再新增。

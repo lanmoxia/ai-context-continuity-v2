@@ -19,7 +19,7 @@
 
 输入：`启动56`
 
-预期：识别为架构所有者模式；自行说明当前 Work Order 的技术结论，不要求用户审阅范围、风险或哈希；如已有 approved Work Order，直接给出一段可复制到 5.5 的短指令。
+预期：识别为架构所有者模式；读取项目总览和 `ARCHITECTURE_HANDOFF.md`，不读取最终审核 `HANDOFF.md`；自行说明当前 Work Order 的技术结论，不要求用户审阅范围、风险或哈希。
 
 ## 2. Codex 5.5 协调窗口
 
@@ -39,6 +39,12 @@
 
 预期：不绑定初审角色，不读取 initial-review HANDOFF、历史 BREV、BPACK 或审核结果；说明该角色已停用，并要求回到 5.5。
 
+## 5. Codex 5.6 最终审核窗口
+
+输入：5.5 新生成且已保存推送的 `CODEX_56_FINAL_REVIEW` 短启动块。
+
+预期：只读取最终审核 `HANDOFF.md`，不读取 `ARCHITECTURE_HANDOFF.md`、PROJECT_BRIEF、planning 或前序 Gate 结果；只按当前 final-review 调度和 fresh Pack 审核。
+
 ## 通过标准
 
-四项都符合预期后，本次迁移演练通过。关闭测试窗口；需要保留的正式窗口按各自 HANDOFF 继续使用。
+五项都符合预期后，本次迁移演练通过。关闭测试窗口；需要保留的正式窗口按各自模式接力文件继续使用。

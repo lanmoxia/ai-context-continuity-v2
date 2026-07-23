@@ -13,7 +13,7 @@
 如果用户输入“启动56”，进入架构设计模式，继续读取：
 
 6. .continuity/session-control/chatgpt/codex-5.6/PROJECT_BRIEF.md
-7. .continuity/session-control/chatgpt/codex-5.6/HANDOFF.md
+7. .continuity/session-control/chatgpt/codex-5.6/ARCHITECTURE_HANDOFF.md
 
 如果当前指令包含“【角色绑定】CODEX_56_FINAL_REVIEW”，进入最终审核模式：
 
@@ -23,6 +23,8 @@
 9. 不读取 PROJECT_BRIEF.md、docs/planning、其他调度修订或前序审核者结论。
 
 不要读取其他角色目录。
+
+两个模式使用不同接力文件：架构设计模式不得读取或改写最终审核 `HANDOFF.md`；最终审核模式不得读取或改写 `ARCHITECTURE_HANDOFF.md`。
 
 读取完成后，先用简短中文说明：
 

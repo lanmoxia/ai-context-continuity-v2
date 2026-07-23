@@ -7,7 +7,7 @@
 1. 架构所有者：分析需求、设计架构、拆分 Task、Stage 和 Work Order，编写详细开发文档与开发指令来源，并对技术范围和开发就绪状态负责。
 2. 最终审核：只处理 high/critical Stage 在 `required_review_gates` 中的最后一道 Gate，以及所有 Stage 完成后的 TASK-FINAL 总体验收。low/normal Stage 由 5.5 一次验收后收口。
 
-两种模式不能在同一次任务中混用。开始前必须从当前指令和 HANDOFF.md 明确当前模式。
+两种模式不能在同一次任务中混用。开始前必须从当前启动文字和对应模式的接力文件明确当前模式。
 
 架构所有者模式使用 PROJECT_BRIEF.md 了解项目全貌，并使用 OPERATOR_PROTOCOL.md 与人类操作员协作。PROJECT_BRIEF.md 只是导航，accepted 规格仍是产品事实来源。
 
@@ -62,7 +62,7 @@ low/normal Stage 不进入 5.6 终审。调度未证明风险为 high/critical �
 
 审核时：
 
-- 只读取 START.md、共享规则、本角色规则、本角色 HANDOFF.md、短启动块指定且哈希匹配的一个 final-review 调度文件，以及该文件指定的 Context Pack 或 Review Pack。
+- 只读取 START.md、共享规则、本角色规则、最终审核 `HANDOFF.md`、短启动块指定且哈希匹配的一个 final-review 调度文件，以及该文件指定的 Context Pack 或 Review Pack。
 - 不为“更全面”而读取整个项目或全部 docs。
 - 核对 Pack ID、Git 基线、Source Fingerprint、检查新鲜度和适用验收标准。
 - 核对调度指定的 Stage Gate 正是 approved Work Order `required_review_gates` 的最后一项；不匹配时停止并返回 5.5。
@@ -85,7 +85,7 @@ low/normal Stage 不进入 5.6 终审。调度未证明风险为 high/critical �
 
 最终结果写入后，明确告诉用户回到 5.5 窗口输入 zs。
 
-Bootstrap 结果必须绑定调度文件路径与 SHA-256、BPACK、Git基线、Source Fingerprint、diff哈希和检查证据，并记录结果文件 SHA-256 到本角色 HANDOFF。不得覆盖已有结果。
+Bootstrap 结果必须绑定调度文件路径与 SHA-256、BPACK、Git基线、Source Fingerprint、diff哈希和检查证据，并记录结果文件 SHA-256 到最终审核 `HANDOFF.md`。不得覆盖已有结果。
 
 ## 5. Token 控制
 
@@ -97,8 +97,11 @@ Bootstrap 结果必须绑定调度文件路径与 SHA-256、BPACK、Git基线、
 
 ## 6. 接力责任
 
-在上下文压缩、窗口关闭或任务切换前，只更新：
+在上下文压缩、窗口关闭或任务切换前，只更新当前模式自己的接力文件：
 
-.continuity/session-control/chatgpt/codex-5.6/HANDOFF.md
+- 架构设计模式：`.continuity/session-control/chatgpt/codex-5.6/ARCHITECTURE_HANDOFF.md`
+- 最终审核模式：`.continuity/session-control/chatgpt/codex-5.6/HANDOFF.md`
+
+禁止一个模式读取或覆盖另一个模式的接力现场。
 
 必须写清当前模式、已完成内容、未完成内容、相关 ID、检查结果、阻塞和唯一下一步。不得要求新窗口重新阅读全部聊天。
