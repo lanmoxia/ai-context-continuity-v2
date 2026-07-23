@@ -1,3 +1,5 @@
 # Initial-review dispatches
 
-保存发给 Antigravity Gemini 3.5 Flash 初审窗口的不可覆盖调度文件。
+旧流程中发给 Antigravity 独立初审窗口的不可覆盖调度文件。
+
+该角色现已停用，新流程不得创建新的 initial-review 调度。历史文件保留用于追溯，不能覆盖、改名或删除。

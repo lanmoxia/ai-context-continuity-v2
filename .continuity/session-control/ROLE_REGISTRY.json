@@ -1,5 +1,5 @@
 {
-  "schema_version": 5,
+  "schema_version": 6,
   "default_policy": "deny",
   "context_pack_policy": "deny_all",
   "root_router": {
@@ -43,7 +43,7 @@
       "read_policy": "exact_path_and_sha256_only",
       "directories": {
         "development": "development/**",
-        "pre_final_review": "pre-final-review/**",
+        "historical_pre_final_review": "pre-final-review/**",
         "final_review": "final-review/**",
         "historical_initial_review": "initial-review/**"
       }
@@ -98,11 +98,10 @@
           ".continuity/session-control/dispatches/final-review/**"
         ],
         "final_review_write_exact": [
-          ".continuity/session-control/review-results/gate-02/**",
           ".continuity/session-control/review-results/gate-03/**",
           ".continuity/session-control/review-results/task-final/**"
         ],
-        "final_review_write_condition": "stage_gate_must_be_last_required_gate"
+        "final_review_write_condition": "high_or_critical_stage_last_gate_or_task_final"
       }
     },
     "codex-5.5": {
@@ -127,12 +126,11 @@
         "write_new": [
           ".continuity/session-control/bootstrap-packs/**",
           ".continuity/session-control/dispatches/development/**",
-          ".continuity/session-control/dispatches/pre-final-review/**",
           ".continuity/session-control/dispatches/final-review/**",
           ".continuity/session-control/review-results/gate-01/**",
           ".continuity/session-control/review-results/gate-02/**"
         ],
-        "review_write_condition": "gate_must_precede_last_required_gate"
+        "review_write_condition": "single_acceptance_pass; normal_stage_all_required_gates; high_or_critical_all_gates_before_last"
       }
     },
     "antigravity-development": {
@@ -144,10 +142,8 @@
         ".continuity/session-control/antigravity/development/RULES.md",
         ".continuity/session-control/antigravity/development/HANDOFF.md"
       ],
-      "allowed_models": [
-        "Gemini 3.5 Flash (Medium)",
-        "Gemini 3.5 Flash (High)"
-      ],
+      "model_selection_policy": "user_manual_any_available",
+      "same_conversation_model_switch_requires_new_dispatch": false,
       "conditional_paths": {
         "read_exact": [
           ".continuity/session-control/dispatches/development/**"

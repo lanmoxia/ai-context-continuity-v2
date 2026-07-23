@@ -43,11 +43,12 @@
 - 只修改当前 Work Order 允许的业务路径。
 - 产品核心 .continuity 状态只能按当前已实现能力和自托管等级更新。
 - 本角色 session-control/HANDOFF.md 是外部角色状态，由角色规则单独授权，不属于 Work Order 业务路径。
-- 5.5 可以新增当前流程需要的 development/pre-final-review/final-review 调度、BPACK，以及当前 Work Order 所有“终审前 Gate”的结果；5.6 终审只能写短启动块指定的阶段最后一道 Gate 或 TASK-FINAL 结果。开发窗口不能修改调度文件或审核结果。
+- 5.5 可以新增当前流程需要的 development/final-review 调度、BPACK，以及 Stage 最终 Gate 之前的初验结果；5.6 只能写阶段最后一道 Gate或 TASK-FINAL 结果。开发窗口不能修改调度文件或审核结果。
 - 调度文件和 Bootstrap 审核结果只新增、不覆盖、不删除；纠错使用新修订并由 5.5 HANDOFF 指向当前版本。
-- `initial-review/` 下的角色文件、调度和结果仅作历史保留；新流程不得新增或恢复 Antigravity 初审步骤。
+- `pre-final-review/`、`initial-review/` 以及 Antigravity 初审角色只保留历史，新流程不得新增或恢复。
 - BPACK 同样只新增、不覆盖、不删除；审核者只能读取当前调度精确指定且 SHA-256 匹配的一份。
 - 调度文件在发出前必须进入 Git 并推送；其中的业务执行基线与保存该指令的会话控制提交是两个概念。
+- 同一 `Task + Stage + BPACK + Gate` 已有有效结果时不得重复调度或新增第二份结论。
 - 不修改其他角色的 HANDOFF.md。
 - 不修改 old-demo 或任何归档项目。
 - 工具可用后，核心状态必须通过工具写入；在工具尚未实现前，只允许按规则人工维护本角色 HANDOFF.md 和明确指定的审核输出。

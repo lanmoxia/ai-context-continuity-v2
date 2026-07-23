@@ -2,86 +2,74 @@
 
 ## 1. 固定角色
 
-- Codex 5.6：架构所有者；负责需求与架构、任务拆分、Work Order 技术批准、详细开发文档、每个 Stage 的最后一道 Gate，以及整个 Task 的 TASK-FINAL。
-- Codex 5.5：用户与其他窗口的协调器；负责模型选择、一次一条开发指令、开发完成预检、当前 Stage 的全部终审前 Gate、返工和下一步调度。
-- Antigravity 开发窗口：按 5.5 指定，由用户手动选择 `Gemini 3.5 Flash (Medium)` 或 `Gemini 3.5 Flash (High)` 执行开发或返工。
-- Antigravity 初审窗口：已停用。原角色文件、BREV 调度和历史结果只读保留，不再创建新初审。
+- Codex 5.6：架构所有者和高风险最终裁判；负责 Work Order 技术批准、high/critical Stage 终审，以及整个 Task 的 TASK-FINAL。
+- Codex 5.5：协调器、日常验收员和 low/normal Stage 的最终验收者；负责一次一条调度、一次验收、冻结 BPACK、普通任务收口、返工和下一步路由。
+- Antigravity 开发窗口：不绑定固定模型；用户在同一个开发会话中手动选择当前有额度的模型执行开发或返工。
+- Antigravity 初审窗口：停用。任何可用模型都只用于同一个开发角色，不再单独承担初审。
 
-人类用户是窗口操作员：负责启动窗口、按标题选择模型、复制短指令和输入 `kf`、`zs`。Work Order 范围、风险、Gate 和是否达到开发条件由 5.6 判断，不交给用户审批。
+人类用户只负责切换窗口、手动选择当前有额度的 Antigravity 模型、复制短启动块和输入 `kf`、`zs`。技术判断不交给用户。
 
-## 2. Gate 分配
+## 2. 唯一裁判与 Gate 分工
 
-产品规格中的 Gate 数量和顺序保持不变。外部协作层按当前 approved Work Order 的 `required_review_gates` 顺序分配：
+5.5 对每个开发结果只验收一次，不得把同一代码包反复包装成多轮“独立代码审核”。
 
-- 5.5 执行除最后一项外的全部 Gate；每道 Gate 都必须是一次独立审核，并新增各自的结果文件。
-- 5.6 执行最后一项 Gate，作为该 Stage 的最终审核。
-- 普通 Stage 的 `[GATE-01, GATE-02]`：5.5 执行 GATE-01，5.6 执行 GATE-02。
-- 高风险 Stage 的 `[GATE-01, GATE-02, GATE-03]`：5.5 分别执行 GATE-01、GATE-02，5.6 执行 GATE-03。
-- TASK-FINAL 始终由 5.6 独立执行。
+- low/normal Stage：5.5 在一次验收中核对代码、范围、测试和全部 required Gate 证据；通过后直接作出最终结论并收口，不调用 5.6。
+- 高风险或 critical Stage：5.5 在同一次验收中完成最后一道 Gate 之前的语义与证据核对；5.6 只执行最后一道 Gate，作出一次最终裁决。
+- TASK-FINAL：始终由 5.6 执行，只检查跨 Stage 整合、最终 E2E、未解决 Finding 和合并准备度，不重新逐文件审核已绑定且未失效的 Stage。
 
-同一角色连续执行多道前置 Gate 时，不得合并结果或复制上一道结论。每道 Gate 都重新核对同一份 fresh Pack、验收标准、指纹和检查证据。
+审核唯一键为 `Task + Stage + BPACK + Gate`。同一键已有有效结果时禁止重复调度或新增第二份结论。
 
-## 3. 一次只发一条可执行指令
+5.6 APPROVED 后，5.5 只能核对绑定并收口，不得推翻、重复审核或再次为同一 Stage/BPACK 生成 final-review。
 
-5.5 不得同时给出开发指令和未来的终审指令。下一条指令必须根据当前步骤的真实代码、检查结果和审核结果生成。
+## 3. 一次只发一条指令
 
-每一步先由 5.5 在对应调度目录新增一个不可覆盖的调度文件，再计算 SHA-256。聊天只输出醒目标题和一个可一键复制的短启动块；详细范围不在聊天中重复。目标窗口只读取短启动块指定的当前调度文件。
+5.5 每次只发布当前步骤的一个不可覆盖调度。聊天只显示窗口和任务标题、一个可复制的最小启动块，以及代码块外的一句用户下一步。
 
-当前产品尚未实现完整自管理能力。所有窗口还必须遵守 BOOTSTRAP_AND_SELF_HOSTING.md，并只在对应能力通过验收后升级自托管等级。
+复制块内只保留角色启动、调度路径、调度 SHA-256 和哈希失败停止条件。标题也不指定模型；`kf`、`zs` 只放代码块外。
 
-## 4. 开发循环
+## 4. 开发与初验
 
-1. 5.5 确认 Work Order 已由 5.6 架构所有者批准，并选择 Gemini Medium 或 High。
-2. 5.5 新增 development 调度文件并输出短启动块，用户复制到 Antigravity 开发窗口。
-3. 开发窗口完成代码、检查和自己的接力摘要。
-4. 用户回到 5.5 窗口输入 `kf`。
-5. 5.5 检查实际文件、diff、路径范围和新鲜检查结果。
-6. 不合格时，5.5 只输出一条返工指令；合格时决定进入下一 Work Order，或在 Stage 达到完成条件后进入阶段审核。
+1. 5.5 核对 5.6 已批准的 Work Order、Git 基线和单一写入者。
+2. 5.5 生成不绑定具体模型的 development 调度。
+3. 用户把最小启动块粘贴到 Antigravity 开发 Conversation。
+4. 开发窗口完成业务代码、required checks 和自己的 HANDOFF。
+5. 用户回到 5.5 输入 `kf`。
+6. 5.5 在一个连续动作中核对真实 diff、路径、交付物、验收标准和 fresh checks。
+7. 不合格：只生成一条返工 development 调度。
+8. 合格：low/normal Stage 记录验收和 required Gate 证据后直接收口；high/critical Stage 冻结 fresh BPACK、记录最后一道之前的 Gate 证据，然后生成一次 5.6 最终调度。
 
-`kf` 只表示“开发窗口声明完成”，不表示 5.5 自动认可完成。
+5.5 不要求用户为内部 GATE 切换窗口，也不要求额外快捷指令。
 
-## 5. 阶段审核
+## 5. 5.6 最终裁决
 
-Stage 达到完成条件并具备 fresh Review Pack 后：
+1. 只有高风险或 critical Stage 才进入本节。5.5 生成一个 final-review 调度，只绑定当前 fresh BPACK 和 Stage 最后一道 Gate。
+2. 用户把短启动块粘贴到独立 5.6 终审窗口。
+3. 5.6 独立裁决，不读取 5.5 原始推理，只核对 Pack、规格、源码和证据。
+4. 用户回 5.5 输入 `zs`。
+5. 5.5 只核对结果绑定。CHANGES_REQUESTED 时生成返工；APPROVED 时关闭 Stage或请求 5.6 架构窗口准备下一 Work Order。
 
-1. 5.5 冻结一份独立、可复算的 BPACK。
-2. 5.5 按 `required_review_gates` 顺序，对同一 BPACK 独立执行除最后一道外的全部 Gate，并分别新增正式结果文件。
-3. 任一 Gate 不通过时，5.5 停止后续 Gate，只生成一条 development 返工调度。
-4. 全部终审前 Gate 通过后，5.5 新增 final-review 调度，并输出 Codex 5.6 对“最后一道 Stage Gate”的短启动块。
-5. 5.6 不读取 5.5 的原始审核结论，只按当前调度和 fresh Pack 独立终审，并把结果新增到该 Gate 对应目录。
-6. 用户在 5.6 完成审核后回到 5.5 输入 `zs`。
-7. 5.5 核对终审结果；通过后关闭当前 Stage 或进入下一 Stage，不通过则生成一条返工调度。
+任何业务代码变化都会使当前 BPACK 和其 Gate 结果 stale；返工后重新冻结，再走一次 5.5 初验和一次 5.6 终审。
 
-任一审核要求修改业务代码时，当前 Pack 立即失效。返工完成后必须重新生成 fresh Pack，并从 GATE-01 重新开始。
+## 6. TASK-FINAL
 
-开发窗口默认不读整份审核报告。返工时由 5.5 在新 development 调度文件中列出已确认 Finding，并引用来源文件及 SHA-256。5.6 终审默认不读取前序 Gate 原始结果，以保持独立判断。
+只有所有计划 Stage 都已正式收口，且存在专用 Task Final Review Pack 时，5.5 才能生成 TASK-FINAL。“当前没有下一份 approved Work Order”不等于所有 Stage 已完成。
 
-## 6. 整体最终验收
+TASK-FINAL Pack 只提供跨 Stage 接口、最终 E2E、未解决 Finding、Stage 结果索引和合并准备证据。已通过且源码未变化的 Stage 不重复完整代码审核。
 
-所有 Stage 都通过后：
+## 7. 更换 Conversation
 
-1. 5.5 确认 Task Final Review Pack 已就绪。
-2. 5.5 新增 final-review 调度文件并输出 Codex 5.6 TASK-FINAL 短启动块。
-3. 5.6 只按当前调度文件和最终审核包执行完整任务终审，并把结果写入 `review-results/task-final/` 或产品已启用的正式结果位置。
-4. 用户回到 5.5 输入 `zs`。
-5. 5.5 验证通过后准备 Merge Plan，由 5.6 架构所有者作出技术合并决定；涉及实际主分支写入时，用户只负责转发 5.6 给出的明确执行指令。
-
-## 7. 更换 Antigravity Conversation
-
-更换账号、模型或 Conversation 是允许的，但必须保持单一写入者：
-
-1. 旧 Conversation 明确停止写入，不再使用旧调度继续。
-2. 5.5 根据当前真实工作区、已确认 Finding 和 approved Work Order 新增一份不可覆盖的 development 调度。
-3. 新调度列出允许保留的既有脏文件；已有实现继续作为返工起点，不 reset、不 stash、不清理，也不从头重做。
-4. 用户新建 Antigravity Conversation，按 5.5 标题选择模型，再粘贴包含 `启动开发` 的新短启动块。
-5. 新 Conversation 核对新调度后接管唯一代码写入权；完成后仍回到 5.5 输入 `kf`。
-
-仅在同一 Conversation 上下文仍完整、目标模型未变且当前调度仍有效时，才允许原窗口继续。新 Conversation 不能只输入“继续”来继承旧聊天。
+- 开发 Conversation 更换前，旧窗口先停止写入；5.5 生成新的 development 接续调度并列出允许保留的脏文件，不 reset、不 stash、不重做。
+- 新 Conversation 不继承聊天，只依赖角色 START、HANDOFF 和短启动块指定的一个调度文件。
+- 在同一 Antigravity 开发会话中仅切换模型不需要新调度；模型切换前确认前一个请求已经停止，不允许两个模型同时写文件。
 
 ## 8. 快捷指令
 
-- `kf`：开发或返工窗口声明完成，触发 5.5 实际检查。
-- `zs`：Codex 5.6 阶段最终 Gate 或 TASK-FINAL 声明完成，触发 5.5 验证和收口。
-- `sh`：仅为历史流程保留，当前流程不处理，也不能推动状态。
+- `kf`：开发或返工完成；low/normal 任务由 5.5 一次验收后收口，high/critical 任务再路由一次 5.6 终审。
+- `zs`：5.6 Stage 最终 Gate 或 TASK-FINAL 完成，交给 5.5 只做绑定核对和收口。
+- `sh`：停用，不推动当前流程。
 
-只有快捷指令而没有对应项目文件时，流程不得前进。
+没有对应项目文件时，快捷指令不能推动流程。
+
+## 9. 在途审核迁移
+
+规则更新前已经生成、且绑定仍 fresh 的 5.6 最终结果继续有效。5.5 处理其 `zs` 时只核对并收口，不得因为规则迁移重新生成 Gate 或要求 5.6 再审一次。

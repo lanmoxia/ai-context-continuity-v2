@@ -6,9 +6,10 @@
 
 ```text
 dispatches/
-  development/       BDEV-0001-r1.md，给 Sonnet 或 Opus 开发/返工
-  initial-review/    BREV-0001-r1.md，给 Gemini GATE-01 初审
-  final-review/      BFINAL-0001-r1.md，给 5.6 GATE-03 或 TASK-FINAL
+  development/       BDEV-0001-r1.md，给 Antigravity 开发会话执行或返工
+  initial-review/    BREV-0001-r1.md，旧流程初审调度，只作历史保留
+  pre-final-review/  旧流程终审前调度，只作历史保留
+  final-review/      BFINAL-0001-r1.md，给 5.6 执行高风险 Stage 最终 Gate 或 TASK-FINAL
 ```
 
 - 新的可执行步骤使用下一个编号，初始修订为 `r1`。
@@ -21,7 +22,7 @@ dispatches/
 
 每份调度文件只保存当前一步需要的路由信息：
 
-1. 类型、ID、修订、生成时间、生成者、目标角色和目标模型。
+1. 类型、ID、修订、生成时间、生成者和目标角色。开发调度记录模型选择策略为“用户手动选择当前可用模型”，不绑定具体模型。
 2. `supersedes`，没有则写 `none`。
 3. Task、Stage、Work Order、分支和精确业务执行基线。
 4. 开发时引用权威 Work Order JSON 路径与 SHA-256；审核时只引用精确 BPACK 路径、BPACK SHA-256 和结果路径。
@@ -31,10 +32,11 @@ dispatches/
 
 ## 读取规则
 
-- 聊天只携带短启动块：角色启动、目标模型、调度文件路径和文件 SHA-256。
+- 聊天只携带短启动块：角色启动、调度文件路径和文件 SHA-256，不携带具体模型名。
 - 目标窗口先完成角色启动，再核对并只读取短启动块指定的一个调度文件。
 - 禁止列出或扫描整个 `dispatches/`，禁止读取历史修订猜测当前任务。
 - 调度文件只负责路由到权威事实，不能覆盖 Work Order、Pack 或角色规则。
+- Antigravity 同一开发会话内手动切换模型不需要新调度；新开开发会话时必须由 5.5 创建续作调度。
 
 ## Git 保存规则
 

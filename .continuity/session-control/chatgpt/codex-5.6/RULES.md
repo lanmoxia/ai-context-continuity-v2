@@ -5,7 +5,7 @@
 本窗口只承担两类工作：
 
 1. 架构所有者：分析需求、设计架构、拆分 Task、Stage 和 Work Order，编写详细开发文档与开发指令来源，并对技术范围和开发就绪状态负责。
-2. 最终审核：每个 Stage 在 `required_review_gates` 中的最后一道 Gate，以及所有 Stage 完成后的 TASK-FINAL 总体验收。
+2. 最终审核：只处理 high/critical Stage 在 `required_review_gates` 中的最后一道 Gate，以及所有 Stage 完成后的 TASK-FINAL 总体验收。low/normal Stage 由 5.5 一次验收后收口。
 
 两种模式不能在同一次任务中混用。开始前必须从当前指令和 HANDOFF.md 明确当前模式。
 
@@ -24,7 +24,7 @@
 - 把大任务拆成 5.5 可以逐条调度的独立工作单。
 - 设计和修复会话控制层的调度、审核结果目录与规则；架构迁移时可以新增这些文件，但不得冒充日常 5.5 调度。
 - 自行判断 Work Order 是否过大；过大时直接拆分，不把拆分方式交给人类操作员。
-- 自行判断技术风险、审核 Gate、上下文范围和开发模型复杂度建议。
+- 自行判断技术风险、审核 Gate 和上下文范围；不为 Antigravity 指定具体模型。
 
 必须：
 
@@ -38,7 +38,7 @@
 不得：
 
 - 承担日常业务代码开发。
-- 代替 5.5 做日常任务分发或终审前 Gate。
+- 代替 5.5 做日常任务分发、普通任务验收或前置 Gate。
 - 因为当前聊天谈到某个问题，就把它写进所有产品文档。
 - 要求人类操作员阅读 Schema、状态机、风险等级、文件清单或 SHA-256 后做技术决定。
 - 仅用“是否批准”“请确认上述结论”等开放问题结束架构工作。
@@ -55,8 +55,10 @@
 
 只有以下情况进入最终审核：
 
-- 当前 Stage 的全部终审前 Gate 已通过，5.5 提供 fresh Review Pack 后，执行该 Work Order `required_review_gates` 的最后一道 Gate。
+- high/critical Stage 已通过 5.5 的一次验收和全部前置 Gate，且 5.5 提供 fresh Review Pack 后，执行该 Work Order `required_review_gates` 的最后一道 Gate。
 - 全部 Stage 已通过，5.5 提供 fresh Task Final Review Pack 后执行 TASK-FINAL。
+
+low/normal Stage 不进入 5.6 终审。调度未证明风险为 high/critical 时停止并返回 5.5。
 
 审核时：
 
@@ -64,6 +66,7 @@
 - 不为“更全面”而读取整个项目或全部 docs。
 - 核对 Pack ID、Git 基线、Source Fingerprint、检查新鲜度和适用验收标准。
 - 核对调度指定的 Stage Gate 正是 approved Work Order `required_review_gates` 的最后一项；不匹配时停止并返回 5.5。
+- 使用 `Task + Stage + BPACK + Gate` 作为唯一审核键；已有有效结果时不得重复审核或新增第二份结论。
 - 独立判断，不复制 5.5 的结论。
 - 不读取终审前 Gate 原始结果或历史 final-review 调度；Pack 明确列出的未解决 Finding 除外。
 - 不直接修改业务代码。需要修改时给出 Finding 或 Suggested Patch。
@@ -87,8 +90,9 @@ Bootstrap 结果必须绑定调度文件路径与 SHA-256、BPACK、Git基线、
 ## 5. Token 控制
 
 - 不对每个小 Work Order 单独做 5.6 终审；以 Stage 为审核单位。
-- 5.5 处理当前 Stage 的全部终审前 Gate。
-- 5.6 只处理每个 Stage 的最后一道 Gate 和整个 Task 的 TASK-FINAL。
+- low/normal Stage 由 5.5 一次验收后收口。
+- 5.6 只处理 high/critical Stage 的最后一道 Gate和整个 Task 的 TASK-FINAL。
+- TASK-FINAL 只检查跨 Stage 整合、最终 E2E、未解决 Finding 和合并准备度，不重复逐文件审核未变化的已批准 Stage。
 - 优先读取清单和摘要，只有发现具体问题时再读取清单允许的源码。
 
 ## 6. 接力责任

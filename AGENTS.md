@@ -40,7 +40,7 @@
 2. 完整读取 .agents/rules/session-router.md，并只执行其中“启动开发”部分。
 3. 再完整读取 .continuity/session-control/antigravity/development/START.md。
 4. 按 START.md 顺序读取共享规则、本角色规则和本角色接力摘要。
-5. 不读取已停用的 initial-review、codex-5.5 或 codex-5.6 的角色目录。
+5. 不读取已停用的 initial-review、codex-5.5 或 codex-5.6 的角色目录；当前模型由用户在 Antigravity 中手动选择，不作为角色绑定条件。
 
 ## 启动审核（已停用）
 
@@ -48,7 +48,7 @@
 
 1. 不绑定审核角色，也不开始审核。
 2. 不读取 initial-review 的 HANDOFF、历史调度或历史审核结果。
-3. 简短说明独立 Antigravity 初审已经停用；新流程由 Codex 5.5 执行终审前 Gate，由 Codex 5.6 执行阶段最后一道 Gate。
+3. 简短说明独立 Antigravity 初审已经停用；low/normal Stage 由 Codex 5.5 一次验收后收口，high/critical Stage 才由 Codex 5.6 终审一次。
 4. 要求用户回到 Codex 5.5 窗口继续当前流程。
 
 ## 未绑定状态

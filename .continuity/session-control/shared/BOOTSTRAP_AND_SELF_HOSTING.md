@@ -40,7 +40,7 @@ BOOTSTRAP-L0 不创建假的产品核心状态文件。
 ## 4. BOOTSTRAP-L0 指令和接力
 
 - 5.5先在 `.continuity/session-control/dispatches/` 的目标角色目录新增调度文件，再计算 SHA-256 并更新自己的 HANDOFF。
-- 聊天只输出角色启动、目标模型、调度文件路径和 SHA-256；调度详情不复制进聊天。
+- 聊天只输出角色启动、调度文件路径和 SHA-256；Antigravity 模型由用户现场选择，调度详情不复制进聊天。
 - Bootstrap 开发调度必须明确不能冒充正式 implementation Context Pack；不生成 CTX 编号。
 - 调度文件只引用精确权威文件路径与哈希，不复制 Work Order 的允许路径、交付物和 required checks。
 - 已生成调度文件永久保留且不可覆盖；纠错创建新修订并写明 `supersedes`。当前版本由 5.5 HANDOFF 指向。
@@ -66,7 +66,7 @@ Work Order 中的 allowed_paths 和 forbidden_paths约束业务实现与产品�
 
 因此，“禁止修改 .continuity”与“更新自己的角色 HANDOFF”不冲突：前者保护产品核心状态，后者是一个精确授权的外部角色状态例外。
 
-同理，5.5 新增调度、BPACK 和终审前 Gate 结果，5.6 新增短启动块指定的最后一道 Stage Gate 或 TASK-FINAL 结果，都是会话控制层的精确授权例外，不属于 Work Order 业务交付。任何角色都不能借此修改其他会话控制文件。
+同理，5.5 新增调度、BPACK 和 Stage 最终 Gate 之前的初验结果，5.6 新增最后一道 Stage Gate 或 TASK-FINAL 结果，都是会话控制层的精确授权例外，不属于 Work Order 业务交付。任何角色都不能借此修改其他会话控制文件。
 
 ## 6. Bootstrap 跨电脑接力
 
@@ -98,18 +98,18 @@ Work Order 中的 allowed_paths 和 forbidden_paths约束业务实现与产品�
 - 每份 BPACK 必须作为 `.continuity/session-control/bootstrap-packs/` 中的独立不可覆盖 JSON 文件，绑定精确 Git 提交、变更文件清单、可复算 diff 哈希和检查结果。
 - diff 哈希必须保存生成原始字节的完整 `argv`；Source Fingerprint 必须保存排序后的逐文件 SHA-256 前像规则和条目。无法独立复算的裸哈希无效。
 - required check 有失败、未运行或未经 Work Order 明确允许的 skipped 时，不得冻结 BPACK；如果安装顺序使测试稍后才完整运行，必须在正确环境中重跑并记录无跳过证据。
-- 5.5 按 approved Work Order 的 `required_review_gates` 顺序执行除最后一道外的全部 Gate；5.6 执行最后一道 Stage Gate。
+- 5.5 对每个开发结果只执行一次连续验收，并在这一次验收中写完 Work Order 要求的前置 Gate 证据；low/normal Stage 随后由 5.5 直接收口，high/critical Stage 再由 5.6 执行唯一一次最终 Stage Gate。
 - 每道 Gate 必须把结果写入 `.continuity/session-control/review-results/` 对应目录的新文件；最后一道 Stage Gate 或 TASK-FINAL 没有结果文件时不得处理 `zs`。
 - 结果文件必须引用调度文件路径与 SHA-256，并绑定 BPACK、Git提交、Source Fingerprint、diff哈希和检查结果。
-- 5.5 为自己负责的每道终审前 Gate 分别新增独立结果；5.6 写最后一道 Stage Gate 和 TASK-FINAL，5.5 只读取当前 final-review 调度指定的 5.6 结果。
+- 5.5 写最后一道之前的初验结果；5.6 写最后一道 Stage Gate 和 TASK-FINAL。5.5 处理 `zs` 时只核对当前结果并收口。
 - 审核调度只引用 BPACK 路径、SHA-256 和结果目标，不复制 BPACK 内容；审核者不得读取开发窗口 HANDOFF。
 - 开发窗口默认不读取原始审核结果；返工调度只传递 5.5 已确认的 Finding 和来源哈希。
-- 当前 Stage 的全部 Gate 必须审核同一份 BPACK；同一角色执行多道终审前 Gate 时，每道都要重新核对并单独记录，不能合并为一次审核。
+- 当前 Stage 的全部 Gate 必须审核同一份 BPACK；同一 `Task + Stage + BPACK + Gate` 不得重复调度或产生多个有效结论。
 - 代码变化后旧 BPACK 立即失效，并从 GATE-01重新开始。
 - Bootstrap审核结果只证明开发过程受控，不冒充产品自身已经实现并强制了审核状态机。
-- 审核文件保证版本绑定和可追溯，不承诺某个固定准确率；可靠性来自 fresh checks、逐 Gate 复查和独立的 5.6 最终审核。
-- 5.5 在完成自己的 Gate 或处理 `zs` 时核对对应结果，并把它们纳入安全检查点提交；中途跨电脑前必须先走 Bootstrap 跨电脑接力。
-- `initial-review/` 角色文件、BREV 调度和既有结果只作不可变历史保留；本迁移生效后不得创建新 BREV 或用 `sh` 推进流程。
+- 审核文件保证版本绑定和可追溯，不承诺固定准确率；可靠性来自 Antigravity 开发、5.5 一次验收与证据核对，以及仅在高风险范围启用的 5.6 最终裁决。
+- 5.5 在完成初验或处理 `zs` 时核对对应结果，并把它们纳入安全检查点提交；中途跨电脑前必须先走 Bootstrap 跨电脑接力。
+- `pre-final-review/`、`initial-review/` 和既有 BREV 只作不可变历史保留；新流程不使用 `sh`。
 
 产品 Review Pack 和 Gate能力完成后，必须使用产品重新演练相应流程。
 

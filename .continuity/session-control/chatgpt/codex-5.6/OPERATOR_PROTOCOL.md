@@ -19,10 +19,10 @@
 ## 3. 人类操作员只负责
 
 - 新窗口输入 `启动56` 或 `启动55`。
-- 按标题手动选择 `Gemini 3.5 Flash (Medium)` 或 `Gemini 3.5 Flash (High)`。
+- 在 Antigravity 的同一个开发会话中手动选择当前有额度的模型；仅切换模型不需要新调度。
 - 复制 5.5 给出的短启动块到目标窗口。
-- 开发或返工完成后输入 `kf`，5.6 终审完成后输入 `zs`；`sh` 已停用。
-- 更换账号、模型或 Conversation 时，先停止旧 Antigravity Conversation，再使用 5.5 新生成的 development 调度启动新 Conversation；已有工作区改动继续保留。
+- 开发或返工完成后输入 `kf`；只有 high/critical Stage 或 TASK-FINAL 进入 5.6 时，终审完成后输入 `zs`；`sh` 已停用。
+- 新建 Conversation 时，先停止旧 Antigravity Conversation，再使用 5.5 新生成的 development 调度启动；已有工作区改动继续保留。同一 Conversation 中仅切换模型时，只需停止上一请求，不新建调度。
 - 在自己改变产品目标或想暂停时直接说明。
 
 操作员不需要核对 SHA-256、文件范围、测试数、Schema 或状态机；这些由对应角色核对。

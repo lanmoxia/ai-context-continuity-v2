@@ -94,12 +94,12 @@ V2 是一个独立的 Python 本地 CLI 工具，不是常驻服务，也不是�
 
 这是当前项目的协作方式，不属于核心产品数据模型：
 
-- Codex 5.6：架构所有者，负责需求、架构、任务拆分、Work Order 技术批准、详细开发文档、每个 Stage 的最后一道 Gate、整个 Task 的 TASK-FINAL。
-- Codex 5.5：协调器、一次一条开发指令、开发结果预检、模型目标提示、全部终审前 Gate、返工和下一步调度。
-- Antigravity 开发窗口：按 5.5 提示，由用户手动选择 `Gemini 3.5 Flash (Medium)` 或 `Gemini 3.5 Flash (High)` 执行开发或返工。
+- Codex 5.6：架构所有者，负责需求、架构、任务拆分、Work Order 技术批准、详细开发文档、high/critical Stage 终审和整个 Task 的 TASK-FINAL。
+- Codex 5.5：协调器和日常验收员；一次一条开发指令，对每个开发结果只验收一次，low/normal 任务直接收口，high/critical 任务再路由 5.6。
+- Antigravity 开发窗口：不绑定固定模型；用户在同一个开发会话中手动选择当前有额度的模型执行开发或返工。
 - Antigravity 初审窗口：已停用；角色文件、BREV 调度和历史结果仅作不可变历史保留。
 
-窗口不能验证自己实际运行的模型，界面中的模型切换由人类操作员按 5.5 标题执行；模型适用性判断由 5.5 负责。
+窗口不能验证自己实际运行的模型。Antigravity 模型由人类操作员根据额度手动切换，5.5 不选择或锁定模型。
 
 启动方式：
 
@@ -108,7 +108,7 @@ V2 是一个独立的 Python 本地 CLI 工具，不是常驻服务，也不是�
 - Antigravity 开发新 Conversation：启动开发。
 - 5.6 终审窗口直接使用 5.5 生成的 CODEX_56_FINAL_REVIEW 指令。
 
-更换账号、模型或 Conversation 时允许新建 Antigravity 开发 Conversation，但旧 Conversation 必须先停止写入，并由 5.5 生成新的不可覆盖 development 调度。新窗口继续使用当前工作区和已保留改动，不 reset、不 stash，也不从头重做。
+新建 Antigravity Conversation 时，旧 Conversation 必须先停止写入，并由 5.5 生成新的不可覆盖 development 调度。仅在同一 Conversation 中切换模型不需要新调度；切换前停止上一请求。新窗口继续使用当前工作区和已保留改动，不 reset、不 stash，也不从头重做。
 
 ## 7. Prompt 污染边界
 
