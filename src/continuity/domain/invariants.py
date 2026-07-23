@@ -660,4 +660,3 @@ def validate_invariants(
 
     violations.sort(key=lambda v: v.sort_key())
     return violations
-
