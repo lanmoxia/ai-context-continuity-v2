@@ -1,6 +1,6 @@
 # WORK-0003：实现纯领域状态转换与跨实体约束
 
-状态：draft
+状态：approved
 
 - Task：TASK-0001
 - Stage：STAGE-02
@@ -44,4 +44,8 @@
 
 ## 批准状态
 
-当前为 draft，等待 Codex 5.6 架构所有者完成就绪复核并记录批准前 SHA-256。
+Codex 5.6 架构所有者已完成就绪复核并批准。批准前 draft SHA-256：
+
+`c60f4659e183d3405313e0ce9a8d923eb975075769b7f13b9dc6c723d562733c`
+
+draft 已保存在提交 `c2014c9`。人类操作员不承担技术审批。5.5 应按已批准 STAGE-02 计划直接生成本工作单的 development 调度。

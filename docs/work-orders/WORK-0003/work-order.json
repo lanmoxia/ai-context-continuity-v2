@@ -1,10 +1,15 @@
 {
   "schema_version": 1,
   "id": "WORK-0003",
-  "status": "draft",
+  "status": "approved",
   "task_id": "TASK-0001",
   "stage_id": "STAGE-02",
   "revision": 1,
+  "approval": {
+    "approved_at": "2026-07-23T13:34:15+08:00",
+    "approved_by": "architecture_owner",
+    "draft_sha256": "c60f4659e183d3405313e0ce9a8d923eb975075769b7f13b9dc6c723d562733c"
+  },
   "title": "实现纯领域状态转换与跨实体约束",
   "goal": "在不读写文件、不复制 JSON Schema 字段定义的前提下，为 Continuity 首批实体提供确定性、fail-closed 的状态转换判断和跨实体不变量校验。",
   "risk_level": "high",
