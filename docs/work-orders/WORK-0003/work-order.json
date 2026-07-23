@@ -1,0 +1,268 @@
+{
+  "schema_version": 1,
+  "id": "WORK-0003",
+  "status": "draft",
+  "task_id": "TASK-0001",
+  "stage_id": "STAGE-02",
+  "revision": 1,
+  "title": "实现纯领域状态转换与跨实体约束",
+  "goal": "在不读写文件、不复制 JSON Schema 字段定义的前提下，为 Continuity 首批实体提供确定性、fail-closed 的状态转换判断和跨实体不变量校验。",
+  "risk_level": "high",
+  "risk_reasons": [
+    "本工作单首次实现决定 Task、Stage、Work Order 和审核状态能否推进的领域规则，错误可能让非法状态被接受。",
+    "跨实体约束涉及当前指针、父子归属、Evidence 与 Review Pack 指纹一致性以及 Stage/Task 审核前置条件。"
+  ],
+  "required_review_gates": [
+    "GATE-01",
+    "GATE-02",
+    "GATE-03"
+  ],
+  "allowed_paths": [
+    "src/continuity/domain/**",
+    "tests/unit/test_domain.py"
+  ],
+  "forbidden_paths": [
+    "pyproject.toml",
+    "src/continuity/cli.py",
+    "src/continuity/__main__.py",
+    "src/continuity/__init__.py",
+    "src/continuity/schemas/**",
+    "src/continuity/storage/**",
+    "src/continuity/services/**",
+    "src/continuity/git/**",
+    "src/continuity/renderers/**",
+    "src/continuity/security/**",
+    "src/continuity/templates/**",
+    "tests/fixtures/**",
+    "tests/unit/test_cli.py",
+    "tests/unit/test_schemas.py",
+    "tests/integration/**",
+    "tests/e2e/**",
+    "docs/**",
+    ".continuity/**",
+    ".agents/**",
+    "AGENTS.md",
+    ".git/**"
+  ],
+  "required_inputs": [
+    {
+      "path": "docs/spec/DATA_MODEL.md",
+      "sections": [
+        "1. 关系",
+        "2. 当前状态",
+        "3. Task",
+        "4. Stage",
+        "5. Work Order",
+        "7. Handoff",
+        "8. Evidence",
+        "9. Review Pack",
+        "14. 不可破坏的约束"
+      ],
+      "purpose": "确定状态集合、合法状态边、实体关系和跨实体不变量。"
+    },
+    {
+      "path": "docs/spec/CORE_WORKFLOW.md",
+      "sections": [
+        "2. 创建大任务",
+        "3. 申请写入权",
+        "4. 生成并读取 Context Pack",
+        "6. 正常换窗口",
+        "9. Stage 完成和审核",
+        "10. Task 总体验收与合并"
+      ],
+      "purpose": "确定状态推进的流程前置条件和审核完成边界。"
+    },
+    {
+      "path": "docs/spec/ARCHITECTURE.md",
+      "sections": [
+        "2. 核心组件",
+        "3. 工具仓库结构",
+        "5. 单一事实来源",
+        "7. 审核可信度"
+      ],
+      "purpose": "确定 domain 层必须保持纯计算，以及与 schemas、storage 和 services 的边界。"
+    },
+    {
+      "path": "docs/spec/REQUIREMENTS.md",
+      "sections": [
+        "2.5 分阶段审核",
+        "2.6 审核可信",
+        "2.9 状态一致",
+        "2.10 任务并发边界",
+        "4. 非功能要求"
+      ],
+      "purpose": "确定 fail-closed、单 active、审核绑定和确定性要求。"
+    },
+    {
+      "path": "docs/spec/REVIEW_POLICY.md",
+      "sections": [
+        "2. Stage Review Gate",
+        "3. 风险等级",
+        "4. 必要检查",
+        "7. Task Final Review"
+      ],
+      "purpose": "确定 Gate 顺序、fresh Evidence、Stage 批准和 TASK-FINAL 前置条件。"
+    },
+    {
+      "path": "docs/spec/CONTEXT_ISOLATION.md",
+      "sections": [
+        "7. 事实与提示词分离"
+      ],
+      "purpose": "确定只有 active 且 approved 的 Work Order 可以进入实现上下文。"
+    }
+  ],
+  "required_outputs": [
+    {
+      "path": "src/continuity/domain/errors.py",
+      "purpose": "定义不可变的 DomainViolation 结构，至少包含稳定 code、项目相对逻辑 path 和简短说明。"
+    },
+    {
+      "path": "src/continuity/domain/transitions.py",
+      "purpose": "提供 Task、Stage、Work Order 及明确具有状态机的首批实体的固定转换表、can_transition 和 validate_transition 纯函数。"
+    },
+    {
+      "path": "src/continuity/domain/invariants.py",
+      "purpose": "提供不修改输入的跨实体校验入口，核对当前指针、父子归属、单 active、Handoff、Evidence、Review Pack、Gate 与 TASK-FINAL 前置条件。"
+    },
+    {
+      "path": "src/continuity/domain/__init__.py",
+      "purpose": "只导出稳定的领域错误、状态转换和跨实体校验 API。"
+    },
+    {
+      "path": "tests/unit/test_domain.py",
+      "purpose": "覆盖全部合法与非法状态边、未知状态 fail-closed、跨实体不变量、稳定错误顺序和输入不变性。"
+    }
+  ],
+  "required_checks": [
+    {
+      "id": "PYTHON_VERSION",
+      "argv": [
+        "python",
+        "-c",
+        "import sys; raise SystemExit(0 if sys.version_info >= (3, 11) else 1)"
+      ]
+    },
+    {
+      "id": "EDITABLE_INSTALL",
+      "argv": [
+        "python",
+        "-m",
+        "pip",
+        "install",
+        "--no-deps",
+        "-e",
+        "."
+      ]
+    },
+    {
+      "id": "DEPENDENCY_CHECK",
+      "argv": [
+        "python",
+        "-m",
+        "pip",
+        "check"
+      ]
+    },
+    {
+      "id": "COMPILE",
+      "argv": [
+        "python",
+        "-m",
+        "compileall",
+        "-q",
+        "src",
+        "tests"
+      ]
+    },
+    {
+      "id": "UNIT",
+      "argv": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_*.py"
+      ],
+      "env": {
+        "PYTHONPATH": "src"
+      }
+    },
+    {
+      "id": "DOMAIN_API",
+      "argv": [
+        "python",
+        "-c",
+        "from continuity.domain import can_transition, validate_invariants, validate_transition; assert can_transition('task','draft','ready'); assert not can_transition('task','draft','completed'); assert validate_transition('unknown','a','b')"
+      ]
+    },
+    {
+      "id": "SCHEMA_REGRESSION",
+      "argv": [
+        "python",
+        "-c",
+        "from continuity.schemas import check_all_schemas; check_all_schemas()"
+      ]
+    },
+    {
+      "id": "MODULE_HELP",
+      "argv": [
+        "python",
+        "-m",
+        "continuity",
+        "--help"
+      ]
+    },
+    {
+      "id": "MODULE_VERSION",
+      "argv": [
+        "python",
+        "-m",
+        "continuity",
+        "--version"
+      ]
+    },
+    {
+      "id": "CONSOLE_HELP",
+      "argv": [
+        "continuity",
+        "--help"
+      ]
+    },
+    {
+      "id": "CONSOLE_VERSION",
+      "argv": [
+        "continuity",
+        "--version"
+      ]
+    }
+  ],
+  "acceptance_criteria": [
+    "Task、Stage 和 Work Order 的全部 accepted 状态边都有显式允许测试；未声明实体、未知源状态、未知目标状态、跳级和反向转换一律 fail-closed，并返回结构化 DomainViolation。",
+    "转换 API 是纯函数，不读取时间、环境变量、网络、Git 或文件系统，不修改传入 mapping，也不执行持久化写入。",
+    "domain 层只消费已经通过 Schema 结构校验的普通 mapping；不得复制每类 JSON Schema 的字段形状、必填项、默认值、ID 正则或 RFC 3339 解析规则。",
+    "跨实体校验至少覆盖：当前指针引用存在；active Work Order 属于 active Task 和 Stage；最多一个 active Task、Stage 和 Work Order；Handoff 属于当前 Task/Stage/Work Order；父子 task_id/stage_id 一致。",
+    "跨实体校验至少覆盖：Evidence 与 Review Pack 的 Task、Stage 和 Source Fingerprint 一致；stale Evidence 不能支持 fresh Pack；Review Decision 必须绑定当前 Pack；同一 Gate 不能出现两个当前有效结论。",
+    "Stage 只有在 required Gate 对同一 fresh Stage Pack 全部 approve 后才满足批准前置条件；任一 changes_requested、缺失 Gate、错误 Gate 顺序、Pack stale 或指纹不一致都必须拒绝。",
+    "Task 只有在全部 Stage 已批准、fresh Task Pack 存在且 TASK-FINAL approve 后才满足 approved_for_merge 前置条件。",
+    "所有 DomainViolation 按 `(path, code)` 稳定排序；测试不依赖第三方英文消息，不静默修正输入，不打印 traceback。",
+    "相同逻辑数据使用不同字典插入顺序时产生完全相同的 violation 序列；校验前后输入深度相等且没有被修改。",
+    "本工作单不实现编号分配、批准哈希、Writer Lease、原子写入、pending 事务、文件锁、路径解析、CLI 命令、Context Pack 生成、Review Pack 冻结、Transfer 或 Merge Plan。",
+    "全部 required checks 在项目 Python 3.11+ 虚拟环境中通过，新增测试 0 skipped，现有 Schema 和 CLI 行为无回归。",
+    "没有修改 allowed_paths 之外的业务文件，也没有直接修改产品核心 .continuity 状态。"
+  ],
+  "known_constraints": [
+    "必须在项目专用且已激活的 Python 3.11+ 虚拟环境中执行。",
+    "WORK-0002 的 Schema 与 registry 是结构事实来源；domain 不得创建第二套字段模型或重新解析 Schema 文件。",
+    "状态转换表必须来自 accepted 规格；规格没有声明的边默认拒绝，不自行推断便利转换。",
+    "跨实体入口可以接收 mapping 和 sequence，但必须对调用者输入保持只读；错误以返回值表达，不以 assert 或进程退出表达。",
+    "Source Fingerprint 比较基于已校验结构的值相等；本工作单不负责采集或重新计算 Git 指纹。",
+    "Gate 检查只判断传入记录是否满足 accepted 领域前置条件；本工作单不创建 Pack、Evidence 或 Decision。",
+    "批准哈希计算、状态版本 compare-and-swap、编号、持久化和命令编排分别留给 DEV-003 与 DEV-006。",
+    "Writer Lease、Transfer Record、Merge Plan 和归档实体不在当前已实现 Schema 范围内，不在本工作单补造公共结构。",
+    "所有文本文件使用 UTF-8；实现和测试不得依赖当前工作目录、网络或平台专用路径。"
+  ],
+  "supersedes_work_order_id": null
+}
