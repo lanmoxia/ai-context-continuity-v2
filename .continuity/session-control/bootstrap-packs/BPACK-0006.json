@@ -1,0 +1,874 @@
+{
+  "schema_version": 1,
+  "id": "BPACK-0006",
+  "revision": 1,
+  "kind": "bootstrap-review-pack",
+  "status": "frozen",
+  "created_at": "2026-07-23T16:05:23+08:00",
+  "created_by": "codex-5.5",
+  "validated_at": "2026-07-23T16:05:23+08:00",
+  "scope": "stage",
+  "target_gate": "GATE-01",
+  "required_review_gates": [
+    "GATE-01",
+    "GATE-02",
+    "GATE-03"
+  ],
+  "pre_final_gates": [
+    "GATE-01",
+    "GATE-02"
+  ],
+  "final_gate": "GATE-03",
+  "supersedes": "BPACK-0005",
+  "supersedes_reason": "BPACK-0005 covered the historical WORK-0002 checkpoint only. BPACK-0006 freezes the terminal STAGE-02 cumulative implementation after WORK-0003 and the BDEV-0012 whitespace rework.",
+  "task_id": "TASK-0001",
+  "stage_id": "STAGE-02",
+  "plan_item_id": "DEV-002",
+  "stage_plan": {
+    "id": "BSTAGEPLAN-0001",
+    "path": ".continuity/session-control/stage-plans/BSTAGEPLAN-0001-r1.json",
+    "sha256": "4213ace8c0758c1e958223e7e3c7aaf0aecfcffb62111eb94c049c92eb2dd820",
+    "status": "approved",
+    "risk_level": "high",
+    "terminal_work_order_id": "WORK-0003"
+  },
+  "work_orders": [
+    {
+      "id": "WORK-0002",
+      "path": "docs/work-orders/DEV-002/work-order.json",
+      "sha256": "9249ab044d29f761060c0aa1224630018a3b9aec143ab333aae0fced53c14714",
+      "role": "completed_before_stage_plan",
+      "completion_checkpoint": "67c9d6471b7f8cba17a2ca41fe02aea300c07a34",
+      "completion_commit": "1173d9d8b06934797b6977b0eebfe5a4db8032c3"
+    },
+    {
+      "id": "WORK-0003",
+      "path": "docs/work-orders/WORK-0003/work-order.json",
+      "sha256": "8409492acd277568420af81e741a062210ef47b87e1f96edd5f534a361766dc9",
+      "role": "terminal_for_stage",
+      "completion_checkpoint": "3310f15f5d92d80d511c905fd299f83101372fab",
+      "completion_commit": "3310f15f5d92d80d511c905fd299f83101372fab"
+    }
+  ],
+  "development_dispatches": [
+    {
+      "id": "BDEV-0010",
+      "path": ".continuity/session-control/dispatches/development/BDEV-0010-r1.md",
+      "sha256": "c4b672549ae831cba746b7dcd6b5993fe5cdd9acbd16bfad6b2efeae44fa3532",
+      "purpose": "initial WORK-0003 implementation"
+    },
+    {
+      "id": "BDEV-0011",
+      "path": ".continuity/session-control/dispatches/development/BDEV-0011-r1.md",
+      "sha256": "b1b423dcd290cb97ce65176280d44ac823d1c11d84c2b9b42642adcc77526441",
+      "purpose": "domain invariant acceptance rework"
+    },
+    {
+      "id": "BDEV-0012",
+      "path": ".continuity/session-control/dispatches/development/BDEV-0012-r1.md",
+      "sha256": "6e0e6e7cb76594e9e780daefc511c718fa9e9a40e82bbc044039db783d6e4257",
+      "purpose": "Stage cumulative diff whitespace rework"
+    }
+  ],
+  "historical_checkpoint_evidence": [
+    {
+      "work_order_id": "WORK-0002",
+      "result_path": ".continuity/session-control/review-results/gate-03/BGATE03-0004-r1.md",
+      "result_sha256": "595c69c0f7ee4c6943ef172a1cdb118a9cd1dad8cd7f3798cc911dbaacfeff97",
+      "meaning": "valid intermediate checkpoint evidence for WORK-0002 only; not a Stage close result"
+    }
+  ],
+  "git": {
+    "task_branch": "continuity/TASK-0001-project-foundation",
+    "business_execution_baseline": "67c9d6471b7f8cba17a2ca41fe02aea300c07a34",
+    "stage_cumulative_diff_base": "83f3c21dcf2f58d99c9c898e5cd85c07f4e4625c",
+    "implementation_diff_base": "83f3c21dcf2f58d99c9c898e5cd85c07f4e4625c",
+    "implementation_checkpoint": "3310f15f5d92d80d511c905fd299f83101372fab",
+    "latest_development_dispatch_commit": "e19eecf10caa7b39bd6d5bfcc2af13561636dce2",
+    "work_order_0003_primary_checkpoint": "728717f2a641f589ac2c8575f2522c3ae778e33e",
+    "work_order_0003_final_checkpoint": "3310f15f5d92d80d511c905fd299f83101372fab"
+  },
+  "required_inputs": [
+    {
+      "path": ".continuity/session-control/stage-plans/BSTAGEPLAN-0001-r1.json",
+      "read": "full",
+      "sha256_scope": "raw full-file bytes",
+      "sha256": "4213ace8c0758c1e958223e7e3c7aaf0aecfcffb62111eb94c049c92eb2dd820"
+    },
+    {
+      "path": "docs/work-orders/DEV-002/work-order.json",
+      "read": "full",
+      "sha256_scope": "raw full-file bytes",
+      "sha256": "9249ab044d29f761060c0aa1224630018a3b9aec143ab333aae0fced53c14714"
+    },
+    {
+      "path": "docs/work-orders/WORK-0003/work-order.json",
+      "read": "full",
+      "sha256_scope": "raw full-file bytes",
+      "sha256": "8409492acd277568420af81e741a062210ef47b87e1f96edd5f534a361766dc9"
+    },
+    {
+      "path": "docs/spec/DATA_MODEL.md",
+      "read": "sections",
+      "sections": [
+        "1. 关系",
+        "2. 当前状态",
+        "2.1 Project 与 Config",
+        "2.2 Source Fingerprint",
+        "3. Task",
+        "4. Stage",
+        "5. Work Order",
+        "6. Checkpoint",
+        "7. Handoff",
+        "8. Evidence",
+        "9. Review Pack",
+        "10. Context Pack",
+        "14. 不可破坏的约束"
+      ],
+      "sha256_scope": "raw full-file bytes",
+      "sha256": "2813705ddc0ccf07dd2561f001898b72bec3142af6593ac41fde776d57be02bb"
+    },
+    {
+      "path": "docs/spec/ARCHITECTURE.md",
+      "read": "sections",
+      "sections": [
+        "3. 工具仓库结构",
+        "4. 业务项目状态目录",
+        "5. 单一事实来源",
+        "9. 配置和版本",
+        "2. 核心组件",
+        "7. 审核可信度"
+      ],
+      "sha256_scope": "raw full-file bytes",
+      "sha256": "3cb3ba1a1087a4f8af125a3fa8ba91cb925cb5bc3a790d572293b5567889330c"
+    },
+    {
+      "path": "docs/spec/REQUIREMENTS.md",
+      "read": "sections",
+      "sections": [
+        "2.2 长任务分阶段",
+        "2.3 窗口接力",
+        "2.5 分阶段审核",
+        "2.6 审核可信",
+        "2.9 状态一致",
+        "2.10 任务并发边界",
+        "2.11 配置与生命周期",
+        "3. 安全要求",
+        "4. 非功能要求"
+      ],
+      "sha256_scope": "raw full-file bytes",
+      "sha256": "e3cfb14140b0e5bc0fdd63cf859200781397a6453ab9adb214363346ae7977f5"
+    },
+    {
+      "path": "docs/spec/CONFIGURATION.md",
+      "read": "sections",
+      "sections": [
+        "1. 配置文件",
+        "2. 检查命令",
+        "4. 版本迁移",
+        "6. Windows 兼容"
+      ],
+      "sha256_scope": "raw full-file bytes",
+      "sha256": "51982bb348f7d0a467aa90f6d8b958addd32aa292f7b60feaffbadab317513f1"
+    },
+    {
+      "path": "docs/spec/CORE_WORKFLOW.md",
+      "read": "sections",
+      "sections": [
+        "2. 创建大任务",
+        "4. 生成并读取 Context Pack",
+        "6. 正常换窗口",
+        "9. Stage 完成和审核",
+        "10. Task 总体验收与合并",
+        "3. 申请写入权"
+      ],
+      "sha256_scope": "raw full-file bytes",
+      "sha256": "590ec00ea72a8470732cbcdfb7e7ad77cbff96ac7222cd5899d422557ac1f178"
+    },
+    {
+      "path": "docs/spec/REVIEW_POLICY.md",
+      "read": "sections",
+      "sections": [
+        "1. 两种审核范围",
+        "2. Stage Review Gate",
+        "3. 风险等级",
+        "4. 必要检查",
+        "5. Finding 分级",
+        "7. Task Final Review"
+      ],
+      "sha256_scope": "raw full-file bytes",
+      "sha256": "dcd04955890445074767a333df088418aeaebd3252f28acd7ee303cf808cc520"
+    },
+    {
+      "path": "docs/spec/CONTEXT_ISOLATION.md",
+      "read": "sections",
+      "sections": [
+        "7. 事实与提示词分离"
+      ],
+      "sha256_scope": "raw full-file bytes",
+      "sha256": "6208bcaf3a5dd6999a3efc233fab6b84c1c0c3e288b4637b4c3363c4fe39c749"
+    }
+  ],
+  "implementation_diff": {
+    "algorithm": "sha256(raw stdout bytes from argv)",
+    "argv": [
+      "git",
+      "diff",
+      "--binary",
+      "--no-ext-diff",
+      "--no-textconv",
+      "83f3c21dcf2f58d99c9c898e5cd85c07f4e4625c",
+      "3310f15f5d92d80d511c905fd299f83101372fab",
+      "--",
+      "pyproject.toml",
+      "src/continuity/schemas",
+      "tests/fixtures/schemas",
+      "tests/unit/test_schemas.py",
+      "src/continuity/domain",
+      "tests/unit/test_domain.py"
+    ],
+    "sha256": "627bc9b8e41a05b89eb98b52b5b20521cea2af4bdf9fc7c710343cb821a7b8b8",
+    "scope_note": "Stage cumulative business implementation paths for WORK-0002 plus WORK-0003 only"
+  },
+  "source_snapshot": {
+    "id": "BSF-0006",
+    "entry_hash_algorithm": "sha256(raw stdout bytes from git cat-file blob <implementation_checkpoint>:<path>)",
+    "fingerprint_preimage": "entries sorted by UTF-8 path bytes ascending; UTF-8 without BOM; LF line endings; each line is <path>\\t<lowercase sha256>\\n",
+    "fingerprint_sha256": "3f8d72e860b17592ba68ee48c39019675bcad69df4999392cc1ced6154a07fb3",
+    "entry_count": 59,
+    "entries": [
+      {
+        "path": "pyproject.toml",
+        "sha256": "5d57fd26fc88bcdf258cc15e53f30ce2e0769ebc33f395ebbb0c663e28a8a08e"
+      },
+      {
+        "path": "src/continuity/domain/__init__.py",
+        "sha256": "eb04b65d6480eba07783ad5beb6c198e9a9b06a1a1494d5084d9c6c8f884152d"
+      },
+      {
+        "path": "src/continuity/domain/errors.py",
+        "sha256": "a877029439620eff5c2e77715ecc749a9150c0e851e265d62b790ae7e443130c"
+      },
+      {
+        "path": "src/continuity/domain/invariants.py",
+        "sha256": "3f64513243cf7ea8ec8cdf4073ea78b7709a7abe67bead5972d3bc2a62b3bd03"
+      },
+      {
+        "path": "src/continuity/domain/transitions.py",
+        "sha256": "91939ceef2300d88f2aaae285f0ac9b7b84b2216a42004c1819e221261a2d7a7"
+      },
+      {
+        "path": "src/continuity/schemas/__init__.py",
+        "sha256": "72f6d744d7ed2c9143ac8d2536133cf2248953765042cc9a4119c5d548891a11"
+      },
+      {
+        "path": "src/continuity/schemas/checkpoint.schema.json",
+        "sha256": "56ab1cdee4c584e43d55b03d6230c2e1b02b8d9399076d9000d05c54c0958b4a"
+      },
+      {
+        "path": "src/continuity/schemas/common.schema.json",
+        "sha256": "0adef15f71f9fd7eb30b1e1872a8a0339ff17afb276e3497e0232d5202b220e6"
+      },
+      {
+        "path": "src/continuity/schemas/config.schema.json",
+        "sha256": "1018b66fecf74f0832d317ee5d18a270a89cea11d3fb94fe324bd6b7d2d6100d"
+      },
+      {
+        "path": "src/continuity/schemas/context-pack.schema.json",
+        "sha256": "0362b0138fbf566e49dcc186c79b8fb525dace4073eae73a0aa971e19d5aeac7"
+      },
+      {
+        "path": "src/continuity/schemas/current.schema.json",
+        "sha256": "43c5e9e436315822959dccfd9e77b53decada24551008face3b96e5b016b1354"
+      },
+      {
+        "path": "src/continuity/schemas/evidence.schema.json",
+        "sha256": "1769e206a52ab771fc47823460d8182fc3d23e4de093c5ff93e8fc2e59f39b78"
+      },
+      {
+        "path": "src/continuity/schemas/handoff.schema.json",
+        "sha256": "4fdec64f123e0cbff60e411506ddc4c36b35a7d7a8f3a9a8f6852d60f64f06dd"
+      },
+      {
+        "path": "src/continuity/schemas/project.schema.json",
+        "sha256": "d64679e777ed8f30a893d29a86f11d14281afb4a5e229518f0f9d8b708063d9e"
+      },
+      {
+        "path": "src/continuity/schemas/registry.py",
+        "sha256": "da038e2660ec72dfa216e8dddc979a94798e85e64ddcd6569a0bf035fb2e23b7"
+      },
+      {
+        "path": "src/continuity/schemas/review-decision.schema.json",
+        "sha256": "769ea78c7970259d7947d994adc51b4f0d5b79f35fbf671e69cab46509a445e2"
+      },
+      {
+        "path": "src/continuity/schemas/review-pack.schema.json",
+        "sha256": "6e9b80e6e9be9f7b7a57d710ce4ecbd31c3e67db3910d254e6e95ab8e20cfa84"
+      },
+      {
+        "path": "src/continuity/schemas/stage.schema.json",
+        "sha256": "8715202ac9012af5ed74ddd1a65052dea6d7dd2f7872d1a18e1ed8d763f20d6f"
+      },
+      {
+        "path": "src/continuity/schemas/task.schema.json",
+        "sha256": "91e00de058cd71d126c92179cc37c5b275c244a88b07c06f56df22e64eef8730"
+      },
+      {
+        "path": "src/continuity/schemas/work-order.schema.json",
+        "sha256": "4a8c6f49708c50a8de6bdebbdc37d5b023c0538c79151934fddf3c2214a50b15"
+      },
+      {
+        "path": "tests/fixtures/schemas/invalid/checkpoint_bad_fingerprint_path_traversal.json",
+        "sha256": "aaa386fb92f86f367381aeb3f9d3058ecf07f311650214a1482d5be4f057a7ed"
+      },
+      {
+        "path": "tests/fixtures/schemas/invalid/checkpoint_bad_fingerprint_size.json",
+        "sha256": "9092f90ee60b7ec784831ca2611a3af0d0de7e57364ef76e2d233645d18a0a5c"
+      },
+      {
+        "path": "tests/fixtures/schemas/invalid/config_bad_check_cwd_traversal.json",
+        "sha256": "660434c0d9f37ddc2cd9dfdb872e4784b5f1f82e06a525e90995d1156d4defc7"
+      },
+      {
+        "path": "tests/fixtures/schemas/invalid/current_bad_id.json",
+        "sha256": "0d6d6a5a347e2dee7a25f51acfda46abc6071839731d2b056121e1825b14c04f"
+      },
+      {
+        "path": "tests/fixtures/schemas/invalid/evidence_bad_cwd_traversal.json",
+        "sha256": "b9794c9e239f3148fbd72d4119fed393dcf12b7a68ac8b01457f1ca2ab99c96d"
+      },
+      {
+        "path": "tests/fixtures/schemas/invalid/review_decision_bad_verdict.json",
+        "sha256": "f8cc228efdacee7147ef06a81f64a60d1b4369c5c1d348c2ee8a7e09128b2c89"
+      },
+      {
+        "path": "tests/fixtures/schemas/invalid/review_decision_missing_round.json",
+        "sha256": "d258118347231b37aef9770a357675322f57ecd350d1746556271564ee3073a0"
+      },
+      {
+        "path": "tests/fixtures/schemas/invalid/review_pack_bad_fingerprint_path_absolute.json",
+        "sha256": "39b179bdabfbf6b706e17a75d2b7c9828d3ba5b1590d195ee1ede8ac0f3bbf8b"
+      },
+      {
+        "path": "tests/fixtures/schemas/invalid/review_pack_bad_scope_stage.json",
+        "sha256": "4a9f019aac768aea13cae6b7997e7e30664c8c4bbf6aba14daf897fe397bfd50"
+      },
+      {
+        "path": "tests/fixtures/schemas/invalid/review_pack_bad_scope_task.json",
+        "sha256": "95010b5bec44425aab30db2b3a2af1db5c155518f5f807765c9ba2b34d48e15a"
+      },
+      {
+        "path": "tests/fixtures/schemas/invalid/review_pack_bad_sha256.json",
+        "sha256": "9f272d7184273cfcd91ece87e1bcf044247256eadfea4548c7a3cc38172ee9e5"
+      },
+      {
+        "path": "tests/fixtures/schemas/invalid/stage_bad_check_cwd_absolute.json",
+        "sha256": "855c96ed9d9e74c48227115696a2a8668031404a7317f2c537116fa310872daf"
+      },
+      {
+        "path": "tests/fixtures/schemas/invalid/stage_bad_check_missing_boundary.json",
+        "sha256": "be645f5232c09dae41dcb387029bfe67c12fa35827513475cef91d471e4f16fa"
+      },
+      {
+        "path": "tests/fixtures/schemas/invalid/stage_bad_path_absolute.json",
+        "sha256": "1bb2806789ad34f6c6da089f4357964a8d0db630ae03002bf609d55810518c62"
+      },
+      {
+        "path": "tests/fixtures/schemas/invalid/stage_bad_path_traversal.json",
+        "sha256": "f3443f48f2c2189946a54b13f1cf51ca7f36b715ee9432d57b79594d0a85d5d2"
+      },
+      {
+        "path": "tests/fixtures/schemas/invalid/task_bad_date_hour24.json",
+        "sha256": "cf30256042bbfe6128404ce09d013fd69276a9d071f0a7365e0087edb437b4f8"
+      },
+      {
+        "path": "tests/fixtures/schemas/invalid/task_bad_date_leap.json",
+        "sha256": "be5de6929b602604e1a6078d5a456a512dde3566e0da3c95cde8bfebb81e6e94"
+      },
+      {
+        "path": "tests/fixtures/schemas/invalid/task_bad_date_pattern.json",
+        "sha256": "334e744a60561a3912ca27154ad8ba785ee9ab7197a20036011bd596c471cdd6"
+      },
+      {
+        "path": "tests/fixtures/schemas/invalid/task_bad_enum.json",
+        "sha256": "9dc5b42c6a146dced21e4d535e4861cef8f886c96d2ba2c5ef020276b878170b"
+      },
+      {
+        "path": "tests/fixtures/schemas/invalid/task_bad_id.json",
+        "sha256": "63da67e02d11ad8603b5a8080a45651e0c757f1e3d8eea545f1310b5bf50e3ca"
+      },
+      {
+        "path": "tests/fixtures/schemas/invalid/task_cross_type_id.json",
+        "sha256": "821d901c6fc5b016daec82a3f7521b3c24f7f3a182f40d3284c2d66abc12866b"
+      },
+      {
+        "path": "tests/fixtures/schemas/invalid/task_missing_fields.json",
+        "sha256": "97793b767a410c8bcfd8f7e3b558cbd76bc5aa0b0dae4526837c2627a22b34a9"
+      },
+      {
+        "path": "tests/fixtures/schemas/invalid/task_no_timezone.json",
+        "sha256": "a2170397027906bc7635098b2e5a42e23ef4834271230bce0522a594708b35d9"
+      },
+      {
+        "path": "tests/fixtures/schemas/invalid/task_unknown_field.json",
+        "sha256": "ef0be1853663fa18890c234c4c7b21afc11538a430999897158866faff57ce7b"
+      },
+      {
+        "path": "tests/fixtures/schemas/invalid/task_wrong_type.json",
+        "sha256": "e493491f98b1e7563ef47a7442a3122a15e72273c2d28c1c27bda9ee413bb93c"
+      },
+      {
+        "path": "tests/fixtures/schemas/valid/checkpoint.json",
+        "sha256": "219153f9d5a357a65e8addbbdb53ce1e6c30a65943b60906dcd0e59a0f4eaec2"
+      },
+      {
+        "path": "tests/fixtures/schemas/valid/config.json",
+        "sha256": "ea6e8b02cc7bd4a4ad19792537be2ccb902b51f561186f333d69e394bc4b4284"
+      },
+      {
+        "path": "tests/fixtures/schemas/valid/context-pack.json",
+        "sha256": "5ee3994ba35ae5bbd88a4da3b761d136fa86c52a308d304aef5c7e3f388545ad"
+      },
+      {
+        "path": "tests/fixtures/schemas/valid/current.json",
+        "sha256": "15e8f28604c7ed2ed58d6fb08cef2a922f02e21c343e0fd2f4a895eef01b3acc"
+      },
+      {
+        "path": "tests/fixtures/schemas/valid/evidence.json",
+        "sha256": "1e81a5216718e0b50b9639bc411a71eede364939b138694a5e8ba1aff0b7ee1a"
+      },
+      {
+        "path": "tests/fixtures/schemas/valid/handoff.json",
+        "sha256": "dcda30c3ea4ae9aceacc499b76b86a1d890a4fd34dcd2c4991e0ed9017d9219d"
+      },
+      {
+        "path": "tests/fixtures/schemas/valid/project.json",
+        "sha256": "1589dfa26c3e18b961a1032a58018009b3b0ac0f3a11fcfcb5075e7699ec36ec"
+      },
+      {
+        "path": "tests/fixtures/schemas/valid/review-decision.json",
+        "sha256": "c0156262f8a78948052e8eb13211800d77c2d5d242062a6329285e84d8c1f3d2"
+      },
+      {
+        "path": "tests/fixtures/schemas/valid/review-pack.json",
+        "sha256": "56cf1279ba3fd0ec10d184fc6c830fafd8f689dedc42abdf3cf91f1d54e0ed95"
+      },
+      {
+        "path": "tests/fixtures/schemas/valid/stage.json",
+        "sha256": "6115e455b34c5b5366167ea2d30435eb25d9e7c63cfa89da96758bf9cd5df412"
+      },
+      {
+        "path": "tests/fixtures/schemas/valid/task.json",
+        "sha256": "33d96bec621f782662acc225454cd9604274be667cbdc95892a46f4aed8c12c3"
+      },
+      {
+        "path": "tests/fixtures/schemas/valid/work-order.json",
+        "sha256": "181c54bc102619a65200725e1eeb3c333af6e7c2dd33321e9651b2fafa6edec5"
+      },
+      {
+        "path": "tests/unit/test_domain.py",
+        "sha256": "7cc27f8b84ef69b699eaf02f854e7876badaf5b807090e96490a9b2e26eea119"
+      },
+      {
+        "path": "tests/unit/test_schemas.py",
+        "sha256": "f1033ff5380cc10bb040346bffe895949367d5f531269e17f2302a6e203f88d2"
+      }
+    ]
+  },
+  "check_evidence": {
+    "executed_at": "2026-07-23T16:05:23+08:00",
+    "executed_by": "codex-5.5",
+    "environment": {
+      "python": "3.12.10",
+      "python_executable": "E:/chatGPT/ai-context-continuity-v2/.venv/Scripts/python.exe",
+      "python_prefix": "E:/chatGPT/ai-context-continuity-v2/.venv",
+      "python_base_prefix": "C:/Users/999888/AppData/Local/Programs/Python/Python312",
+      "venv": ".venv",
+      "virtual_env": "E:/chatGPT/ai-context-continuity-v2/.venv",
+      "venv_scripts_on_path": true,
+      "path_head": "E:/chatGPT/ai-context-continuity-v2/.venv/Scripts",
+      "include_system_site_packages": "false",
+      "enable_user_site": false,
+      "pip_location": "E:/chatGPT/ai-context-continuity-v2/.venv/Lib/site-packages/pip/__init__.py",
+      "jsonschema_location": "E:/chatGPT/ai-context-continuity-v2/.venv/Lib/site-packages/jsonschema/__init__.py"
+    },
+    "work_order_results": [
+      {
+        "work_order_id": "WORK-0003",
+        "path": "docs/work-orders/WORK-0003/work-order.json",
+        "argv_source": "WORK-0003 required_checks",
+        "results": [
+          {
+            "id": "PYTHON_VERSION",
+            "exit_code": 0,
+            "argv": [
+              "python",
+              "-c",
+              "import sys; raise SystemExit(0 if sys.version_info >= (3, 11) else 1)"
+            ],
+            "summary": "pass"
+          },
+          {
+            "id": "EDITABLE_INSTALL",
+            "exit_code": 0,
+            "argv": [
+              "python",
+              "-m",
+              "pip",
+              "install",
+              "--no-deps",
+              "-e",
+              "."
+            ],
+            "summary": "pass"
+          },
+          {
+            "id": "DEPENDENCY_CHECK",
+            "exit_code": 0,
+            "argv": [
+              "python",
+              "-m",
+              "pip",
+              "check"
+            ],
+            "summary": "pass"
+          },
+          {
+            "id": "COMPILE",
+            "exit_code": 0,
+            "argv": [
+              "python",
+              "-m",
+              "compileall",
+              "-q",
+              "src",
+              "tests"
+            ],
+            "summary": "pass"
+          },
+          {
+            "id": "UNIT",
+            "exit_code": 0,
+            "argv": [
+              "python",
+              "-m",
+              "unittest",
+              "discover",
+              "-s",
+              "tests",
+              "-p",
+              "test_*.py"
+            ],
+            "summary": "126 tests, 0 skipped, OK",
+            "env": {
+              "PYTHONPATH": "src"
+            },
+            "tests_run": 126,
+            "skipped": 0
+          },
+          {
+            "id": "DOMAIN_API",
+            "exit_code": 0,
+            "argv": [
+              "python",
+              "-c",
+              "from continuity.domain import can_transition, validate_invariants, validate_transition; assert can_transition('task','draft','ready'); assert not can_transition('task','draft','completed'); assert validate_transition('unknown','a','b')"
+            ],
+            "summary": "domain public API assertions passed"
+          },
+          {
+            "id": "SCHEMA_REGRESSION",
+            "exit_code": 0,
+            "argv": [
+              "python",
+              "-c",
+              "from continuity.schemas import check_all_schemas; check_all_schemas()"
+            ],
+            "summary": "schema self-check passed"
+          },
+          {
+            "id": "MODULE_HELP",
+            "exit_code": 0,
+            "argv": [
+              "python",
+              "-m",
+              "continuity",
+              "--help"
+            ],
+            "summary": "pass"
+          },
+          {
+            "id": "MODULE_VERSION",
+            "exit_code": 0,
+            "argv": [
+              "python",
+              "-m",
+              "continuity",
+              "--version"
+            ],
+            "summary": "pass",
+            "stdout": "0.1.0"
+          },
+          {
+            "id": "CONSOLE_HELP",
+            "exit_code": 0,
+            "argv": [
+              "continuity",
+              "--help"
+            ],
+            "summary": "pass"
+          },
+          {
+            "id": "CONSOLE_VERSION",
+            "exit_code": 0,
+            "argv": [
+              "continuity",
+              "--version"
+            ],
+            "summary": "pass",
+            "stdout": "0.1.0"
+          }
+        ]
+      },
+      {
+        "work_order_id": "WORK-0002",
+        "path": "docs/work-orders/DEV-002/work-order.json",
+        "argv_source": "WORK-0002 required_checks",
+        "results": [
+          {
+            "id": "PYTHON_VERSION",
+            "exit_code": 0,
+            "argv": [
+              "python",
+              "-c",
+              "import sys; raise SystemExit(0 if sys.version_info >= (3, 11) else 1)"
+            ],
+            "summary": "pass"
+          },
+          {
+            "id": "EDITABLE_INSTALL",
+            "exit_code": 0,
+            "argv": [
+              "python",
+              "-m",
+              "pip",
+              "install",
+              "-e",
+              "."
+            ],
+            "summary": "pass"
+          },
+          {
+            "id": "DEPENDENCY_CHECK",
+            "exit_code": 0,
+            "argv": [
+              "python",
+              "-m",
+              "pip",
+              "check"
+            ],
+            "summary": "pass"
+          },
+          {
+            "id": "COMPILE",
+            "exit_code": 0,
+            "argv": [
+              "python",
+              "-m",
+              "compileall",
+              "-q",
+              "src",
+              "tests"
+            ],
+            "summary": "pass"
+          },
+          {
+            "id": "UNIT",
+            "exit_code": 0,
+            "argv": [
+              "python",
+              "-m",
+              "unittest",
+              "discover",
+              "-s",
+              "tests",
+              "-p",
+              "test_*.py"
+            ],
+            "summary": "126 tests, 0 skipped, OK",
+            "env": {
+              "PYTHONPATH": "src"
+            },
+            "tests_run": 126,
+            "skipped": 0
+          },
+          {
+            "id": "SCHEMA_SELF_CHECK",
+            "exit_code": 0,
+            "argv": [
+              "python",
+              "-c",
+              "from continuity.schemas import check_all_schemas; check_all_schemas()"
+            ],
+            "summary": "pass"
+          },
+          {
+            "id": "SCHEMA_PACKAGE_RESOURCES",
+            "exit_code": 0,
+            "argv": [
+              "python",
+              "-c",
+              "from continuity.schemas import load_schema, schema_names; names=schema_names(); assert len(names) == 12; [load_schema(name) for name in names]"
+            ],
+            "summary": "12 public schemas loaded from package resources"
+          },
+          {
+            "id": "WHEEL_PREP",
+            "exit_code": 0,
+            "argv": [
+              "python",
+              "-c",
+              "import pathlib, shutil; p=pathlib.Path('build/work-0002-wheel'); shutil.rmtree(p, ignore_errors=True); p.mkdir(parents=True)"
+            ],
+            "summary": "pass"
+          },
+          {
+            "id": "WHEEL_BUILD",
+            "exit_code": 0,
+            "argv": [
+              "python",
+              "-m",
+              "pip",
+              "wheel",
+              "--no-deps",
+              "--no-build-isolation",
+              "--wheel-dir",
+              "build/work-0002-wheel",
+              "."
+            ],
+            "summary": "pass"
+          },
+          {
+            "id": "WHEEL_SCHEMA_RESOURCES",
+            "exit_code": 0,
+            "argv": [
+              "python",
+              "-c",
+              "import pathlib, zipfile; wheels=list(pathlib.Path('build/work-0002-wheel').glob('continuity-*.whl')); assert len(wheels)==1, wheels; z=zipfile.ZipFile(wheels[0]); names={pathlib.PurePosixPath(n).name for n in z.namelist() if n.startswith('continuity/schemas/') and n.endswith('.schema.json')}; expected={'common.schema.json','project.schema.json','config.schema.json','current.schema.json','task.schema.json','stage.schema.json','work-order.schema.json','checkpoint.schema.json','handoff.schema.json','evidence.schema.json','context-pack.schema.json','review-pack.schema.json','review-decision.schema.json'}; assert names==expected, (names, expected); z.close()"
+            ],
+            "summary": "wheel contains common plus 12 entity schema files"
+          },
+          {
+            "id": "MODULE_HELP",
+            "exit_code": 0,
+            "argv": [
+              "python",
+              "-m",
+              "continuity",
+              "--help"
+            ],
+            "summary": "pass"
+          },
+          {
+            "id": "MODULE_VERSION",
+            "exit_code": 0,
+            "argv": [
+              "python",
+              "-m",
+              "continuity",
+              "--version"
+            ],
+            "summary": "pass",
+            "stdout": "0.1.0"
+          },
+          {
+            "id": "CONSOLE_HELP",
+            "exit_code": 0,
+            "argv": [
+              "continuity",
+              "--help"
+            ],
+            "summary": "pass"
+          },
+          {
+            "id": "CONSOLE_VERSION",
+            "exit_code": 0,
+            "argv": [
+              "continuity",
+              "--version"
+            ],
+            "summary": "pass",
+            "stdout": "0.1.0"
+          }
+        ]
+      }
+    ],
+    "additional_checks": [
+      {
+        "id": "GIT_DIFF_CHECK",
+        "exit_code": 0,
+        "argv": [
+          "git",
+          "diff",
+          "--check"
+        ],
+        "summary": "no whitespace errors in current working tree diff"
+      },
+      {
+        "id": "STAGE_CUMULATIVE_COMMITTED_DIFF_CHECK",
+        "exit_code": 0,
+        "argv": [
+          "git",
+          "diff",
+          "--check",
+          "83f3c21dcf2f58d99c9c898e5cd85c07f4e4625c",
+          "3310f15f5d92d80d511c905fd299f83101372fab",
+          "--",
+          "pyproject.toml",
+          "src/continuity/schemas",
+          "tests/fixtures/schemas",
+          "tests/unit/test_schemas.py",
+          "src/continuity/domain",
+          "tests/unit/test_domain.py"
+        ],
+        "summary": "no whitespace errors in committed Stage cumulative diff"
+      },
+      {
+        "id": "BDEV_0011_REWORK_PROBES",
+        "exit_code": 0,
+        "summary": "current pointer, Handoff ownership, Gate order, and current Pack binding probes returned expected DomainViolation values"
+      },
+      {
+        "id": "DOMAIN_PURITY_SCAN",
+        "exit_code": 0,
+        "summary": "runtime scan found no file, network, Git, time, cwd, environment, assert, print, or process-exit usage in src/continuity/domain"
+      }
+    ]
+  },
+  "working_tree_at_freeze": {
+    "business_paths_clean_after_checkpoint": true,
+    "known_unrelated_dirty_session_control_files": [
+      ".continuity/session-control/chatgpt/codex-5.6/HANDOFF.md"
+    ],
+    "ignored_outputs_excluded": true
+  },
+  "acceptance_probe_summary": [
+    "WORK-0002 schema registry, fixtures, stable error ordering, package resources, module help/version, console help/version and wheel resource checks remain passing.",
+    "WORK-0003 domain transition and invariant tests pass: 126 total unittest tests, 0 skipped.",
+    "Domain code is pure computation and does not read files, network, Git, time, cwd, or environment variables.",
+    "Stage cumulative diff check from the WORK-0002 dispatch delivery base to the final WORK-0003 checkpoint returns exit 0.",
+    "BPACK-0006 covers cumulative business paths for WORK-0002 and WORK-0003; session-control HANDOFF changes are excluded from source snapshot and implementation diff."
+  ],
+  "review_read_policy": {
+    "read_required_inputs_exactly": true,
+    "read_source_snapshot_entries": true,
+    "forbidden_inputs": [
+      ".continuity/session-control/antigravity/development/HANDOFF.md",
+      ".continuity/session-control/chatgpt/codex-5.5/HANDOFF.md",
+      ".continuity/session-control/chatgpt/codex-5.6/HANDOFF.md",
+      "prior review results except hashes explicitly named for binding",
+      "chat summaries",
+      "initial-review and pre-final-review historical materials"
+    ]
+  }
+}
